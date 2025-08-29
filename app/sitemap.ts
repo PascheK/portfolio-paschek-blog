@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
-import { getBlogPosts } from "./lib/posts";
-import { metaData } from "./lib/config";
+import { getBlogPosts } from "@/lib/posts";
+import { metaData } from "@/lib/config";
 
 const BaseUrl = metaData.baseUrl.endsWith("/")
   ? metaData.baseUrl

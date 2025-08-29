@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { socialLinks } from "./lib/config";
+import { socialLinks } from "@/lib/config";
 
 export default function Page() {
   return (
     <section>
-      <a href={socialLinks.twitter} target="_blank">
+      <a href={socialLinks.instagram} target="_blank">
         <Image
           src="/profile.png"
           alt="Profile photo"

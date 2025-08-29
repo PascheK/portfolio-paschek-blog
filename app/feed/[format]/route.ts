@@ -1,6 +1,6 @@
 import { Feed } from "feed";
-import { getBlogPosts } from "app/lib/posts";
-import { metaData } from "app/lib/config";
+import { getBlogPosts } from "@/lib/posts";
+import { metaData } from "@/lib/config";
 import { NextResponse } from "next/server";
 
 export async function generateStaticParams() {

@@ -15,10 +15,13 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "incremental": true,
+            "paths": {
+          "@/*": ["./*"]
+        },
     "plugins": [
       {
         "name": "next"
-      }
+      },
     ],
     "strictNullChecks": true
   },
