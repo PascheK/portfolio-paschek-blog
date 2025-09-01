@@ -35,6 +35,14 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
 };
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+});
+module.exports = withMDX({
+  // ...autres options Next.js...
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+});
 
 export default nextConfig;

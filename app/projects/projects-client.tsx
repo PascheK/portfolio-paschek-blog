@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { Project } from "./project-data";
+import type { Project } from "@/types/project";
 import { CategoryFilter } from "@/components/ui/category-filter";
 import { GridSwitcher } from "@/components/ui/grid-switcher";
-import { Badge } from "@/components/ui/badge";
 
-const getCategories = (projects: { category: string }[]): string[] => {
-  const cats = projects.map((p) => p.category);
+const getCategories = (projects: { category: string[] }[]): string[] => {
+  // Récupère toutes les catégories uniques de tous les projets
+  const cats = projects.flatMap((p) => p.category);
   return ["All", ...Array.from(new Set(cats))];
 };
 
@@ -17,46 +17,72 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
   const [columns, setColumns] = useState(2);
 
   const categories: string[] = getCategories(projects);
-  const filtered = category === "All" ? projects : projects.filter((p) => p.category === category);
+  const filtered = category === "All"
+    ? projects
+    : projects.filter((p) => p.category.includes(category));
 
   return (
-    <section>
-      <h1 className="mb-8 text-2xl font-medium">Projects</h1>
-      <CategoryFilter
-        categories={categories}
-        selected={category}
-        onSelect={setCategory}
-        className="mb-6"
-      />
-      <Badge>test</Badge>
-      <GridSwitcher
-        value={columns}
-        onChange={setColumns}
-        className="mb-6"
-      />
-      <div
-        className={`grid gap-6 ${columns === 1
-          ? "grid-cols-1"
-          : columns === 2
-            ? "grid-cols-1 sm:grid-cols-2"
-            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-          }`}
-      >
-        {filtered.map((project, index) => (
-          <Link
-            key={index}
-            href={project.url}
-            className="flex flex-col space-y-2 p-4 border rounded-lg transition-shadow hover:shadow-lg bg-white dark:bg-neutral-900"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="flex flex-col gap-1">
-              <h2 className="text-lg font-semibold text-black dark:text-white">{project.title}</h2>
-              <span className="text-xs text-neutral-400">{project.year} &middot; {project.category}</span>
-              <p className="text-neutral-600 dark:text-neutral-400">{project.description}</p>
-            </div>
-          </Link>
-        ))}
+    <section className="w-full px-2 sm:px-4 md:px-8">
+      <div className="max-w-5xl mx-auto flex flex-col gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+          <CategoryFilter
+            categories={categories}
+            selected={category}
+            onSelect={setCategory}
+            className="w-full sm:w-auto"
+          />
+          <GridSwitcher
+            value={columns}
+            onChange={setColumns}
+            className="w-full sm:w-auto"
+          />
+        </div>
+        <div
+          className={`grid gap-6 ${columns === 1
+            ? "grid-cols-1"
+            : columns === 2
+              ? "grid-cols-1 sm:grid-cols-2"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            }`}
+        >
+          {filtered.map((project, index) => {
+            const slug = project.title.toLowerCase().replace(/\s+/g, "-");
+            return (
+              <div
+                key={index}
+                className="flex flex-col space-y-2 p-5 border border-neutral-200 dark:border-neutral-800 rounded-xl transition-shadow hover:shadow-xl bg-white/90 dark:bg-neutral-900/80 backdrop-blur-sm hover:-translate-y-1 duration-150"
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-40 object-cover rounded-md mb-2 border border-neutral-100 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-800"
+                  loading="lazy"
+                />
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-lg font-semibold text-black dark:text-white">{project.title}</h2>
+                  <span className="text-xs text-neutral-400">{project.year} &middot; {project.category.join(', ')}</span>
+                  <p className="text-neutral-600 dark:text-neutral-400">{project.description}</p>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <a
+                    href={project.url}
+                    className="px-3 py-1 rounded bg-blue-600 text-white text-sm hover:bg-pink-500 transition-colors shadow"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Voir le projet
+                  </a>
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="px-3 py-1 rounded bg-neutral-200 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-100 text-sm hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors shadow"
+                  >
+                    Détails
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

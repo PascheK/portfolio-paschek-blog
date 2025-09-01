@@ -1,26 +1,25 @@
 
-export interface Project {
-  title: string;
-  year: number;
-  description: string;
-  url: string;
-  category: string;
-}
-
+import { Project } from "@/types/project";
 export const projects: Project[] = [
   {
     title: "Mithril AI",
     year: 2024,
-    description: "Open science AI resarch lab",
+    description: "Open science AI research lab",
     url: "https://github.com/mithrilai",
-    category: "AI",
+    category: ["AI", "Open Source"],
+    image: "/photos/photo1.jpg",
+    mdxFile: "mithril-ai.mdx",
+    slug: "mithril-ai",
   },
   {
     title: "OpenDeepLearning",
     year: 2023,
     description: "Open source AI education resources",
     url: "https://opendeeplearning.xyz/",
-    category: "Education",
+    category: ["Education", "AI"],
+    image: "/photos/photo2.jpg",
+    mdxFile: "opendeep-learning.mdx",
+    slug: "opendeep-learning",
   },
-  // Ajoute d'autres projets ici avec la propriété category
+  // Ajoute d'autres projets ici avec la propriété category, image et mdxFile
 ];

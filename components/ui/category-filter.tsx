@@ -14,7 +14,12 @@ export function CategoryFilter({ categories, selected, onSelect, className = "" 
         <button
           key={cat}
           onClick={() => onSelect(cat)}
-          className={`px-3 py-1 rounded-full border text-sm transition-colors ${selected === cat ? "bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black" : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200"}`}
+          className={`px-4 py-1.5 rounded-full border text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 transition-all duration-150
+            ${selected === cat
+              ? "bg-gradient-to-r from-blue-600 to-pink-500 text-white border-transparent shadow-md scale-105"
+              : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 border-neutral-200 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-700 dark:hover:text-pink-400"}
+          `}
+          style={{ minWidth: 80 }}
         >
           {cat}
         </button>
