@@ -2,15 +2,13 @@ export const metaData = {
   baseUrl: "https://paschek-portfolio.vercel.app/",
   title: "Paschek-portfolio",
   name: "Pasche Killian",
-  ogImage: "/opengraph-image.png",
+  ogImage: "/projects/portfolio.png",
   description:
-    "A clean, fast, and lightweight portfolio template built with Next.js, Vercel, and Tailwind CSS for optimal performance.",
+    "A clean, fast, and lightweight portfolio built with Next.js, Vercel, and Tailwind CSS for optimal performance.",
 };
 
 export const socialLinks = {
-  twitter: "https://x.com/1tssirius",
-  github: "https://github.com/1msirius/Nextfolio",
-  instagram: "https://www.instagram.com/",
-  linkedin: "https://www.linkedin.com/",
+  github: "https://github.com/paschek/portfolio-paschek-blog",
+  instagram: "https://www.instagram.com/paschek7",
   email: "mailto:killian.pasche7@gmail.com",
 };

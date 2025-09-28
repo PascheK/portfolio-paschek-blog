@@ -1,0 +1,53 @@
+---
+title: "Next.js i18n Multilingual Setup"
+publishedAt: "2025-09-01"
+summary: "Robust multilingual architecture for Next.js App Router with dynamic dictionaries and localized routes."
+image: "/projects/portfolio.png"
+url: "https://github.com/PascheK/portfolio-paschek-blog"
+tags: "Next.js,typescript"
+repoUrl: "https://github.com/PascheK/portfolio-paschek-blog"
+ctaLabel: "View Source"
+ctaUrl: "https://github.com/PascheK/portfolio-paschek-blog"
+---
+
+Building a multilingual site in Next.js (App Router) requires balancing DX, performance, and clarity. This project implements:
+
+### Key Features
+
+- Language segment (`/[lang]`) with static params for `en` and `fr`.
+- Dictionary loader with per-language JSON files and tree-shakeable import.
+- MDX content organized by language (`/content/blog/{lang}` and `/content/projects/{lang}`).
+- Localized metadata + JSON-LD schema including canonical URLs.
+- Theming (light/dark) with a token-based design system using OKLCH.
+- Animated page transitions and reveal-on-scroll components.
+- Project & blog detail pages sharing a consistent visual layout.
+
+### Filtering Logic
+
+Projects page uses a derived, side-effect free filtering strategy:
+
+```ts
+const filteredProjects = useMemo(
+  () =>
+    selected === "__all__"
+      ? all
+      : all.filter((p) => p.categories.includes(selected)),
+  [all, selected]
+);
+```
+
+This ensures the full set is always the source of truth.
+
+### About Page
+
+Replaces a previous Photos page with a structured, dictionary-driven mini-CV (experiences, skills, education, CV link) — all copy lives in `/app/[lang]/dictionaries` for ease of translation.
+
+### Next Steps
+
+- Expand automated tests for dictionary coverage.
+- Add back/forward sync for category filter.
+- Provide localized fallback images via a shared config.
+
+---
+
+If you're exploring how to internationalize a content-heavy portfolio with strong UX, this implementation is a solid, extensible baseline.

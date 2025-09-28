@@ -41,10 +41,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  twitter: {
-    title: metaData.name,
-    card: "summary_large_image",
-  },
+
   icons: {
     icon: "/favicon.ico",
   },

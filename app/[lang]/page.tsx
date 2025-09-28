@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { projects } from "@/app/[lang]/projects/project-data";
 import { getDictionary } from '@/lib/dictionaries';
 import { socialLinks } from '@/lib/config';
 import { Github, Linkedin, Mail, Instagram, ChevronDown, Code2, Database, Server } from "lucide-react";
-import { Suspense } from 'react';
 import Link from 'next/link';
 import { Reveal, RevealStagger, RevealItem } from '@/components/ui/reveal';
 import { getProjectPosts } from "@/lib/posts";
@@ -21,7 +19,6 @@ export default async function Page({
     const db = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
     return db - da;
   });
-  console.log(posts);
   const featuredProjects = posts.slice(0, 3);
   return (
     <>
@@ -91,21 +88,30 @@ export default async function Page({
                 'border-cyan-400/60',
               ];
               const border = borders[idx % borders.length];
-              const p = project.metadata
+              const p = project.metadata;
+              const imageSrc = p.image ?? '/opengraph-image.png';
+              const href = p.url || `/${lang}/projects/${project.slug}`;
+              const isExternal = Boolean(p.url);
               return (
-                <RevealItem key={p.title}>
+                <RevealItem key={project.slug}>
                   <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
+                    href={href}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer noopener' : undefined}
                     className={`group rounded-xl overflow-hidden bg-neutral-900/60 backdrop-blur border ${border} shadow transition-transform hover:-translate-y-1 hover:shadow-lg`}
                   >
                     <div className="aspect-video relative">
-                      <Image src={p!.image} alt={p.title} fill className="object-cover" />
+                      {p.image ? (
+                        <Image src={imageSrc} alt={p.title} fill className="object-cover" />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-neutral-800 text-neutral-400 text-xs">
+                          {dict.home?.sections?.projects_featured || 'No image'}
+                        </div>
+                      )}
                     </div>
                     <div className="p-4">
                       <h3 className="text-lg font-semibold mb-1 group-hover:text-blue-300 transition-colors">{p.title}</h3>
-                      <p className="text-sm text-neutral-300">{p.summary}</p>
+                      {p.summary && <p className="text-sm text-neutral-300 line-clamp-3">{p.summary}</p>}
                     </div>
                   </a>
                 </RevealItem>

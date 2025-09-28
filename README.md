@@ -1,59 +1,145 @@
-# Nextfolio
+# Portfolio (Multilingue + MDX + Thèmes)
 
-A clean, fast, and lightweight portfolio template built with [Next.js](https://nextjs.org/), [Vercel](https://vercel.com/), and [Tailwind CSS](https://tailwindcss.com/).
+Architecture personnelle basée sur Next.js App Router, orientée contenu (blog + projets) avec internationalisation (en/fr), theming clair/sombre et pages animées.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F1msirius%2FNextfolio)
+## Stack
 
-## Technologies Used
+- Framework: Next.js (App Router)
+- Langage: TypeScript
+- Styling: Tailwind CSS + design tokens (OKLCH) via CSS custom properties
+- Animations: Framer Motion (révélations, transitions de page)
+- Contenu: MDX (blog + projets par langue)
+- Thèmes: `next-themes` (classe `dark` + tokens CSS)
+- SEO: metadata dynamique, sitemap, robots, JSON-LD, OpenGraph
+- Feeds: RSS / Atom / JSON
+- Analytics: Vercel Analytics + Speed Insights
 
-- Framework: [Next.js](https://nextjs.org/)
-- Styling: [Tailwind CSS](https://tailwindcss.com/)
-- Analytics: [Vercel Web Analytics](https://vercel.com/docs/speed-insights) and [Speed Insights](https://vercel.com/docs/speed-insights)
-- Deployment: [Vercel](https://vercel.com/)
+## Fonctionnalités principales
 
-## Features
+- Structure multilingue `/[lang]` (en, fr) avec génération statique
+- Dictionnaires JSON centralisés (`/app/[lang]/dictionaries`)
+- Pages blog & projets partageant un layout détaillé cohérent (image, titre gradient, date localisée, résumé, CTA)
+- Page About type mini‑CV (expériences, compétences, éducation, téléchargement CV)
+- Filtrage projets sans effets de bord (source de vérité immuable + dérivation)
+- Thème clair étendu (tokens surfaces) + dark existant
+- Composants réutilisables (nav accessible, pagination, reveal, media embeds)
 
-- **[MDX](https://mdxjs.com/) Support**: Use Markdown with JSX components for blog posts.
-- **Light and Dark Mode Toggle**: Switch between themes for better readability.
-- **Dynamic [OG Images](https://vercel.com/docs/functions/og-image-generation)**: Auto-generate Open Graph images for sharing.
-- **SEO Optimization**: Enhance search visibility with sitemap, robots.txt, and JSON-LD schema.
-- **Dynamic Feed Generation**: Automatic dynamic [RSS](https://nextfolio-template.vercel.app/rss.xml), [Atom](https://nextfolio-template.vercel.app/atom.xml), and [JSON](https://nextfolio-template.vercel.app/feed.json) feeds.
-- **[KaTeX](https://katex.org/) Integration**: Render mathematical expressions smoothly.
-- **Performance Tracking**: Monitor web performance with [Vercel Web Analytics](https://vercel.com/docs/speed-insights) and [Speed Insights](https://vercel.com/docs/speed-insights).
-- **Interactive Embeds**: Easily embed interactive tweets and YouTube videos.
-- **Captions**: Add descriptive captions to photos, tweets, and videos.
-- **Image Grid**: Easily showcase image galleries or photos.
+## Structure de contenu
 
-## Installation
-
-Nextfolio uses [pnpm](https://pnpm.io/installation) for dependency management, so ensure it is installed on your system.
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
-
-```
-pnpm create next-app --example https://github.com/1msirius/Nextfolio my-portfolio
-```
-
-Start the development server:
-
-```
-pnpm dev
+```text
+content/
+  blog/
+    en/*.mdx
+    fr/*.mdx
+  projects/
+    en/*.mdx
+    fr/*.mdx
 ```
 
-The server will be running at [http://localhost:3000](http://localhost:3000).
+Frontmatter typique projet :
 
-## Configuration
+```md
+---
+title: "Nom"
+publishedAt: "2025-09-01"
+summary: "Résumé bref"
+image: "/opengraph-image.png"
+url: "https://exemple.com"
+tags: "tag1,tag2"
+repoUrl: "https://github.com/xxx"
+ctaLabel: "Voir le code"
+ctaUrl: "https://github.com/xxx"
+---
+```
 
-1. Update the site metadata and social links in `app/config.ts` to set up SEO, feeds, social links, and Open Graph settings.
-2. Update your routes in `app/sitemap.ts` for SEO optimization.
-3. Update your blog posts in the `/content` folder.
+## Démarrage
 
-For more information about configuration, follow the instructions in the [Getting Started](https://nextfolio-template.vercel.app/blog/getting-started#configuration) post.
+Installer dépendances :
 
-## Contributing
+```bash
+npm install
+```
 
-Contributions are welcome! To get involved, just push your code to the repo. Whether you're enhancing existing features or adding new ones, your efforts are greatly appreciated!
+Lancer dev :
+
+```bash
+npm run dev
+```
+
+Build :
+
+```bash
+npm run build && npm start
+```
+
+## Configuration rapide
+
+1. Modifier `lib/config.ts` (metaData, socialLinks)
+2. Ajouter / traduire dictionnaires dans `app/[lang]/dictionaries`
+3. Placer vos MDX dans `content/{blog|projects}/{lang}`
+4. Ajuster `app/[lang]/sitemap.ts` si nouvelles routes
+5. Vérifier les images (Open Graph, favicon)
+
+## Ajout d'un projet
+
+1. Créer deux fichiers MDX : `content/projects/en/slug.mdx` et `content/projects/fr/slug.mdx`
+2. Remplir le frontmatter (voir modèle ci-dessus)
+3. L'image référencée doit être dans `public/` (ex: `/opengraph-image.png`)
+4. Le projet apparaîtra automatiquement (chargé par `getProjectPosts`)
+
+## Filtrage projets (pattern)
+
+Principe : ne jamais muter la liste complète; dériver.
+
+```ts
+const filtered = useMemo(
+  () => selected === '__all__' ? all : all.filter(p => p.metadata.tags?.includes(selected)),
+  [all, selected]
+);
+```
+
+## i18n
+
+- Langue injectée via segment dynamique `[lang]`
+- `generateStaticParams` fournit `['en','fr']`
+- Dictionnaire chargé côté serveur `getDictionary(lang)`
+
+## Thème
+
+Variables CSS (OKLCH) définies dans `:root` (clair) puis surchargées dans `.dark`. Utiliser les utilitaires :
+
+- `bg-background text-foreground`
+- `bg-surface`, `bg-surface-alt`, `bg-surface-muted`
+- `border-base`
+
+## Ajout futur (suggestions)
+
+- Synchronisation historique (back/forward) pour filtre
+- Tests unitaires sur parsing frontmatter
+- Progressive image placeholders (BlurDataURL)
+- Page /uses ou /now
+
+## Changelog
+
+### Initialisation (commit f2bab71)
+
+- Base Next.js + Tailwind
+- Intégration MDX
+- Theming dark initial
+
+### Évolutions majeures
+
+- Ajout i18n (segment `[lang]`, dictionnaires)
+- Refactor filtres projets (dérivation pure)
+- Unification layout blog/projets
+- Page About (remplace Photos) + redirection
+- Ajout thème clair + tokens surfaces
+- Ajout projet démonstration: Next.js i18n (MDX en/fr)
 
 ## Licence
 
-Nextfolio is open-source and released under the MIT License.
+MIT
+
+---
+
+© 2025 – Portfolio personnel
