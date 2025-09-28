@@ -1,0 +1,47 @@
+---
+title: "FutNet Single Master"
+publishedAt: "2023-05-15"
+summary: "Plateforme full-stack de gestion de tournois FutNet avec API Spring Boot et tableau de bord Vue 3."
+tags: ["Spring Boot", "Vue 3", "TypeScript"]
+image: "/projects/futnet.png"
+url: "https://example.com"
+repoUrl: "https://gitlab.emf-infopro.ch/EMF-Informatique/tpi/futnetsinglemaster"
+ctaLabel: "Découvrir"
+---
+
+## Aperçu
+
+FutNet Single Master est une plateforme de gestion full-stack pour organiser les matchs de futnet individuel, combinant une API **Spring Boot 3** et un tableau de bord d’administration **Vue 3 + Vite**.  
+Le backend expose des endpoints pour l’authentification, la gestion des utilisateurs et l’organisation des rencontres.  
+Le frontend Vue 3 propose des grilles, un système de stores Pinia et des modales pour gérer classements, matchs et effectifs.
+
+## Fonctionnalités
+
+- Authentification par session avec rôles (`niveau`) et gestion sécurisée des utilisateurs.
+- Inscription des joueurs avec génération de mots de passe forts chiffrés en BCrypt et envoi par email via FreeMarker.
+- Gestion des rencontres appliquant les règles du futnet (scores, limite de confrontations, calcul des victoires).
+- Classement automatique basé sur les victoires validées (3 points par match gagné).
+- API utilitaire pour catalogues d’équipes et rôles côté administration.
+- Front Vue 3 avec Pinia, vue3-easy-data-table et modales SweetAlert2 pour un pilotage fluide.
+- Documentation intégrée et navigation avec barre latérale persistante.
+
+## Stack technique
+
+- **Backend** : Spring Boot 3, Spring Security, Data JPA, MySQL, Lombok, FreeMarker, Java Mail.
+- **Frontend** : Vue 3, Vite, TypeScript, Pinia, Vue Router, Bootstrap 5, Sass.
+- **Outils** : SweetAlert2, vue3-easy-data-table, OpenAPI.
+
+## Rôle & Contribution
+
+Un·e développeur·euse full-stack :
+
+- étend les services Spring Boot et fait évoluer le schéma MySQL,
+- ajuste la logique de classement et les validations de matchs,
+- conçoit des modules Vue 3 et des stores Pinia,
+- intègre de nouveaux endpoints et affine les flux pilotés par SweetAlert2.
+
+## Liens
+
+- [Démo en ligne](https://example.com)
+- [Dépôt GitLab](https://gitlab.emf-infopro.ch/EMF-Informatique/tpi/futnetsinglemaster)
+- [Documentation](/src/assets/Documentation%20utilisateur.pdf)

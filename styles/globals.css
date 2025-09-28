@@ -1,0 +1,295 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+::selection {
+  background-color: #47a3f3;
+  color: #fefefe;
+}
+
+/* Light theme colors */
+:root {
+  background-color: #111010;
+  --sh-class: #4c97f8;
+  --sh-identifier: white;
+  --sh-sign: #8996a3;
+  --sh-string: #0fa295;
+  --sh-keyword: #f47067;
+  --sh-comment: #a19595;
+  --sh-jsxliterals: #6266d1;
+  --sh-property: #e25a1c;
+  --sh-entity: #e25a1c;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+  /* Surfaces for dark mode */
+  --surface: oklch(0.205 0 0);
+  --surface-alt: oklch(0.24 0 0);
+  --surface-muted: oklch(0.27 0 0 / 60%);
+  --surface-accent: linear-gradient(
+    to bottom right,
+    oklch(0.22 0.03 260),
+    oklch(0.25 0.04 300)
+  );
+}
+
+html {
+  min-width: 360px;
+}
+
+.prose {
+  @apply text-[#000000] dark:text-[#FFFFFF];
+}
+
+.prose .anchor {
+  @apply absolute invisible no-underline;
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 80%;
+  max-width: 700px;
+  cursor: pointer;
+}
+
+.anchor:hover {
+  @apply visible;
+}
+
+.prose a {
+  @apply transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em] font-normal text-[#000000] dark:text-[#FFFFFF];
+}
+
+.prose a:hover {
+  @apply dark:decoration-neutral-400 decoration-neutral-600;
+}
+
+.prose .anchor:after {
+  @apply text-neutral-300 dark:text-neutral-700;
+  content: "#";
+}
+
+.prose *:hover > .anchor {
+  @apply visible;
+}
+
+.prose pre {
+  @apply bg-[#F7F7F7] dark:bg-[#181818] rounded-lg overflow-x-auto;
+}
+
+.prose code {
+  @apply px-1 py-0.5 rounded-lg;
+}
+
+.prose pre code {
+  @apply p-0;
+  border: initial;
+  line-height: 1.5;
+}
+
+.prose code span {
+  @apply font-medium;
+}
+
+.prose img {
+  /* Don't apply styles to next/image */
+  @apply m-0;
+}
+
+.prose h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-medium;
+}
+
+.prose strong {
+  @apply font-medium;
+}
+
+.prose > :first-child {
+  /* Override removing top margin, causing layout shift */
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose-quoteless blockquote p:first-of-type::before,
+.prose-quoteless blockquote p:first-of-type::after {
+  content: none;
+}
+
+pre::-webkit-scrollbar {
+  display: none;
+}
+
+pre {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Remove Safari input shadow on mobile */
+input[type="text"],
+input[type="email"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.prose .tweet a {
+  text-decoration: inherit;
+  font-weight: 500;
+}
+
+table {
+  display: block;
+  max-width: fit-content;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.prose .callout > p {
+  margin: 0;
+}
+
+.title {
+  text-wrap: balance;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-accent: var(--surface-accent);
+}
+
+@layer utilities {
+  .bg-surface {
+    background: var(--color-surface);
+  }
+  .bg-surface-alt {
+    background: var(--color-surface-alt);
+  }
+  .bg-surface-muted {
+    background: var(--color-surface-muted);
+  }
+  .bg-surface-accent {
+    background: var(--color-surface-accent);
+  }
+  .border-base {
+    border-color: var(--color-border);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Deep navy background with subtle multicolored code-like grid */
+.bg-code-grid {
+  /* Base background */
+  background-color: #0b1020; /* deep navy */
+  /* Thin multicolored horizontal and vertical lines (purple, yellow, green) */
+  background-image:
+    /* horizontal lines */ repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(128, 90, 213, 0.25) 24px 25px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(250, 204, 21, 0.22) 12px 13px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(34, 197, 94, 0.22) 18px 19px
+    ),
+    /* vertical lines */
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0 24px,
+        rgba(128, 90, 213, 0.25) 24px 25px
+      ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(250, 204, 21, 0.22) 12px 13px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(34, 197, 94, 0.22) 18px 19px
+    );
+  background-attachment: fixed; /* parallax-like feel */
+  background-size: cover;
+}

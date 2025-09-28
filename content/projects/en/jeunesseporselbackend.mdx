@@ -1,0 +1,43 @@
+---
+title: "Jeunesse Porsel Backend"
+publishedAt: "2025-09-26"
+summary: "Spring Boot backend for managing Jeunesse de Porsel events, registrations, and notification emails."
+tags: ["Spring Boot", "Java", "MariaDB"]
+image: "/projects/swagger.png"
+url: "https://jeunessedeporsel.ch"
+repoUrl: "https://github.com/your-username/jeunesseporselbackend"
+ctaLabel: "Discover"
+---
+
+## Overview
+
+Jeunesse Porsel Backend is a Spring Boot service providing REST endpoints to manage events, attendees, and booking confirmations for the Jeunesse de Porsel association.
+
+## Features
+
+- REST endpoints for listing events, registering attendees, and adjusting bookings with consistent responses
+- Automatic seat management enforcing capacity limits and updating availability
+- Duplicate registration detection preventing identical name/email/event sign-ups
+- OTP verification flow with expiring codes for secure booking modifications
+- FreeMarker-based transactional emails for registration, confirmation, and updates
+
+## Tech Stack
+
+- Spring Boot (Web, Validation, Data JPA, Actuator)
+- Java 17 baseline
+- MariaDB persistence with JDBC driver
+- Springdoc OpenAPI for auto documentation and Swagger UI
+- Spring Mail, FreeMarker templates, Lombok, and Maven plugins
+
+## Role & Contribution
+
+As backend engineer:
+
+- Design and maintain REST APIs, domain models, and booking logic
+- Implement email flows and OTP verification for secure processes
+- Maintain API documentation and observability stack for stakeholders
+
+## Links
+
+- [Live demo](https://jeunessedeporsel.ch)
+- [GitHub repo](https://github.com/your-username/jeunesseporselbackend)

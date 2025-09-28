@@ -1,0 +1,130 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "projects": "Projects",
+    "about": "About"
+  },
+  "home": {
+    "title": "Welcome",
+    "subtitle": "Passionate about web development, AI and design. Explore my projects, articles and photos!",
+    "buttons": {
+      "projects": "See my projects",
+      "blog": "Read the blog"
+    },
+    "sections": {
+      "projects": "Recent projects",
+      "projects_featured": "Featured projects",
+      "projects_all": "See all",
+      "blog": "Latest articles",
+      "blog_all": "See all",
+      "photos": "Latest photos",
+      "photos_all": "See all"
+    },
+    "hero": {
+      "hello": "Hello World!",
+      "title_prefix": "My name is",
+      "title_suffix": "and I am a Fullstack Developer",
+      "tagline": "I love building fast, accessible and beautiful web experiences. From design to deploy, I handle it all."
+    },
+    "services": {
+      "title": "My services",
+      "subtitle": "How I can help your business",
+      "items": {
+        "web": {
+          "title": "Websites & Applications",
+          "desc": "Development of fast and accessible websites and apps."
+        },
+        "api": {
+          "title": "APIs & Databases",
+          "desc": "API creation and database design/management."
+        },
+        "devops": {
+          "title": "DevOps",
+          "desc": "Infrastructure, CI/CD and observability for your product."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "E-mail"
+    },
+    "project": {
+      "discover": "Discover"
+    },
+    "blog": {
+      "read": "Read article"
+    }
+  },
+  "blogPage": {
+    "imageAlt": "Cover image for {{title}}"
+  },
+  "a11y": {
+    "openMenu": "Open menu",
+    "goToProjects": "Go to projects",
+    "language": "Language"
+  },
+  "lang": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "projectsPage": {
+    "viewProject": "View project",
+    "details": "Details",
+    "filter": "Filter",
+    "display": "Display",
+    "imageAlt": "Cover image for {{title}}"
+  },
+  "about": {
+    "title": "About me",
+    "tagline": "Full‑stack developer passionate about web and innovation.",
+    "profileAlt": "Profile photo of {{name}}",
+    "experienceTitle": "Experience",
+    "experiences": [
+      {
+        "title": "Software Engineer",
+        "org": "UNOPS",
+        "period": "2023 — Present",
+        "description": "Contributing to digital solutions with a focus on reliability and accessibility."
+      },
+      {
+        "title": "Web Lead",
+        "org": "Giron 2026",
+        "period": "2024 — 2026",
+        "description": "Built and maintained the event’s digital platform."
+      },
+      {
+        "title": "Personal Projects",
+        "org": "Open Source",
+        "period": "Ongoing",
+        "description": "Numerous side projects in AI, education and tooling."
+      }
+    ],
+    "skills": {
+      "title": "Skills",
+      "items": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Node.js",
+        "Docker",
+        "MongoDB",
+        "PostgreSQL",
+        "CI/CD",
+        "Vercel"
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "items": [
+        {
+          "degree": "Federal VET Diploma in Computer Science (CFC)",
+          "school": "Switzerland",
+          "year": "—"
+        }
+      ]
+    },
+    "downloadCV": "Download my CV",
+    "cvUrl": "/cv.pdf"
+  }
+}

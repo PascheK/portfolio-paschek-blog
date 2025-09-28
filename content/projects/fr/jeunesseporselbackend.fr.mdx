@@ -1,0 +1,44 @@
+---
+title: "Jeunesse Porsel Backend"
+publishedAt: "2025-09-26"
+summary: "Backend Spring Boot pour gérer les événements, inscriptions et emails de notification de la Jeunesse de Porsel.
+tags: ["Spring Boot", "Java", "MariaDB"]
+image: "/projects/swagger.png"
+url: "https://jeunessedeporsel.ch"
+repoUrl: "https://github.com/your-username/jeunesseporselbackend"
+ctaLabel: "Découvrir"
+---
+
+## Aperçu
+
+Jeunesse Porsel Backend est un service Spring Boot qui expose des endpoints REST pour gérer les événements et les inscriptions de l’association Jeunesse de Porsel.
+Les entités de domaine mappent les événements et participants au schéma MariaDB via des modèles JPA, assurant le stockage persistant des données.
+Les règles métiers empêchent les inscriptions en double et ajustent le nombre de places disponibles de manière atomique à chaque enregistrement.
+Les participants reçoivent des codes uniques et des emails transactionnels pour confirmer et modifier leurs réservations en toute sécurité.
+La documentation API, la validation et la supervision sont intégrées via Springdoc OpenAPI, Bean Validation et Actuator.
+
+## Fonctionnalités
+
+- Endpoints REST pour lister les événements, enregistrer des participants et ajuster les réservations avec des réponses cohérentes pour les clients.
+- Gestion automatique des places disponibles en appliquant les limites de capacité et en mettant à jour le nombre de sièges restants après chaque réservation.
+- Détection des doublons qui bloque les combinaisons identiques (nom, email, événement) avant la persistance.
+- Workflow de vérification OTP avec codes à six chiffres expirant après cinq minutes pour sécuriser les modifications.
+- Templates FreeMarker personnalisés pour envoyer des emails de confirmation, d’inscription et de modification via JavaMail.
+
+## Stack technique
+
+- Starters Spring Boot pour le web, la validation, JPA et Actuator.
+- Java 17 comme runtime de base.
+- Driver JDBC MariaDB pour la persistance relationnelle.
+- Springdoc OpenAPI pour la documentation automatique et Swagger UI.
+- Spring Mail, FreeMarker, Lombok et le plugin Maven Spring Boot pour simplifier la livraison et le build.
+
+## Rôle & Contribution
+
+En tant qu’ingénieur backend, conception et maintenance des APIs REST, des modèles de domaine et de la logique de gestion des places.
+Responsabilité de la pile de notifications et d’observabilité, maintien des emails templatés, du service de mail et des dépendances de documentation API.
+
+## Liens
+
+- [Démo en ligne](https://jeunessedeporsel.ch)
+- [Dépôt GitHub](https://github.com/your-username/jeunesseporselbackend)

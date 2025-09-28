@@ -1,0 +1,152 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "projects": "Projets",
+    "about": "À propos"
+  },
+  "home": {
+    "title": "Bienvenue",
+    "subtitle": "Passionné de développement web, d'IA et de design. Découvrez mes projets, articles et photos !",
+    "buttons": {
+      "projects": "Voir mes projets",
+      "blog": "Lire le blog"
+    },
+    "sections": {
+      "projects": "Projets récents",
+      "projects_featured": "Projets en vedette",
+      "projects_all": "Tout voir",
+      "blog": "Derniers articles",
+      "blog_all": "Tout voir",
+      "photos": "Dernières photos",
+      "photos_all": "Tout voir"
+    },
+    "hero": {
+      "hello": "Bonjour !",
+      "title_prefix": "Je m'appelle",
+      "title_suffix": "et je suis développeur Full‑Stack",
+      "tagline": "Passionné par la création d’expériences web rapides, accessibles et élégantes. Du design au déploiement, je m’occupe de tout."
+    },
+    "services": {
+      "title": "Mes services",
+      "subtitle": "Comment je peux aider votre activité",
+      "items": {
+        "web": {
+          "title": "Sites web et applications",
+          "desc": "Développement de sites et d’applications performants et accessibles."
+        },
+        "api": {
+          "title": "API et base de données",
+          "desc": "Conception d’API et modélisation/gestion de bases de données."
+        },
+        "devops": {
+          "title": "DevOps",
+          "desc": "Infrastructure, CI/CD et observabilité pour votre produit."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "E-mail"
+    },
+    "project": {
+      "discover": "Découvrir"
+    },
+    "blog": {
+      "read": "Lire l’article"
+    }
+  },
+  "blogPage": {
+    "imageAlt": "Image de couverture pour {{title}}"
+  },
+  "a11y": {
+    "openMenu": "Ouvrir le menu",
+    "goToProjects": "Aller aux projets",
+    "language": "Langue"
+  },
+  "lang": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "projectsPage": {
+    "viewProject": "Voir le projet",
+    "details": "Détails",
+    "filter": "Filtrer",
+    "display": "Affichage",
+    "imageAlt": "Image de couverture pour {{title}}"
+  },
+  "about": {
+    "title": "À propos de moi",
+    "tagline": "Développeur full‑stack passionné par le web et l’innovation.",
+    "profileAlt": "Photo de profil de {{name}}",
+    "experienceTitle": "Parcours / Expérience",
+    "experiences": [
+      {
+        "title": "Assistant principal en gestion de l’information et analyse",
+        "org": "UNOPS",
+        "period": "21.04.2025 — Aujourd’hui",
+        "description": "Appui à la gestion et à l’analyse de l’information pour le développement de solutions numériques et de rapports décisionnels."
+      },
+      {
+        "title": "Responsable Web",
+        "org": "Jeunesse de Porsel",
+        "period": "2021 — Aujourd’hui",
+        "description": "Mise en place et maintenance de la plateforme numérique de l’évènement."
+      },
+      {
+        "title": "Projets personnels",
+        "org": "Open Source",
+        "period": "En cours",
+        "description": "Nombreux projets autour de React, Next.js et Node.js. Tous ces projets sont réalisés en open source."
+      },
+      {
+        "title": "Paiement de gallon de sous-officier",
+        "org": "Armée Suisse",
+        "period": "14.01.2024 - 01.11.2024",
+        "description": "Responsabilité,  discipline, esprit d’équipe, loyauté, gestion de groupes, sont les valeurs principales que m’ont appris mon service militaire."
+      },
+      {
+        "title": "Aide monteur électricien",
+        "org": "Groupe",
+        "period": "01.09.2023 - 23.12.2023",
+        "description": "Assistance sur divers chantiers électriques."
+      },
+      {
+        "title": "Stagiaire développeur fullstack",
+        "org": "Plurial SA",
+        "period": "15.02.2023 - 15.05.2023",
+        "description": "Stage chez Plurial SA."
+      }
+    ],
+    "skills": {
+      "title": "Compétences",
+      "items": [
+        "Java",
+        "JavaScript",
+        "Spring Boot",
+        "Express.js",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Node.js",
+        "Docker",
+        "MongoDB",
+        "PostgreSQL",
+        "CI/CD",
+        "Vercel"
+      ]
+    },
+    "education": {
+      "title": "Formation",
+      "items": [
+        {
+          "degree": "CFC d’informaticien",
+          "school": "Suisse",
+          "year": "2019-2023"
+        }
+      ]
+    },
+    "downloadCV": "Télécharger mon CV",
+    "cvUrl": "/cv.pdf"
+  }
+}
