@@ -106,11 +106,89 @@ const filtered = useMemo(
 
 ## Thème
 
-Variables CSS (OKLCH) définies dans `:root` (clair) puis surchargées dans `.dark`. Utiliser les utilitaires :
+Système bi‑thème basé sur attribut `data-theme` (light par défaut, `data-theme="dark"`) + variables CSS (OKLCH) centralisées dans `styles/globals.css`.
 
-- `bg-background text-foreground`
-- `bg-surface`, `bg-surface-alt`, `bg-surface-muted`
-- `border-base`
+### Architecture
+
+| Couche | Token principal | Rôle |
+|--------|-----------------|------|
+| Page   | `--background`  | Fond global presque plat (light) / profond (dark) |
+| Surface base | `--surface` | Conteneurs neutres (cards simples) |
+| Surface élevée | `--surface-alt` | Légère élévation (cartes, panneaux) |
+| Surface atténuée | `--surface-muted` | Inline chips, accent discret, blockquotes |
+| Accent dégradé | `--surface-accent` | Eléments décoratifs ciblés |
+
+Couleurs fonctionnelles : `--primary`, `--secondary`, `--accent`, `--muted`, avec toujours leur `*-foreground`. Bordures / focus: `--border`, `--ring`. Texte secondaire: `--muted-foreground`.
+
+### Utilitaires Tailwind exposés
+
+- Background / texte: `bg-background text-foreground`
+- Surfaces: `bg-surface`, `bg-surface-alt`, `bg-surface-muted`, `bg-surface-accent`
+- Bordure: `border-base` (=> `--border`)
+- Éléments d'interface (inputs/boutons) réutilisent les composants déjà mappés aux tokens.
+
+### Composants migrés
+
+Nav, page d’accueil (hero, services, contact), listes & détails blog/projets, filtres (CategoryFilter), blockquotes & code (`.prose`) utilisent uniquement des tokens—plus de neutres figés (#fff, #000, neutral-xxx) en usage direct.
+
+### Principes couleur
+
+- OKLCH pour ajuster lightness/chroma sans shifts imprévisibles
+- Light: surfaces blanches => contraste porté par le texte, séparation via bordure faible + ombre douce
+- Dark: réduction de la chroma sur surfaces, texte quasi neutre clair
+- Texte secondaire : jamais < 4.2:1 quand rôle informatif
+- Gradients (titres / états actifs) conservent identité sans casser accessibilité
+
+### Ajouter un nouveau composant
+
+1. Ne pas utiliser `text-black` / `text-white` – préférer `text-foreground` ou `text-muted-foreground`.
+2. Choisir la surface minimale qui suffit (`bg-surface` > `bg-surface-alt` > `bg-surface-muted`).
+3. Pour une carte interactive : `bg-surface-alt` + `border border-base` + hover légère ombre ou translation.
+4. Focus: `focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background`.
+5. Gradient actif cohérent : `from-primary to-accent`.
+
+### Blocquote & Code
+
+- Blockquote: fond `--surface-muted`, barre `--accent`, texte principal `--foreground`, citation/meta `--muted-foreground`.
+- Code inline: fond `--surface-muted`; blocs: `--surface-alt` + bordure `--border`.
+
+### Extension future
+
+- Mode high-contrast: dériver 4–5 tokens (foreground, border, primary, surface-alt)
+- Palette “warm” ou “cool” via set dynamique de variables (ex: `data-theme-variant="warm"`).
+- Tests automatiques: script Lighthouse / axe-core sur pages clés + seuil contraste.
+
+### Anti‑patterns évités
+
+- Empilement de overlays opaques (préférer surfaces stratifiées)
+- Utilisation de neutral-400 pour texte essentiel (remplacé par foreground + opacité contrôlée si nuance nécessaire)
+- Multiplication de palettes parallèles (un set unique + variations légères)
+
+### Raccourci mental
+
+Texte primaire → foreground; secondaire → muted-foreground; contour → border; interaction → primary; décor léger → accent; arrière-plan logique → surface(s).
+
+### Basculer le thème
+
+Le `ThemeProvider` gère :
+
+- Lecture `prefers-color-scheme`
+- Persistance `localStorage` (`theme=light|dark`)
+- Application de `data-theme`
+
+Hook facultatif (exemple minimal) :
+
+```ts
+const { theme, setTheme } = useTheme(); // si exposition future
+```
+
+### Checklist accessibilité (interne)
+
+- Ratio texte principal ≥ 7:1 (light) / ~12:1 (dark) vs surface
+- Ratio texte secondaire ≥ 4.5:1
+- Focus visible sur éléments interactifs (test clavier)
+
+Pour ajuster la palette : modifier uniquement les blocs `:root` et `:root[data-theme="dark"]` dans `styles/globals.css`.
 
 ## Ajout futur (suggestions)
 

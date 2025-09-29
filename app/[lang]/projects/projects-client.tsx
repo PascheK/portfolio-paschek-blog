@@ -52,27 +52,26 @@ export default function ProjectsClient({ projects, dict, lang }: { projects: Pro
             }`}
         >
           {filtered.map((project, index) => {
-            const slug = project.title.toLowerCase().replace(/\s+/g, "-");
             return (
               <div
                 key={index}
-                className="flex flex-col space-y-2 p-5 border  border-neutral-800 rounded-xl transition-shadow hover:shadow-xl bg-neutral-900/80 backdrop-blur-sm hover:-translate-y-1 duration-150"
+                className="flex flex-col space-y-2 p-5 border border-border rounded-xl transition-shadow hover:shadow-xl bg-surface-alt/80 backdrop-blur-sm hover:-translate-y-1 duration-150"
               >
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-40 object-cover rounded-md mb-2 border border-neutral-800 bg-neutral-800"
+                  className="w-full h-40 object-cover rounded-md mb-2 border border-border bg-surface"
                   loading="lazy"
                 />
                 <div className="flex flex-col gap-1">
-                  <h2 className="text-lg font-semibold text-white">{project.title}</h2>
-                  <span className="text-xs text-neutral-400">{project.year} &middot; {project.category.join(', ')}</span>
-                  <p className="text-neutral-400">{project.description}</p>
+                  <h2 className="text-lg font-semibold text-foreground">{project.title}</h2>
+                  <span className="text-xs text-muted-foreground">{project.year} &middot; {project.category.join(', ')}</span>
+                  <p className="text-muted-foreground">{project.description}</p>
                 </div>
                 <div className="flex gap-2 mt-2">
                   <a
                     href={project.url}
-                    className="px-3 py-1 rounded bg-blue-600 text-white text-sm hover:bg-pink-500 transition-colors shadow"
+                    className="px-3 py-1 rounded bg-primary text-primary-foreground text-sm hover:brightness-110 transition-colors shadow"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -80,7 +79,7 @@ export default function ProjectsClient({ projects, dict, lang }: { projects: Pro
                   </a>
                   <Link
                     href={`/${lang ?? ''}/projects/${project.slug}`}
-                    className="px-3 py-1 rounded bg-neutral-700 text-neutral-100 text-sm hover:bg-blue-900 transition-colors shadow"
+                    className="px-3 py-1 rounded bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 transition-colors shadow"
                   >
                     {dict?.projectsPage?.details ?? 'Details'}
                   </Link>

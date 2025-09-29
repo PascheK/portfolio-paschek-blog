@@ -9,8 +9,74 @@
   color: #fefefe;
 }
 
-/* Light theme colors */
-:root {
+/* Dual theme system: default (root) = light, explicit dark overrides under [data-theme=dark] */
+/* Light theme (base) */
+:root,
+:root[data-theme="light"] {
+  /* Code highlighting colors keep consistency */
+  --sh-class: #4c4ff8;
+  --sh-identifier: #212127;
+  --sh-sign: #58616b;
+  --sh-string: #0c7f75;
+  --sh-keyword: #b64d46;
+  --sh-comment: #84808a;
+  --sh-jsxliterals: #4b4fb8;
+  --sh-property: #c24c18;
+  --sh-entity: #c24c18;
+  /* Core semantic tokens */
+  --background: oklch(
+    0.99 0.005 95
+  ); /* Presque blanc pur pour enlever voile gris */
+  /* Foreground encore plus profond (≈ neutral 900) pour lisibilité */
+  --foreground: oklch(0.125 0.02 255);
+  --card: oklch(1 0 0); /* Blanc pur pour cartes épurées */
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+  /* Slightly deeper primary for clearer CTA presence */
+  --primary: oklch(0.6 0.26 300);
+  --primary-foreground: oklch(0.99 0 95);
+  --secondary: oklch(0.92 0.012 255);
+  --secondary-foreground: oklch(0.22 0.03 255);
+  --muted: oklch(0.93 0.008 255);
+  /* Muted foreground encore foncé mais pas froid, légère chroma */
+  --muted-foreground: oklch(0.3 0.025 255);
+  --body-secondary: var(--muted-foreground);
+  --accent: oklch(0.93 0.05 320);
+  --accent-foreground: oklch(0.28 0.035 300);
+  --destructive: oklch(0.58 0.2 25);
+  --border: oklch(0.82 0.01 255);
+  --input: oklch(0.92 0.008 255);
+  --ring: oklch(0.55 0.24 265);
+  /* Charts (reuse dark hues for brand consistency, lighten if needed) */
+  --chart-1: oklch(0.62 0.25 264.376);
+  --chart-2: oklch(0.74 0.18 162.48);
+  --chart-3: oklch(0.79 0.2 70.08);
+  --chart-4: oklch(0.7 0.27 303.9);
+  --chart-5: oklch(0.71 0.26 16.439);
+  --sidebar: oklch(0.97 0.005 95);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  /* Surfaces (layering) */
+  --surface: oklch(0.995 0 95); /* Surface de base quasi blanche */
+  --surface-alt: oklch(0.97 0.006 95); /* Légère élévation */
+  --surface-muted: oklch(0.94 0.008 95 / 55%);
+  --surface-accent: linear-gradient(
+    to bottom right,
+    oklch(0.88 0.05 300),
+    oklch(0.9 0.06 340)
+  );
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Dark theme overrides (moved from old :root) */
+:root[data-theme="dark"] {
   background-color: #111010;
   --sh-class: #4c97f8;
   --sh-identifier: white;
@@ -52,7 +118,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  /* Surfaces for dark mode */
   --surface: oklch(0.205 0 0);
   --surface-alt: oklch(0.24 0 0);
   --surface-muted: oklch(0.27 0 0 / 60%);
@@ -67,8 +132,24 @@ html {
   min-width: 360px;
 }
 
+/* Typography adjustments: rely on tokens instead of fixed black/white */
 .prose {
-  @apply text-[#000000] dark:text-[#FFFFFF];
+  color: var(--foreground);
+}
+/* Base link color relies on primary token (light & dark) */
+.prose a {
+  color: var(--primary);
+}
+:root[data-theme="dark"] .prose a {
+  color: var(--primary);
+}
+.prose strong,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--foreground);
 }
 
 .prose .anchor {
@@ -84,16 +165,24 @@ html {
   @apply visible;
 }
 
+/* Replace neutral decorations + hardcoded colors with token-based approach */
 .prose a {
-  @apply transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em] font-normal text-[#000000] dark:text-[#FFFFFF];
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--primary) 55%, transparent);
+  text-underline-offset: 3px;
+  transition: color 0.18s ease, text-decoration-color 0.25s ease;
+  font-weight: 500;
 }
-
 .prose a:hover {
-  @apply dark:decoration-neutral-400 decoration-neutral-600;
+  text-decoration-color: var(--primary);
 }
-
+.prose a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 .prose .anchor:after {
-  @apply text-neutral-300 dark:text-neutral-700;
+  color: var(--muted-foreground);
   content: "#";
 }
 
@@ -101,12 +190,18 @@ html {
   @apply visible;
 }
 
+/* Code blocks unify on surface-alt (contrast managed by tokens) */
 .prose pre {
-  @apply bg-[#F7F7F7] dark:bg-[#181818] rounded-lg overflow-x-auto;
+  background: var(--surface-alt);
+  color: var(--foreground);
+  @apply rounded-lg overflow-x-auto border border-border;
 }
 
+/* Inline code chip on muted surface variant */
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  background: var(--surface-muted);
+  color: var(--foreground);
+  @apply px-1 py-0.5 rounded-md;
 }
 
 .prose pre code {
@@ -117,6 +212,39 @@ html {
 
 .prose code span {
   @apply font-medium;
+}
+
+/* Blockquote styling (token based) */
+.prose blockquote {
+  position: relative;
+  background: var(--surface-muted);
+  color: var(--foreground);
+  border-inline-start: 4px solid var(--accent);
+  padding: 0.9em 1.1em 0.95em 1.1em;
+  margin: 1.5em 0;
+  border-radius: 0.75rem;
+}
+.prose blockquote p {
+  margin: 0.4em 0;
+}
+.prose blockquote cite {
+  display: block;
+  margin-top: 0.75em;
+  font-size: 0.85em;
+  color: var(--muted-foreground);
+  font-style: normal;
+}
+.prose blockquote strong {
+  color: var(--foreground);
+}
+.prose blockquote footer {
+  margin-top: 0.75em;
+  font-size: 0.8em;
+  color: var(--muted-foreground);
+}
+
+:root[data-theme="dark"] .prose blockquote {
+  background: oklch(0.22 0 0 / 55%);
 }
 
 .prose img {
@@ -174,6 +302,59 @@ table {
   max-width: fit-content;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+/* Accessible table styling within MDX prose */
+.prose table {
+  @apply text-sm border border-border rounded-md overflow-hidden my-6;
+  background: var(--surface);
+}
+.prose table thead tr {
+  background: var(--surface-alt);
+  color: var(--accent-foreground);
+}
+:root[data-theme="dark"] .prose table thead tr {
+  color: var(--foreground);
+}
+.prose table th,
+.prose table td {
+  @apply px-3 py-2 align-top border-border;
+  border-right: 1px solid var(--border);
+}
+.prose table th { /* header color hierarchy */
+  color: var(--accent-foreground) !important;
+}
+:root[data-theme="dark"] .prose table th {
+  color: var(--foreground) !important;
+}
+.prose table td { /* body cells use normal foreground for readability */
+  color: var(--foreground) !important;
+}
+.prose table th {
+  font-weight: 600;
+}
+.prose table th:last-child,
+.prose table td:last-child {
+  border-right: none;
+}
+.prose table tbody tr {
+  background: var(--surface);
+}
+.prose table tbody tr:nth-child(odd) {
+  background: var(--surface-alt);
+}
+:root[data-theme="dark"] .prose table tbody tr:nth-child(odd) {
+  background: oklch(0.24 0 0);
+}
+.prose table code {
+  background: var(--surface-muted);
+}
+.prose table tbody tr:hover {
+  background: var(--surface-muted);
+}
+.prose table caption {
+  caption-side: bottom;
+  @apply text-xs text-muted-foreground mt-2;
 }
 
 .prose .callout > p {
@@ -254,12 +435,10 @@ table {
 }
 
 /* Deep navy background with subtle multicolored code-like grid */
-.bg-code-grid {
-  /* Base background */
-  background-color: #0b1020; /* deep navy */
-  /* Thin multicolored horizontal and vertical lines (purple, yellow, green) */
-  background-image:
-    /* horizontal lines */ repeating-linear-gradient(
+/* Dark-only decorative background */
+:root[data-theme="dark"] .bg-code-grid {
+  background-color: #0b1020;
+  background-image: repeating-linear-gradient(
       0deg,
       rgba(0, 0, 0, 0) 0 24px,
       rgba(128, 90, 213, 0.25) 24px 25px
@@ -274,12 +453,11 @@ table {
       rgba(0, 0, 0, 0) 0 24px,
       rgba(34, 197, 94, 0.22) 18px 19px
     ),
-    /* vertical lines */
-      repeating-linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0) 0 24px,
-        rgba(128, 90, 213, 0.25) 24px 25px
-      ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0 24px,
+      rgba(128, 90, 213, 0.25) 24px 25px
+    ),
     repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0) 0 24px,
@@ -290,6 +468,22 @@ table {
       rgba(0, 0, 0, 0) 0 24px,
       rgba(34, 197, 94, 0.22) 18px 19px
     );
-  background-attachment: fixed; /* parallax-like feel */
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Light subtle pattern */
+:root:not([data-theme="dark"]) .bg-code-grid {
+  background: radial-gradient(
+      circle at 25% 25%,
+      oklch(0.98 0.01 95),
+      oklch(0.96 0.01 95) 40%,
+      oklch(0.95 0.01 95) 70%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      oklch(0.97 0.005 95) 0 12px,
+      oklch(0.965 0.005 95) 12px 24px
+    );
   background-size: cover;
 }

@@ -1,0 +1,160 @@
+---
+title: "Designing a Multilingual Themed Portfolio in Next.js"
+publishedAt: "2025-09-28"
+summary: "Architecture decisions behind a bilingual, MDX-driven, themed portfolio with accessible UI and animated UX."
+tags: "nextjs,i18n,architecture,mdx,design-system"
+image: "/opengraph-image.png"
+---
+
+> A deep dive into how this portfolio was structured: from language routing and content loading to theming tokens and project filtering.
+
+## 1. Goals & Constraints
+
+I wanted a portfolio that:
+
+- Serves English and French from a single codebase.
+- Treats content (blog + projects + about page data) as **data first**.
+- Supports MDX for rich long form writing & component embedding.
+- Provides a reliable category filter without stale state.
+- Has a dark + extended light theme powered by **design tokens** (OKLCH based).
+- Offers good perceived performance (fast page transitions, reveal animations).
+- Keeps the codebase maintainable: no over-engineering, clear layering.
+
+Key constraint: keep build static-friendly (SSG) while allowing dynamic language segments.
+
+## 2. Architecture Overview
+
+```
+app/[lang]/
+  page.tsx          # Landing (hero + featured projects)
+  blog/             # Blog index + [slug]
+  projects/         # Projects index + [slug]
+  about/            # Mini‑CV page
+content/
+  blog/{en,fr}/*.mdx
+  projects/{en,fr}/*.mdx
+app/[lang]/dictionaries/{en,fr}.json
+lib/
+  posts.ts          # MDX frontmatter parsing & normalization
+  dictionaries.ts   # Runtime dictionary loader
+  config.ts         # Global metadata & social links
+components/         # UI primitives + reveal + navigation
+```
+
+Principle: **All textual content is externalized** (MDX or JSON dictionaries). Components stay mostly presentational.
+
+## 3. Internationalization Strategy
+
+- Segment-based routing: `/[lang]/...` with `generateStaticParams()` returning `['en','fr']`.
+- Dictionaries per language loaded server side via a simple async helper.
+- MDX content stored under per-language folders for both blog and projects.
+- Blog & project slugs are language-specific (no fallback auto-translation – explicit control).
+- Future improvement: automated key parity test to prevent missing translations.
+
+## 4. Content Pipeline (MDX)
+
+A minimal custom parser in `lib/posts.ts`:
+
+```ts
+const frontMatterRegex = /---\s*([\s\S]*?)\s*---/;
+// Extract key: value lines and coerce into a metadata object
+// Normalizes `date` => `publishedAt`
+```
+
+Why not `gray-matter`? Keeping dependencies minimal & frontmatter schema tiny. Can be swapped later.
+
+Projects & blog posts share the same shape: `{ metadata, slug, content }` → enabling uniform card & detail layouts.
+
+## 5. Theming with Tokens
+
+Tokens defined in `:root` for light and overridden in `.dark`:
+
+```css
+:root { --background: oklch(1 0 0); --foreground: oklch(0.145 0 0); /* ... */ }
+.dark { --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0); }
+```
+
+Extended surfaces: `--surface`, `--surface-alt`, `--surface-muted`, enabling layered depth without ad‑hoc colors.
+
+Utilities (`bg-surface`, `border-base`) bridge tokens to Tailwind usage.
+
+Powered by `next-themes` for a class-based toggle. No flash issues since the provider hydrates early.
+
+## 6. Accessible Navigation & Mobile Menu
+
+- Focus trapping inside the mobile panel.
+- Escape + outside click handling.
+- Semantic roles: `nav`, `aria-label`, `aria-expanded`, `aria-controls`.
+- Gradient accent underline for active route.
+
+## 7. Project Filtering: Pure Derivation
+
+Initial trap: incremental filtering mutated the current list → impossible to reliably restore "All".
+Solution: keep `allProjects` constant and derive `filteredProjects` with a memo:
+
+```ts
+const filteredProjects = useMemo(
+  () => selected === '__all__' ? allProjects : allProjects.filter(p => categoriesOf(p).includes(selected)),
+  [allProjects, selected]
+);
+```
+
+Optional (future): sync selection into the URL & listen to `popstate` without causing double updates.
+
+## 8. Shared Detail Layout (Blog & Projects)
+
+Both pages:
+
+- Cover image (if provided)
+- Gradient title
+- Localized date (fallback to current if missing)
+- Summary / description
+- MDX body styled with a controlled `prose` scope
+- JSON-LD structured data for SEO
+
+Result: consistent UX and easier theming.
+
+## 9. About Page as Structured Data
+
+Rather than hardcoding JSX content, all sections derive from dictionary arrays (`experiences`, `skills.items`, `education.items`). This makes future translation or reordering trivial.
+
+## 10. Performance & Perceived Speed
+
+- Static generation for all language routes.
+- Lightweight custom MDX parsing (no runtime eval of remote data).
+- Framer Motion reveal animations stagger critical sections (lower CLS perception).
+- Potential future upgrade: route-based code splitting + image component placeholders.
+
+## 11. Accessibility Considerations
+
+- Descriptive alt text tokens (`imageAlt` keys).
+- Keyboard navigation in menus and filters.
+- Visible focus states using ring utilities.
+- Reduced motion future enhancement: wrap animations with a user preference check.
+
+## 12. Lessons Learned
+
+| Area | Insight |
+| ---- | ------- |
+| Filtering | Derive, never mutate original collections |
+| i18n | Keep language boundary explicit instead of fallback magic |
+| Theming | Introduce surface tokens early to avoid hard-coded branching |
+| Content | MDX + dictionaries cover 95% use cases cleanly |
+| Layout | Shared detail template reduces styling drift |
+
+## 13. Roadmap Ideas
+
+- Key parity testing for dictionaries (CI step)
+- Tag system + tag archive pages
+- Breadcrumbs + structured data enhancements
+- Automatic OG generation per post via a route handler
+- Search (static index JSON + client fuse.js)
+- Blur-up image placeholders
+
+## 14. Final Thoughts
+
+This architecture balances simplicity and flexibility: minimal abstractions, explicit boundaries (lang/content/theme), and space to evolve. It should scale gracefully for more languages or content types without a refactor.
+
+---
+
+Questions about a specific section? Reach out or open an issue.

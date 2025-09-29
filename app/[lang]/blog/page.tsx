@@ -47,17 +47,17 @@ export default async function BlogPosts({ params }: { params: Promise<{ lang: 'e
               <RevealItem key={post.slug}>
                 <Link
                   href={`/${lang}/blog/${post.slug}`}
-                  className={`group rounded-xl overflow-hidden bg-neutral-900/60 backdrop-blur border ${border} shadow transition-transform hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950`}
+                  className={`group rounded-xl overflow-hidden bg-surface-alt/70 backdrop-blur border ${border} shadow transition-transform hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                 >
                   <div className="p-4 flex flex-col gap-2 min-h-[150px]">
                     <h2 className="text-lg font-semibold group-hover:text-blue-300 transition-colors">
                       {post.metadata.title}
                     </h2>
-                    <p className="text-neutral-400 tabular-nums text-xs">
+                    <p className="text-foreground tabular-nums text-xs">
                       {formatDate(post.metadata.publishedAt, false, locale)}
                     </p>
                     {post.metadata.summary && (
-                      <p className="text-sm text-neutral-300 line-clamp-3">
+                      <p className="text-sm text-foreground line-clamp-3">
                         {post.metadata.summary}
                       </p>
                     )}

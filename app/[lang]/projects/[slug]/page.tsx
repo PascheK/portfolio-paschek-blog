@@ -110,9 +110,9 @@ export default async function ProjectPage({ params }) {
           {project.metadata.title}
         </h1>
         {published && (
-          <span className="text-xs text-neutral-400 mb-2">{published}</span>
+          <span className="text-xs text-muted-foreground mb-2">{published}</span>
         )}
-        <p className="text-neutral-400 text-center mb-2 max-w-xl">{project.metadata.summary}</p>
+        <p className="text-foreground text-center mb-2 max-w-xl">{project.metadata.summary}</p>
         <div className="mt-3 flex flex-wrap gap-2 justify-center">
           {project.metadata.demoUrl && (
             <a
@@ -129,7 +129,7 @@ export default async function ProjectPage({ params }) {
               href={project.metadata.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded bg-neutral-700 text-neutral-100 hover:bg-blue-900 transition-colors shadow"
+              className="inline-block px-4 py-2 rounded bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow border border-border"
             >
               {lang === "fr" ? "Code source" : "Source code"}
             </a>
@@ -151,7 +151,7 @@ export default async function ProjectPage({ params }) {
           <CustomMDX source={project.content} />
         </article>
       ) : (
-        <div className="text-center text-neutral-400">Aucun contenu détaillé disponible pour ce projet.</div>
+        <div className="text-center text-muted-foreground">Aucun contenu détaillé disponible pour ce projet.</div>
       )}
     </section>
   );

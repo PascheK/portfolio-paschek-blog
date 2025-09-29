@@ -103,12 +103,12 @@ export default async function Blog({ params }) {
           {post.metadata.title}
         </h1>
         {post.metadata.publishedAt && (
-          <span className="text-xs text-neutral-400 mb-2">
+          <span className="text-xs text-muted-foreground mb-2">
             {formatDate(post.metadata.publishedAt, false, (lang ?? "en") === "fr" ? "fr-FR" : "en-US")}
           </span>
         )}
         {post.metadata.summary && (
-          <p className="text-neutral-400 text-center mb-2 max-w-xl">
+          <p className="text-foreground text-center mb-2 max-w-xl">
             {post.metadata.summary}
           </p>
         )}

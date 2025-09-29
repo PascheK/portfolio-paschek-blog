@@ -178,7 +178,7 @@ export default function ProjectsGrid({
               >
                 <Link
                   href={`/${lang}/projects/${project.slug}`}
-                  className={`group rounded-xl overflow-hidden bg-neutral-900/60 backdrop-blur border ${border} shadow transition-transform hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950`}
+                  className={`group rounded-xl overflow-hidden bg-surface-alt/70 dark:bg-surface-alt/30 backdrop-blur border ${border} shadow transition-transform hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                 >
                   {project.metadata.image && (
                     <div className="relative h-40 w-full overflow-hidden">
@@ -197,12 +197,12 @@ export default function ProjectsGrid({
                       {project.metadata.title}
                     </h2>
                     {project.metadata.publishedAt && (
-                      <p className="text-neutral-400 tabular-nums text-xs">
+                      <p className="text-muted-foreground tabular-nums text-xs">
                         {formatDate(project.metadata.publishedAt, false, lang === "fr" ? "fr-FR" : "en-US")}
                       </p>
                     )}
                     {project.metadata.summary && (
-                      <p className="text-sm text-neutral-300 line-clamp-3">
+                      <p className="text-sm text-muted-foreground line-clamp-3">
                         {project.metadata.summary}
                       </p>
                     )}
@@ -211,7 +211,7 @@ export default function ProjectsGrid({
                         {parseTags(project.metadata.tags).map((tag) => (
                           <span
                             key={tag}
-                            className="px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300 text-xs border border-neutral-700"
+                            className="px-2 py-0.5 rounded-full bg-surface-alt/70 dark:bg-surface-alt/30 text-muted-foreground text-xs border border-border"
                           >
                             {tag}
                           </span>

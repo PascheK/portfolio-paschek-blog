@@ -25,10 +25,10 @@ export function CategoryFilter({ categories, selected, onSelect, className = "" 
             onClick={() => onSelect(cat.value)}
             className={cn(
               buttonVariants({ variant: isActive ? "default" : "outline", size: "sm" }),
-              "rounded-full transition-transform duration-150 focus-visible:scale-[1.03] hover:scale-[1.02]",
+              "rounded-full transition-transform duration-150 focus-visible:scale-[1.03] hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               isActive
-                ? "bg-gradient-to-r from-blue-600 to-pink-500 text-white border-transparent shadow-md"
-                : "text-neutral-200"
+                ? "bg-gradient-to-r from-primary to-accent text-primary-foreground border-transparent shadow-md"
+                : "bg-surface-alt/70 dark:bg-surface-alt/30 text-muted-foreground border-border hover:text-foreground"
             )}
           >
             {cat.label}

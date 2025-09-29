@@ -3,6 +3,8 @@ import Link from "next/link";
 import React from "react";
 import { Menu, X } from "lucide-react";
 import { LanguageSelect } from "@/components/languageSelect";
+import { useTheme } from "@/components/ui/theme-provider";
+import { Sun, Moon } from "lucide-react";
 import { metaData } from "@/lib/config";
 import { usePathname } from "next/navigation";
 
@@ -25,6 +27,7 @@ function TimezoneDisplay() {
   return <span className="text-sm text-neutral-500">{time}</span>;
 }
 function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
+  const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const navItems = {
     [`/${lang}/blog`]: { name: dict.nav.blog },
@@ -81,7 +84,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
     };
   }, [menuOpen]);
   return (
-    <nav className="lg:mb-16 mb-12 sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-neutral-950/65 bg-neutral-950/80 text-white" role="navigation" aria-label={`${metaData.name} primary navigation`}>
+    <nav className="lg:mb-16 mb-12 sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-background/65 bg-background/80 text-foreground border-b border-border after:absolute after:inset-0 after:pointer-events-none after:bg-gradient-to-b after:from-foreground/5 after:to-transparent" role="navigation" aria-label={`${metaData.name} primary navigation`}>
       <div className="max-w-5xl mx-auto px-3 sm:px-4">
         <div className="py-3 sm:py-4 flex flex-wrap items-center justify-between gap-2">
           {/* Left: Language select + Timezone */}
@@ -91,7 +94,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
           </div>
           {/* Center: Title */}
           <div className="flex-1 flex justify-center order-first sm:order-none mb-2 sm:mb-0">
-            <span className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-md select-none">
+            <span className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-fuchsia-400 to-pink-400 bg-clip-text text-transparent drop-shadow-md select-none">
               <Link href={`/${lang}`}>
                 {metaData.name}
               </Link>
@@ -108,11 +111,11 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
                     href={path}
                     className={[
                       "group px-3 py-1.5 rounded font-medium transition-all duration-150",
-                      "text-neutral-200 hover:text-white",
+                      "text-muted-foreground hover:text-foreground",
                       active
-                        ? "bg-white/5 border border-white/10"
-                        : "hover:bg-white/5 border border-transparent",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950",
+                        ? "bg-surface-alt border border-border"
+                        : "hover:bg-surface-alt/70 border border-transparent",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     ].join(" ")}
                     aria-current={active ? "page" : undefined}
                   >
@@ -130,9 +133,18 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
                 );
               })}
             </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? (dict.a11y?.setLightTheme ?? 'Activer le thème clair') : (dict.a11y?.setDarkTheme ?? 'Activer le thème sombre')}
+              aria-pressed={theme === 'dark'}
+              className="p-2 rounded border border-border bg-surface-alt/60 hover:bg-surface-alt transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              {theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </button>
             {/* Burger menu for mobile */}
             <button
-              className="md:hidden p-2 rounded hover:bg-white/5 border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+              className="md:hidden p-2 rounded hover:bg-surface-alt/70 border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               onClick={() => setMenuOpen(v => !v)}
               aria-label={menuOpen ? (dict.a11y?.closeMenu ?? 'Close menu') : (dict.a11y?.openMenu ?? 'Open menu')}
               aria-expanded={menuOpen}
@@ -151,7 +163,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
         <div className="md:hidden relative">
           {/* overlay */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-[1px] cursor-default"
+            className="fixed inset-0 bg-background/60 backdrop-blur-[2px] cursor-default"
             aria-hidden="true"
             role="presentation"
             onClick={() => setMenuOpen(false)}
@@ -164,11 +176,11 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
             className="absolute left-0 right-0 top-0 px-3 sm:px-4 pt-2 pb-4 animate-in fade-in-0 zoom-in-95"
             ref={panelRef}
           >
-            <div className="mx-2 rounded-xl border border-white/10 bg-neutral-950/90 backdrop-blur shadow-lg">
+            <div className="mx-2 rounded-xl border border-border bg-surface-alt/90 backdrop-blur shadow-lg">
               <div className="flex items-center justify-between px-3 py-2">
-                <span className="text-sm text-neutral-400">{metaData.name}</span>
+                <span className="text-sm text-muted-foreground">{metaData.name}</span>
                 <button
-                  className="p-2 rounded hover:bg-white/5 border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                  className="p-2 rounded hover:bg-surface-alt border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={() => setMenuOpen(false)}
                   aria-label={dict.a11y?.closeMenu ?? 'Close menu'}
                 >
@@ -181,7 +193,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
                     <Link
                       key={path}
                       href={path}
-                      className="px-3 py-2 rounded-lg border border-white/10 bg-white/0 hover:bg-white/[0.06] transition-colors font-medium text-neutral-200 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                      className="px-3 py-2 rounded-lg border border-border bg-surface-alt/30 hover:bg-surface-alt transition-colors font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       onClick={() => setMenuOpen(false)}
                     >
                       {name}

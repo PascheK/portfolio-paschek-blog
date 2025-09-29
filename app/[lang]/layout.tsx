@@ -9,6 +9,7 @@ import { getDictionary } from "@/lib/dictionaries";
 import { Suspense } from "react";
 import { Loader } from "@/components/ui/loader";
 import PageTransition from "@/components/ui/page-transition";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'fr' }];
@@ -58,7 +59,7 @@ export default async function RootLayout({
   const dict = await getDictionary(lang);
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang}>
       <head>
         <link
           rel="alternate"
@@ -80,7 +81,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased min-h-screen font-sans flex flex-col bg-code-grid text-foreground transition-colors">
-
+        <ThemeProvider>
           <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
             <Navbar dict={dict} lang={lang} />
           </Suspense>
@@ -90,6 +91,7 @@ export default async function RootLayout({
           <Footer dict={dict} />
           <Analytics />
           <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );

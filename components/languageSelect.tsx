@@ -25,13 +25,13 @@ const LanguageSelect = ({ dict }: { dict?: any }) => {
 
   return (
     <Select value={currentLang} onValueChange={onSwitch}>
-      <SelectTrigger className="w-32 px-2 py-1.5 rounded border border-white/10 bg-white/0 hover:bg-white/[0.06] text-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950" aria-label={dict?.a11y?.language ?? 'Language'}>
+  <SelectTrigger className="w-32 px-2 py-1.5 rounded border border-border bg-surface-alt/40 hover:bg-surface-alt text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background" aria-label={dict?.a11y?.language ?? 'Language'}>
         <Globe className="mr-2 size-4" />
         <SelectValue />
       </SelectTrigger>
-      <SelectContent className="rounded-md border border-white/10 bg-neutral-950/95 text-neutral-100 shadow-lg">
-        <SelectItem value="fr" className="px-3 py-2 hover:bg-white/[0.06] focus:bg-white/[0.06] rounded">{dict?.lang?.fr ?? 'Français'}</SelectItem>
-        <SelectItem value="en" className="px-3 py-2 hover:bg-white/[0.06] focus:bg-white/[0.06] rounded">{dict?.lang?.en ?? 'English'}</SelectItem>
+      <SelectContent className="rounded-md border border-border bg-surface-alt/95 text-foreground shadow-lg">
+        <SelectItem value="fr" className="px-3 py-2 hover:bg-surface-alt focus:bg-surface-alt rounded">{dict?.lang?.fr ?? 'Français'}</SelectItem>
+        <SelectItem value="en" className="px-3 py-2 hover:bg-surface-alt focus:bg-surface-alt rounded">{dict?.lang?.en ?? 'English'}</SelectItem>
       </SelectContent>
     </Select>
   );

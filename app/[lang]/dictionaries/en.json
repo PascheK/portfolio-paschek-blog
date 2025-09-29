@@ -81,27 +81,49 @@
     "experienceTitle": "Experience",
     "experiences": [
       {
-        "title": "Software Engineer",
+        "title": "Information Management & Analysis Associate (Lead)",
         "org": "UNOPS",
-        "period": "2023 — Present",
-        "description": "Contributing to digital solutions with a focus on reliability and accessibility."
+        "period": "Apr 21, 2025 — Present",
+        "description": "Supporting information management and analytical reporting for digital decision-support solutions."
       },
       {
         "title": "Web Lead",
-        "org": "Giron 2026",
-        "period": "2024 — 2026",
-        "description": "Built and maintained the event’s digital platform."
+        "org": "Jeunesse de Porsel",
+        "period": "2021 — Present",
+        "description": "Implemented and maintained the event / association digital platform."
       },
       {
         "title": "Personal Projects",
         "org": "Open Source",
         "period": "Ongoing",
-        "description": "Numerous side projects in AI, education and tooling."
+        "description": "Multiple projects around React, Next.js and Node.js released as open source."
+      },
+      {
+        "title": "Non-Commissioned Officer Training (Service)",
+        "org": "Swiss Army",
+        "period": "Jan 14, 2024 – Nov 01, 2024",
+        "description": "Discipline, teamwork, leadership, responsibility and loyalty strengthened through military service."
+      },
+      {
+        "title": "Electrical Installation Assistant",
+        "org": "Group",
+        "period": "Sep 01, 2023 – Dec 23, 2023",
+        "description": "Assisted on various electrical site installations."
+      },
+      {
+        "title": "Full‑stack Developer Intern",
+        "org": "Plurial SA",
+        "period": "Feb 15, 2023 – May 15, 2023",
+        "description": "Internship focused on full‑stack application development."
       }
     ],
     "skills": {
       "title": "Skills",
       "items": [
+        "Java",
+        "JavaScript",
+        "Spring Boot",
+        "Express.js",
         "React",
         "Next.js",
         "TypeScript",
@@ -120,7 +142,7 @@
         {
           "degree": "Federal VET Diploma in Computer Science (CFC)",
           "school": "Switzerland",
-          "year": "—"
+          "year": "2019-2023"
         }
       ]
     },

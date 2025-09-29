@@ -8,6 +8,7 @@ import { YouTubeComponent } from "./youtube";
 import { ImageGrid } from "./image-grid";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import "katex/dist/katex.min.css";
 
 function CustomLink(props) {
@@ -55,15 +56,12 @@ function Table({ data }) {
   );
 }
 
-function Strikethrough(props) {
-  return <del {...props} />;
-}
 
 function Callout(props) {
   return (
-    <div className="px-4 py-3 bg-[#181818] rounded p-1 text-sm flex items-centertext-neutral-100 mb-8">
-      <div className="flex items-center w-4 mr-4">{props.emoji}</div>
-      <div className="w-full callout leading-relaxed">{props.children}</div>
+    <div className="px-4 py-3 rounded-lg text-sm flex gap-3 mb-8 bg-surface-muted border border-border">
+      {props.emoji && <div className="flex items-center w-5 shrink-0 select-none">{props.emoji}</div>}
+      <div className="w-full leading-relaxed text-foreground/90">{props.children}</div>
     </div>
   );
 }
@@ -113,7 +111,6 @@ let components = {
   YouTube: YouTubeComponent,
   code: Code,
   Table,
-  del: Strikethrough,
   Callout,
 };
 
@@ -124,7 +121,7 @@ export function CustomMDX(props) {
       components={{ ...components, ...(props.components || {}) }}
       options={{
         mdxOptions: {
-          remarkPlugins: [remarkMath],
+          remarkPlugins: [remarkMath, remarkGfm],
           rehypePlugins: [rehypeKatex],
         },
       }}

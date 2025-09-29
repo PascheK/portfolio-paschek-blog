@@ -15,7 +15,6 @@ function getPreferredLocale(request: Request) {
 
 export function middleware(request: Request) {
   const { pathname } = new URL(request.url);
-
   // Ignore Next internals, API & fichiers statiques
   if (
     pathname.startsWith('/_next') ||
