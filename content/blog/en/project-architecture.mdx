@@ -3,7 +3,7 @@ title: "Designing a Multilingual Themed Portfolio in Next.js"
 publishedAt: "2025-09-28"
 summary: "Architecture decisions behind a bilingual, MDX-driven, themed portfolio with accessible UI and animated UX."
 tags: "nextjs,i18n,architecture,mdx,design-system"
-image: "/opengraph-image.png"
+image: "/blogs/paschek.png"
 ---
 
 > A deep dive into how this portfolio was structured: from language routing and content loading to theming tokens and project filtering.
@@ -70,8 +70,14 @@ Projects & blog posts share the same shape: `{ metadata, slug, content }` → en
 Tokens defined in `:root` for light and overridden in `.dark`:
 
 ```css
-:root { --background: oklch(1 0 0); --foreground: oklch(0.145 0 0); /* ... */ }
-.dark { --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0); }
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0); /* ... */
+}
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+}
 ```
 
 Extended surfaces: `--surface`, `--surface-alt`, `--surface-muted`, enabling layered depth without ad‑hoc colors.
@@ -94,7 +100,10 @@ Solution: keep `allProjects` constant and derive `filteredProjects` with a memo:
 
 ```ts
 const filteredProjects = useMemo(
-  () => selected === '__all__' ? allProjects : allProjects.filter(p => categoriesOf(p).includes(selected)),
+  () =>
+    selected === "__all__"
+      ? allProjects
+      : allProjects.filter((p) => categoriesOf(p).includes(selected)),
   [allProjects, selected]
 );
 ```
@@ -134,13 +143,13 @@ Rather than hardcoding JSX content, all sections derive from dictionary arrays (
 
 ## 12. Lessons Learned
 
-| Area | Insight |
-| ---- | ------- |
-| Filtering | Derive, never mutate original collections |
-| i18n | Keep language boundary explicit instead of fallback magic |
-| Theming | Introduce surface tokens early to avoid hard-coded branching |
-| Content | MDX + dictionaries cover 95% use cases cleanly |
-| Layout | Shared detail template reduces styling drift |
+| Area      | Insight                                                      |
+| --------- | ------------------------------------------------------------ |
+| Filtering | Derive, never mutate original collections                    |
+| i18n      | Keep language boundary explicit instead of fallback magic    |
+| Theming   | Introduce surface tokens early to avoid hard-coded branching |
+| Content   | MDX + dictionaries cover 95% use cases cleanly               |
+| Layout    | Shared detail template reduces styling drift                 |
 
 ## 13. Roadmap Ideas
 
