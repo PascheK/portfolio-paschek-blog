@@ -29,6 +29,10 @@ function TimezoneDisplay() {
 function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const [mounted, setMounted] = React.useState(false);
+
+  // Avoid hydration mismatch by deferring theme-driven UI until after mount.
+  React.useEffect(() => setMounted(true), []);
   const navItems = {
     [`/${lang}/blog`]: { name: dict.nav.blog },
     [`/${lang}/projects`]: { name: dict.nav.projects },
@@ -84,7 +88,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
     };
   }, [menuOpen]);
   return (
-    <nav className="lg:mb-16 mb-12 sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-background/65 bg-background/80 text-foreground border-b border-border after:absolute after:inset-0 after:pointer-events-none after:bg-gradient-to-b after:from-foreground/5 after:to-transparent" role="navigation" aria-label={`${metaData.name} primary navigation`}>
+    <nav className="lg:mb-16 mb-12 sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-background/65 bg-background/80 text-foreground border-b border-border after:absolute after:inset-0 after:pointer-events-none after:bg-gradient-to-b after:from-foreground/5 after:to-transparent" role="navigation" aria-label={`primary navigation`}>
       <div className="max-w-5xl mx-auto px-3 sm:px-4">
         <div className="py-3 sm:py-4 flex flex-wrap items-center justify-between gap-2">
           {/* Left: Language select + Timezone */}
@@ -136,11 +140,10 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
             <button
               type="button"
               onClick={toggleTheme}
-              aria-label={theme === 'dark' ? (dict.a11y?.setLightTheme ?? 'Activer le thème clair') : (dict.a11y?.setDarkTheme ?? 'Activer le thème sombre')}
-              aria-pressed={theme === 'dark'}
+              aria-label={'theme'}
               className="p-2 rounded border border-border bg-surface-alt/60 hover:bg-surface-alt transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              {theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />}
+              {mounted ? (theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />) : <span className="size-5 inline-block" aria-hidden />}
             </button>
             {/* Burger menu for mobile */}
             <button

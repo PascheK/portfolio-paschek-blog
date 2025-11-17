@@ -1,43 +1,163 @@
 ---
-title: "Site Jeunesse de Porsel"
+title: "Jeunesse de Porsel – Site & Backend Complet"
 publishedAt: "2025-09-26"
-summary: "Site Next.js pour promouvoir les événements de la Jeunesse de Porsel."
-tags: ["Next.js", "TypeScript", "Tailwind"]
+summary: "Écosystème full-stack incluant un site Next.js moderne et un backend Spring Boot robuste pour gérer les événements, inscriptions, contacts, emails et OTP de la Jeunesse de Porsel."
+tags: ["Next.js", "TypeScript", "Spring Boot", "Java", "MariaDB"]
 image: "/projects/jeunesse.png"
-url: "https://example.com"
+url: "https://jeunessedeporsel.ch"
 repoUrl: "https://github.com/paschek/jeunesseporsel"
 ctaLabel: "Découvrir"
 ---
 
-## Aperçu
+# Aperçu général
 
-Le site Jeunesse de Porsel est une vitrine Next.js qui centralise les informations du théâtre, de la fondue et des contacts de la société de jeunesse. 
-La page d'accueil enchaîne bannières héroïques, mise en avant de la société et appels à l'action vers le microsite du Giron 2026 et les sections événements. 
-La partie théâtre réunit synopsis, horaires, portraits d'acteurs et consignes de réservation pour préparer les spectateurs. 
-Le module fondue récupère dynamiquement les créneaux, mêle carrousel photo et formulaires validés avec étapes et OTP pour gérer les inscriptions et modifications. 
-Un centre de contact piloté par Zod et une API Nodemailer garantissent l'envoi des messages et la confirmation côté public.
+La **Jeunesse de Porsel** m’a mandaté pour concevoir un écosystème complet regroupant :
 
-## Fonctionnalités
+- un **site Next.js** moderne et responsive,
+- un **module théâtre** avec portraits et galeries,
+- un **module fondue** avec parcours multi-étapes et OTP,
+- un **annuaire** des membres & du comité,
+- un **centre de contact** sécurisé,
+- et un **backend Spring Boot** gérant les événements, inscriptions, emails et codes OTP.
 
-- Navigation responsive avec en-tête desktop, menu latéral mobile et appels à l'action reliant chaque grande section du site. 
-- Espace théâtre narratif combinant carrousel héroïque, synopsis, fiches pratiques, cartes acteurs et résumé de réservation. 
-- Parcours fondue avec récupération dynamique des événements, rafraîchissement par contexte, inscription en plusieurs étapes et modifications sécurisées par OTP. 
-- Carrousel réutilisable propulsé par Embla avec zoom pour les galeries et portraits d'acteurs basés sur les constantes partagées. 
-- Annuaire de la société mettant en avant le comité et la liste alphabétique des membres issue du magasin de constantes. 
-- Formulaire de contact relié aux routes API Next.js et au transport Nodemailer pour un double envoi des messages. 
+L’ensemble forme une solution unifiée destinée à améliorer la gestion interne de la société et l’expérience des visiteurs.
 
-## Stack technique
+---
 
-- Next.js 15 et React 19 RC pour l'expérience app router. 
-- TypeScript, Zod et React Hook Form pour la validation typée des formulaires interactifs. 
-- Tailwind CSS, primitives Radix UI et Embla Carousel pour le style, les patterns d'interface et les animations. 
-- Nodemailer et les packages Vercel Analytics pour la communication et l'observabilité en production. 
+# 🎨 1. Frontend – Site Next.js
+Le site est la vitrine principale de la Jeunesse de Porsel.  
+Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, contact.
 
-## Rôle & Contribution
+## Fonctionnalités principales
 
-Contribuer en tant que développeur·euse full-stack Next.js pour peaufiner les parcours immersifs, factoriser les carrousels, fiabiliser les formulaires d'inscription et maintenir les connecteurs API vers les services d'enregistrement externes tout en soignant les retours via toasts. 
+### 🏠 Page d’accueil
+- Hero visuel
+- CTA vers Théâtre, Fondue, Giron 2026
+- Présentation de la société
 
-## Liens
+### 🎭 Module Théâtre
+- Carrousel Embla pour les visuels du spectacle  
+- Synopsis & présentation des rôles  
+- Portraits des acteurs avec zoom  
+- Informations pratiques (horaires, billetterie)
 
-- [Démo en ligne](https://example.com)
-- [Dépôt GitHub](https://github.com/paschek/jeunesseporsel)
+### 🍲 Module Fondue – Réservations
+- Parcours multi-étapes :
+  - choix de la date
+  - nombre de personnes
+  - données personnelles  
+- Validation stricte via **Zod + RHF**
+- Vérification par **OTP** (6 chiffres)
+- Modification sécurisée d’une réservation
+- Emails de confirmation
+
+### 🧑‍🤝‍🧑 Annuaire de la société
+- Comité  
+- Membres  
+- Données centralisées via store interne
+
+### ✉️ Centre de contact
+- Formulaire typé (Zod)
+- Envoi via API Route Next.js
+- Transport d’email avec **Nodemailer**
+- Double envoi : administration + utilisateur
+
+---
+
+## 🧰 Stack technique frontend
+
+- **Next.js 15** (App Router)
+- **React 19 RC**
+- **TypeScript**
+- **Tailwind CSS**
+- **Radix UI**
+- **Embla Carousel**
+- **React Hook Form + Zod**
+- **Nodemailer**
+- **Vercel Analytics**
+
+---
+
+## 👤 Rôle & contributions (Frontend)
+
+- Conception UI/UX complète du site  
+- Module Théâtre : pages, carrousels, portraits  
+- Module Fondue : multi-étapes, OTP, emails  
+- Annuaire du comité et des membres  
+- Formulaire de contact et API email  
+- Animations, responsive design et optimisations  
+
+---
+
+# ⚙️ 2. Backend – API Spring Boot
+
+Le backend centralise toute la logique métier.  
+Il communique avec le frontend Next.js via une API REST documentée et sécurisée.
+
+## Fonctionnalités principales
+
+### 📅 Gestion des événements
+- Création et listing des événements (fondue, théâtre)
+- Définition des capacités de places
+
+### 🧾 Gestion des inscriptions
+- Création d’une réservation  
+- Mise à jour atomique du quota disponible  
+- Vérification stricte des doublons (nom + email + événement)  
+- Modification sécurisée via OTP
+
+### 🔐 Workflow OTP
+- Code à 6 chiffres  
+- Expiration après 5 minutes  
+- Destiné à la validation & modification d’inscriptions  
+
+### ✉️ Emails transactionnels
+- Confirmation  
+- Modification  
+- Notification interne  
+- Templates FreeMarker personnalisés  
+- Envois via JavaMail
+
+### 📊 Observabilité & documentation
+- Endpoints **Actuator**
+- **OpenAPI / Swagger UI**
+- Logs de suivi
+
+---
+
+## 🧰 Stack technique backend
+
+- Spring Boot (Web, Validation, JPA, Actuator)  
+- Java 17  
+- MariaDB + JDBC  
+- Lombok  
+- Spring Mail  
+- FreeMarker (templates emails)  
+- OpenAPI / Swagger UI  
+- Maven Spring Boot Plugin  
+
+---
+
+## 👤 Rôle & contributions (Backend)
+
+- Conception du modèle de données  
+- Création de l’API REST complète  
+- Règles métier : capacité, doublons, transactions  
+- Implémentation complète du workflow OTP  
+- Configuration des emails (JavaMail + FreeMarker)  
+- Documentation OpenAPI & supervision Actuator  
+- Optimisation MariaDB et indexation  
+
+---
+
+#  📸 Images
+
+<img src="/projects/stack_jeunesse.png" width="1500" height="150" />
+
+---
+
+# 🔗 Liens
+
+- 🌐 Démo en ligne : https://jeunessedeporsel.ch  
+- 💻 Frontend GitHub : https://github.com/paschek/jeunesseporsel  
+- ⚙️ Backend GitHub : https://github.com/your-username/jeunesseporselbackend  

@@ -19,20 +19,24 @@ function getPreferredTheme(): Theme {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => getPreferredTheme());
+  // Start with a deterministic value so SSR and the first client render match.
+  const [theme, setThemeState] = useState<Theme>('light');
 
-  const setTheme = (t: Theme) => {
+  const setTheme = React.useCallback((t: Theme) => {
     setThemeState(t);
-    try { window.localStorage.setItem('theme', t); } catch { }
+    try { window.localStorage.setItem('theme', t); } catch { /* ignore */ }
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-theme', t);
     }
-  };
+  }, []);
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   useEffect(() => {
-    setTheme(theme); // ensure attribute sync on mount
+    // Read user/system preference only after mount to avoid hydration mismatch.
+    const preferred = getPreferredTheme();
+    setTheme(preferred);
+
     // listen to system changes if user hasn't explicitly chosen
     const stored = window.localStorage.getItem('theme');
     if (!stored) {
@@ -43,8 +47,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       mql.addEventListener('change', handler);
       return () => mql.removeEventListener('change', handler);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setTheme]);
 
   const value: ThemeContextValue = { theme, setTheme, toggleTheme };
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -1,0 +1,169 @@
+---
+title: "Mon homelab sur Dell R730 : Docker, proxy et services auto-hébergés"
+publishedAt: "2025-11-17"
+summary: "Retour sur la mise en place de mon homelab basé sur un Dell PowerEdge R730 : stack Docker, reverse proxy, Nextcloud, WordPress et bonnes pratiques de self-hosting."
+tags: "homelab,devops,docker,reverse-proxy,self-hosting"
+image: "/blogs/homelab.png"
+---
+
+> Ce billet documente mon homelab : un Dell R730 qui héberge plusieurs services (Nextcloud, WordPress, bases de données…) derrière un reverse proxy Docker. L’idée est autant d’apprendre le DevOps que de disposer d’une infra dont je suis entièrement responsable.
+
+## 1. Pourquoi monter un homelab ?
+
+Je voulais un environnement qui me permette de :
+
+- **comprendre comment les applis tournent vraiment** (réseau, volumes, logs, mises à jour)  [oai_citation:0‡DEV Community](https://dev.to/code42cate/every-developer-needs-to-self-host-43mm?ref=dailydev&utm_source=chatgpt.com)  
+- tester des stacks complètes (web + base de données + proxy) sans dépendre d’un fournisseur cloud,
+- héberger de vrais services pour mes projets (Jeunesse, Giron, projets perso),
+- me former aux réflexes **DevOps / SRE** : monitoring, sauvegardes, sécurité.
+
+Le homelab est devenu mon **bac à sable sérieux** : ce n’est pas un environnement de prod “critique”, mais il tourne 24/7 et héberge des choses utiles.
+
+---
+
+## 2. Matériel & OS
+
+- **Serveur** : Dell PowerEdge R730
+- **Rôle** : machine principale du homelab (compute + stockage)
+- **OS** : Ubuntu Server
+- **Virtualisation / conteneurs** : Docker + Docker Compose
+
+Le but n’est pas d’empiler 15 hyperviseurs, mais d’avoir une base simple et maîtrisée : **un seul hôte Linux + des stacks Docker claires**.
+
+---
+
+## 3. Stack Docker & services
+
+Mon homelab est organisé en plusieurs **stacks Docker** logiques, toutes reliées par un réseau interne et un reverse proxy en frontal.
+
+### 3.1. Reverse proxy
+
+En frontal, un reverse proxy gère :
+
+- les **vhosts** (domaines / sous-domaines),
+- la terminaison **HTTPS** (certificats Let’s Encrypt),
+- le routage vers les bons conteneurs (WordPress, Nextcloud, outils internes).  [oai_citation:1‡GitHub](https://github.com/mikeroyal/Self-Hosting-Guide?utm_source=chatgpt.com)  
+
+Concrètement, ça me permet d’accéder à mes services avec des URLs propres du type :
+
+- `https://cloud.mondomaine.ch`
+- `https://giron2026.ch`
+- `https://tools.mondomaine.ch`
+
+…sans avoir à me souvenir des IP + ports.
+
+### 3.2. Nextcloud
+
+Un conteneur **Nextcloud** sert de hub pour :
+
+- les documents des projets (Jeunesse, Giron, ONU, école),
+- les fichiers partagés avec les comités,
+- le stockage de backups ou d’exports.
+
+Stack typique :
+
+- `nextcloud` (PHP + app),
+- `db_nextcloud` (MariaDB),
+- éventuellement Redis pour le cache,
+- volumes persistants montés sur le serveur.
+
+### 3.3. Site WordPress
+
+Pour certains projets (comme le Giron de Porsel 2026), j’héberge un **WordPress** en Docker :
+
+- stack `wordpress + mariadb`,
+- thème Astra Pro + Elementor côté contenu,
+- cache + optimisation des médias.
+
+Le reverse proxy se charge d’exposer le site de manière sécurisée sur le domaine public.
+
+### 3.4. Bases de données & services internes
+
+En plus de Nextcloud et WordPress, le homelab héberge :
+
+- des **bases MariaDB / PostgreSQL** dédiées à certains projets,
+- des outils internes (par exemple, monitoring / admin SQL),
+- des conteneurs “utilitaires” (tests, scripts, jobs).
+
+Chaque service a :
+
+- son propre **network** interne,
+- ses **volumes** montés,
+- des variables d’environnement gérées proprement.
+
+---
+
+## 4. Organisation des stacks & réseau
+
+Je structure mes stacks Docker par “domaine fonctionnel” :
+
+- `reverse-proxy`  
+- `cloud` (Nextcloud + DB)  
+- `web` (WordPress + sites liés)  
+- `db` (bases partagées / internes)  
+
+Principes :
+
+- Un **network Docker par stack**, plus un **network “proxy”** partagé.
+- Les services sensibles (DB, admin) ne sont **jamais exposés directement** à internet.
+- Seul le reverse proxy écoute sur les ports 80/443 de la machine.
+
+Cette séparation réduit le risque d’erreur (exposer une DB par accident, par exemple).
+
+---
+
+## 5. Sécurité & bonnes pratiques
+
+Quelques règles que j’applique systématiquement :
+
+- Mise à jour régulière de l’OS et des images Docker.
+- Pas de ports ouverts publiquement hors 80/443 (et éventuellement SSH restreint).
+- Mots de passe forts + gestion des secrets dans des fichiers séparés ou un outil dédié.  [oai_citation:2‡infisical.com](https://infisical.com/blog/self-hosting-infisical-homelab?utm_source=chatgpt.com)  
+- Logs de base consultables via `docker logs` + fichiers sur l’hôte.
+- Accès aux services internes via VPN ou réseau local uniquement.
+
+L’idée n’est pas d’être “paranoïaque”, mais de partir du principe que **tout service exposé sera scanné** tôt ou tard.
+
+---
+
+## 6. Sauvegardes & résilience
+
+Je travaille progressivement à structurer les backups :
+
+- exports réguliers des bases de données (dump SQL),
+- snapshots des volumes critiques (Nextcloud, WordPress),
+- synchronisation vers un autre stockage (NAS / cloud chiffré).
+
+Objectif : être capable de **recréer une stack** à partir de la doc + des backups sans y passer des jours.
+
+---
+
+## 7. Ce que m’apporte le homelab
+
+Au-delà de l’aspect “geek”, le homelab m’oblige à :
+
+- penser comme un **opérateur**, pas seulement comme un dev,
+- comprendre les couches réseau (DNS, proxy, SSL, ports),
+- faire attention à la **sécurité** et aux pannes,
+- documenter ce que je fais pour pouvoir le rejouer plus tard.
+
+Ce sont des compétences directement utiles :
+
+- pour mes projets clients (Jeunesse, Giron, ONU),
+- pour mes projets perso (m3ntha, PascheK-ChatBox),
+- et pour un futur **stage à l’étranger** ou un poste orienté DevOps / full-stack.
+
+---
+
+## 8. Roadmap pour la suite
+
+Les prochaines étapes pour mon homelab :
+
+- Ajouter un **monitoring** (Netdata, Prometheus / Grafana) pour suivre l’état du serveur.  [oai_citation:3‡GitHub](https://github.com/mikeroyal/Self-Hosting-Guide?utm_source=chatgpt.com)  
+- Mettre en place plus d’**infra as code** (scripts et fichiers de config versionnés).
+- Automatiser davantage les sauvegardes et les tests de restauration.
+- Documenter l’ensemble comme un vrai projet client (diagrammes, README, playbooks).
+
+---
+
+Mon homelab n’est pas parfait, mais il est **vivant** : j’y apprends des choses que je ne verrais jamais sur un simple déploiement “one-click” dans le cloud. Et c’est exactement ce que je cherchais.

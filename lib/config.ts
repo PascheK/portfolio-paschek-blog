@@ -11,4 +11,5 @@ export const socialLinks = {
   github: "https://github.com/paschek/portfolio-paschek-blog",
   instagram: "https://www.instagram.com/paschek7",
   email: "mailto:killian.pasche7@gmail.com",
+  telephone: "tel:+41763103560",
 };

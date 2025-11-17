@@ -53,13 +53,13 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: 'en' | 'fr' }>;
+  params: { lang: 'en' | 'fr' };
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
 
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <link
           rel="alternate"
@@ -96,4 +96,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

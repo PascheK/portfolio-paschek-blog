@@ -1,0 +1,213 @@
+---
+title: "Feuille de route de mes projets futurs"
+publishedAt: "2025-11-17"
+summary: "Une vision structurée de l’évolution de mes projets personnels : PascheK-ChatBox, m3ntha, mon homelab, un futur stage à l’étranger et de nouveaux outils open source."
+tags: "roadmap,portfolio,side-projects,nextjs,devops,ai,mobilite"
+image: "/blogs/futur.png"
+---
+
+> Plutôt qu’une to-do list vague, ce billet pose une feuille de route réaliste pour mes projets perso : ce que je veux améliorer, ce qui est en pause, ce que je prépare pour la suite… et où s’inscrit un possible stage à l’étranger dans tout ça.
+
+## 1. Contexte & intention
+
+Mes projets perso (PascheK-ChatBox, m3ntha, homelab, outils pédagogiques…) évoluent vite, souvent au gré des idées et des besoins du moment.  
+Je voulais prendre un temps de recul pour :
+
+- Clarifier **où je veux aller** avec ces projets.
+- Poser des **priorités** (tout n’a pas besoin d’être fait _maintenant_).
+- Réfléchir à ce qui est **showcase** pour mon portfolio (valeur pour un recruteur / client), et ce qui reste plutôt expérimental.
+- Positionner un **stage à l’étranger** comme une brique de cette progression, pas juste comme une parenthèse.
+
+Cette feuille de route n’est pas un contrat, mais un **cap**.
+
+---
+
+## 2. Axes principaux
+
+Je découpe mes projets futurs en quatre grands axes :
+
+1. **Consolider ce qui existe déjà**  
+2. **Faire évoluer m3ntha vers un vrai produit**  
+3. **Structurer mon homelab comme une infra “pro”**  
+4. **Lier mes projets à une expérience internationale (stage à l’étranger)**  
+5. **Lancer de nouveaux mini-projets ciblés (open source & pédagogie)**
+
+_(Oui, ça fait cinq axes, mais ils se recoupent souvent dans la pratique.)_
+
+---
+
+## 3. Consolider les projets existants
+
+### 3.1. PascheK-ChatBox
+
+Objectif : transformer PascheK-ChatBox d’un “gros side project sympa” en un outil que je peux montrer comme **référence solide** en IA + Electron.
+
+Pistes d’évolution :
+
+- Revoir l’UX pour la rendre plus claire (projets, sessions, fichiers).
+- Stabiliser le packaging Electron (release macOS + Windows, auto-update).
+- Améliorer le module RAG :
+  - meilleure vue sur les documents indexés,
+  - feedback visuel sur les chunks utilisés dans une réponse.
+- Ajouter une ou deux démos “clés en main” :
+  - analyse de repo,
+  - préparation de fichier de cours,
+  - résumé de PDF volumineux.
+
+### 3.2. Projet Histoire & contenus pédagogiques
+
+Je veux garder une place pour des projets **pédagogiques** :
+
+- Factoriser le projet Histoire pour en faire un **template de site de cours**.
+- Expérimenter un **système de fiches** (Obsidian / MDX) avec rendu web.
+- Documenter davantage le “workflow” : préparation, plan, supports, etc.
+
+---
+
+## 4. Faire évoluer m3ntha en produit
+
+m3ntha est aujourd’hui un **CMS en construction** : auth custom, UI thémée, dashboard, bientôt Stripe et un vrai éditeur.
+
+### 4.1. Étape “Produit minimum”
+
+Je veux d’abord atteindre un **MVP cohérent** :
+
+- Authentification stabilisée (login/signup, reset, email vérifié).
+- Dashboard clair :
+  - profil,
+  - projets/sites,
+  - facturation.
+- Intégration Stripe :
+  - plans (gratuit / standard / pro),
+  - gestion d’abonnements côté utilisateur.
+
+### 4.2. Étape “Éditeur & déploiement”
+
+Ensuite, je vise un **MVP d’éditeur CMS** :
+
+- Éditeur de pages avec blocs (texte, image, section, CTA).
+- Gestion de la structure d’un site (pages, menu, SEO de base).
+- Connexion au backend / Docker pour déployer un site depuis l’interface.
+
+Idée : que m3ntha devienne un **cas d’école** de stack full-stack moderne dans mon portfolio.
+
+---
+
+## 5. Structurer mon homelab comme une “infra pro”
+
+Mon homelab tourne déjà avec un Dell R730, Docker, reverse-proxy, Nextcloud, WordPress, bases de données…
+
+Les prochaines étapes :
+
+- Documenter l’infra comme si c’était un **client** :
+  - schémas réseau,
+  - diagramme des stacks Docker,
+  - politique de sauvegarde.
+- Mettre en place :
+  - monitoring (Prometheus / Grafana ou équivalent),
+  - alertes basiques (espace disque, conteneur down).
+- Faire un début de **“Infra as Code”** pour la partie Docker (compose + scripts reproductibles).
+
+L’objectif n’est pas d’avoir un “mini cloud hyperscale”, mais une infra **propre, comprise, reproductible**, que je peux expliquer en entretien.
+
+---
+
+## 6. Nouveaux mini-projets ciblés
+
+Je ne veux pas lancer dix nouveaux produits, mais quelques **mini-projets très ciblés** qui renforcent mon profil :
+
+- Un petit **design system / UI kit** open source (boutons, cartes, modales, thèmes).
+- Un package **utilitaires React / hooks** que j’utilise souvent (thème, modales, formulaires).
+- Un template open source de **site de cours** basé sur le projet Histoire.
+- Un exemple public de **storytelling géospatial** inspiré du projet Beryl, mais générique.
+
+Chaque mini-projet doit rester **faisable**, avec un scope clair, et être **réutilisable** dans mes autres projets.
+
+---
+
+## 7. Organisation & priorisation
+
+Pour ne pas partir dans tous les sens, je garde une logique simple :
+
+### Court terme (0–3 mois)
+
+- Stabiliser PascheK-ChatBox.  
+- Rendre le homelab mieux documenté.  
+- Rédiger ce genre de billets (blog technique / roadmap).
+
+### Moyen terme (3–9 mois)
+
+- Pousser m3ntha jusqu’au MVP produit.  
+- Publier 1–2 mini-projets open source.  
+
+### Long terme (9+ mois)
+
+- Élargir m3ntha (éditeur plus avancé, déploiements plus poussés).  
+- Industrialiser davantage l’infra (monitoring, IAC plus poussé).
+
+Le stage à l’étranger vient se plugger par-dessus cette timeline (voir section suivante).
+
+---
+
+## 8. Stage à l’étranger : une brique de la roadmap
+
+En parallèle de ces projets, je prépare aussi un **stage professionnel à l’étranger** dans la continuité de ma maturité professionnelle.
+
+L’idée n’est pas juste “d’aller voir ailleurs”, mais de :
+
+- confronter mes compétences de dev à un **contexte culturel et technique différent** ;
+- travailler sur de vrais projets dans mon domaine (idéalement web, data, ou outils internes) ;
+- **améliorer une langue** en situation réelle (anglais, éventuellement une autre) ;
+- revenir avec une vision plus large pour mes propres projets (m3ntha, PascheK-ChatBox, infra, etc.).
+
+Des programmes comme les stages hors Europe type **NextStep**, soutenus par les cantons / Movetia, offrent justement ce cadre :  
+un stage de **3 à 6 mois à 100 % dans son domaine de formation après la maturité professionnelle**, avec un accompagnement et un soutien financier pour la mobilité.  [NextStep](https://www.fr.ch/formation-et-ecoles/formation-professionnelle/stages-en-suisse-et-a-letranger)  
+
+### 8.1. Comment ça s’intègre avec mes projets ?
+
+Je vois ce stage comme une **extension naturelle** de ce que je construis déjà :
+
+- PascheK-ChatBox et m3ntha me servent de **vitrine technique** dans mon dossier.
+- Mon homelab et mes mandats (Jeunesse, Giron, ONU) montrent que je sais travailler sur des systèmes qui tournent “en vrai”.
+- Le stage, lui, ajoute :
+  - un contexte international,
+  - des contraintes d’équipe et d’organisation différentes,
+  - un autre regard sur mes pratiques (revues de code, process, etc.).
+
+### 8.2. Risques / réalités
+
+Un stage à l’étranger, c’est aussi :
+
+- **du temps** (3–6 mois pendant ou après la fin de formation).
+- de l’énergie administrative (dossier, langue, visa parfois).
+- un décalage temporaire sur certains projets perso.
+
+Mais ce décalage n’est pas une perte : c’est plutôt une **mise en pause créative**. Je préfère considérer ce stage comme un investissement direct dans la qualité de ce que je coderai ensuite.
+
+---
+
+## 9. Risques & réalités globales
+
+Tout ça reste **compatible avec la vraie vie** :
+
+- Il y a les études, le travail, les mandats (ONU, Jeunesse, Giron…).  
+- Un stage à l’étranger peut recaler certaines dates, mais enrichir énormément le contenu.  
+- Certains projets avanceront en “pics”, d’autres dormiront quelques mois.  
+
+C’est normal.  
+L’important : **ne pas culpabiliser** si tout n’avance pas au même rythme, tant que la direction globale reste cohérente.
+
+---
+
+## 10. Ce que je veux que ce blog reflète
+
+Avec ce billet, je veux que quelqu’un qui tombe sur mon portfolio comprenne :
+
+- que mes projets perso ne sont pas “juste des démos”, mais une **progression pensée** ;
+- que je réfléchis à la **valeur** de ce que je code (outil, produit, apprentissage, expérience internationale) ;
+- que je sais poser une **roadmap** réaliste, même pour mes propres idées.
+
+---
+
+Question sur cette roadmap, ou envie de suivre les avancées ?  
+Reviens voir ce blog, ou contacte-moi : je compte y documenter les prochaines étapes au fur et à mesure (y compris pour le stage à l’étranger).

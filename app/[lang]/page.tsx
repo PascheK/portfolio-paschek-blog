@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { getDictionary } from '@/lib/dictionaries';
 import { socialLinks } from '@/lib/config';
-import { Github, Linkedin, Mail, Instagram, ChevronDown, Code2, Database, Server } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram, ChevronDown, Code2, Database, Server, Phone } from "lucide-react";
 import Link from 'next/link';
 import { Reveal, RevealStagger, RevealItem } from '@/components/ui/reveal';
 import { getProjectPosts } from "@/lib/posts";
@@ -151,6 +151,8 @@ export default async function Page({
               { name: 'Instagram', href: socialLinks.instagram, Icon: Instagram },
               { name: 'GitHub', href: socialLinks.github, Icon: Github },
               { name: dict.home.contact.email, href: socialLinks.email, Icon: Mail },
+              { name: 'Tel', href: socialLinks.telephone, Icon: Phone },
+
             ].map(({ name, href, Icon }) => (
               <RevealItem key={name}>
                 <a href={href} target={name === 'E-mail' ? undefined : '_blank'} rel="noreferrer noopener" className="group flex items-center justify-between gap-3 rounded-xl bg-surface-alt/70 dark:bg-surface-alt/30 backdrop-blur border border-border p-4 shadow hover:border-primary/60">
