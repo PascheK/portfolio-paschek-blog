@@ -7,6 +7,8 @@ import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
+import { extractHeadings } from "@/lib/toc";
+import { TableOfContents } from "@/components/ui/table-of-contents";
 
 
 export async function generateStaticParams() {
@@ -65,12 +67,13 @@ export default async function ProjectPage({ params }) {
   if (!project) notFound();
 
   const locale = (lang ?? "en") === "fr" ? "fr-FR" : "en-US";
+  const headings = project.content ? extractHeadings(project.content) : [];
   const published = project.metadata.publishedAt
     ? formatDate(project.metadata.publishedAt, false, locale)
     : undefined;
 
   return (
-    <section className="max-w-3xl mx-auto px-4 py-8">
+    <section className="max-w-5xl mx-auto px-4 py-8">
       {project.metadata.image && (
         <div className="relative w-full h-56 mb-6 overflow-hidden rounded-xl border border-neutral-800">
           <Image
@@ -148,9 +151,15 @@ export default async function ProjectPage({ params }) {
         </div>
       </div>
       {project.content ? (
-        <article className="prose prose-invert mx-auto">
-          <CustomMDX source={project.content} />
-        </article>
+        <div className="mt-8 flex gap-8 lg:gap-12 items-start">
+          <TableOfContents
+            headings={headings}
+            title={(lang ?? "en") === "fr" ? "Sommaire" : "On this page"}
+          />
+          <article className="prose prose-invert mx-auto max-w-3xl flex-1">
+            <CustomMDX source={project.content} />
+          </article>
+        </div>
       ) : (
         <div className="text-center text-muted-foreground">Aucun contenu détaillé disponible pour ce projet.</div>
       )}

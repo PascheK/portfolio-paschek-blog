@@ -131,6 +131,13 @@
 
 html {
   min-width: 360px;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Typography adjustments: rely on tokens instead of fixed black/white */

@@ -10,6 +10,7 @@ import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import "katex/dist/katex.min.css";
+import { slugify } from "@/lib/slugify";
 
 function CustomLink(props) {
   let href = props.href;
@@ -64,17 +65,6 @@ function Callout(props) {
       <div className="w-full leading-relaxed text-foreground/90">{props.children}</div>
     </div>
   );
-}
-
-function slugify(str) {
-  return str
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/&/g, "-and-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-");
 }
 
 function createHeading(level) {

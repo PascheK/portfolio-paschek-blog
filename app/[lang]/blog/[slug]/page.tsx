@@ -7,6 +7,8 @@ import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
+import { extractHeadings } from "@/lib/toc";
+import { TableOfContents } from "@/components/ui/table-of-contents";
 
 export async function generateStaticParams() {
   // Default to English for prerendered slugs; per-language pages will be handled via [lang] segment
@@ -58,13 +60,14 @@ export default async function Blog({ params }) {
   const { slug, lang } = await params;
   const dict = await getDictionary(lang ?? "en");
   const post = getBlogPosts(lang ?? "en").find((p) => p.slug === slug);
+  const headings = post?.content ? extractHeadings(post.content) : [];
 
   if (!post) {
     notFound();
   }
 
   return (
-    <section className="max-w-3xl mx-auto px-4 py-8">
+    <section className="max-w-5xl mx-auto px-4 py-8">
       {post.metadata.image && (
         <div className="relative w-full h-56 mb-6 overflow-hidden rounded-xl border border-neutral-800">
           <Image
@@ -115,10 +118,15 @@ export default async function Blog({ params }) {
         )}
       </div>
 
-      <article className="prose prose-invert mx-auto">
-        <CustomMDX source={post.content} />
-
-      </article>
+      <div className="mt-8 flex gap-8 lg:gap-12 items-start">
+        <TableOfContents
+          headings={headings}
+          title={(lang ?? "en") === "fr" ? "Sommaire" : "On this page"}
+        />
+        <article className="prose prose-invert mx-auto max-w-3xl flex-1">
+          <CustomMDX source={post.content} />
+        </article>
+      </div>
 
       <div className="mt-10 flex justify-center">
         <Link
