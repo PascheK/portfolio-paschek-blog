@@ -74,6 +74,17 @@
     "display": "Affichage",
     "imageAlt": "Image de couverture pour {{title}}"
   },
+  "palette": {
+    "placeholder": "Rechercher articles, projets, actions…",
+    "noResults": "Aucun résultat",
+    "nav": "Navigation",
+    "content": "Contenu",
+    "actions": "Actions",
+    "toggleTheme": "Changer de thème",
+    "downloadCV": "Télécharger le CV",
+    "contact": "Contact",
+    "open": "Palette de commandes"
+  },
   "about": {
     "title": "À propos de moi",
     "tagline": "Développeur full‑stack passionné par le web et l’innovation.",

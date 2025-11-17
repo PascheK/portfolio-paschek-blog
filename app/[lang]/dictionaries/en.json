@@ -74,6 +74,17 @@
     "display": "Display",
     "imageAlt": "Cover image for {{title}}"
   },
+  "palette": {
+    "placeholder": "Search posts, projects, actions…",
+    "noResults": "No results",
+    "nav": "Navigation",
+    "content": "Content",
+    "actions": "Actions",
+    "toggleTheme": "Toggle theme",
+    "downloadCV": "Download CV",
+    "contact": "Contact",
+    "open": "Command palette"
+  },
   "about": {
     "title": "About me",
     "tagline": "Full‑stack developer passionate about web and innovation.",
