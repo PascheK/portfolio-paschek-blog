@@ -53,9 +53,10 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: 'en' | 'fr' };
+  params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const resolvedParams = await params;
+  const lang = resolvedParams.lang === 'fr' ? 'fr' : 'en';
   const dict = await getDictionary(lang);
 
   return (
