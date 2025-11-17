@@ -1,0 +1,174 @@
+---
+title: "Jeunesse de Porsel – Full Site & Backend"
+publishedAt: "2025-09-26"
+summary: "Full-stack ecosystem including a modern Next.js site and a robust Spring Boot backend to manage events, registrations, contacts, emails and OTPs for the Jeunesse de Porsel."
+tags: ["Next.js", "TypeScript", "Spring Boot", "Java", "MariaDB"]
+image: "/projects/jeunesse.png"
+url: "https://jeunessedeporsel.ch"
+repoUrl: "https://github.com/paschek/jeunesseporsel"
+ctaLabel: "View project"
+---
+
+# Overview
+
+**Jeunesse de Porsel** commissioned me to design a complete ecosystem including:
+
+- a modern, responsive **Next.js website**,
+- a **theatre module** with portraits and galleries,
+- a **fondue module** with multi-step flow and OTP,
+- a **directory** for members & committee,
+- a **secure contact center**,
+- and a **Spring Boot backend** managing events, registrations, emails and OTP codes.
+
+Together, these form a unified solution that improves the association’s internal management and the visitor experience.
+
+---
+
+#  1. Frontend – Next.js Site
+
+The site is the main public-facing showcase for Jeunesse de Porsel.  
+It brings together all modules for visitors: theatre, fondue, directory, contact.
+
+## Main features
+
+###  Home page
+
+- Visual hero section  
+- CTAs to Theatre, Fondue, Giron 2026  
+- Presentation of the association  
+
+###  Theatre module
+
+- Embla carousel for show visuals  
+- Synopsis & role descriptions  
+- Actor portraits with zoom  
+- Practical info (schedule, tickets)
+
+###  Fondue module – Reservations
+
+- Multi-step journey:
+  - date selection
+  - number of people
+  - personal details  
+- Strict validation via **Zod + RHF**
+- Verification via **OTP** (6 digits)
+- Secure booking modification
+- Confirmation emails
+
+###  Association directory
+
+- Committee  
+- Members  
+- Centralised data via an internal store  
+
+###  Contact center
+
+- Typed form (Zod)
+- Submission via Next.js API Route
+- Email transport with **Nodemailer**
+- Double send: admin + user copy
+
+---
+
+##  Frontend tech stack
+
+- **Next.js 15** (App Router)
+- **React 19 RC**
+- **TypeScript**
+- **Tailwind CSS**
+- **Radix UI**
+- **Embla Carousel**
+- **React Hook Form + Zod**
+- **Nodemailer**
+- **Vercel Analytics**
+
+---
+
+##  Role & contributions (Frontend)
+
+- Full UI/UX design of the site  
+- Theatre module: pages, carousels, portraits  
+- Fondue module: multi-step flow, OTP, emails  
+- Committee & member directory  
+- Contact form and email API  
+- Animations, responsive design and optimisations  
+
+---
+
+# 2. Backend – Spring Boot API
+
+The backend centralises all business logic.  
+It communicates with the Next.js frontend through a documented, secure REST API.
+
+## Main features
+
+###  Event management
+
+- Creation and listing of events (fondue, theatre)
+- Definition of seat capacities
+
+###  Registration management
+
+- Reservation creation  
+- Atomic update of available seat quotas  
+- Strict duplicate checks (name + email + event)  
+- Secure modification via OTP
+
+###  OTP workflow
+
+- 6-digit code  
+- Expires after 5 minutes  
+- Used for validation & modification of registrations  
+
+###  Transactional emails
+
+- Confirmation  
+- Modification  
+- Internal notification  
+- Custom FreeMarker templates  
+- Sending via JavaMail
+
+###  Observability & documentation
+
+- **Actuator** endpoints  
+- **OpenAPI / Swagger UI**  
+- Tracking logs  
+
+---
+
+##  Backend tech stack
+
+- Spring Boot (Web, Validation, JPA, Actuator)  
+- Java 17  
+- MariaDB + JDBC  
+- Lombok  
+- Spring Mail  
+- FreeMarker (email templates)  
+- OpenAPI / Swagger UI  
+- Maven Spring Boot Plugin  
+
+---
+
+##  Role & contributions (Backend)
+
+- Data model design  
+- Full REST API implementation  
+- Business rules: capacity, duplicates, transactions  
+- Complete OTP workflow implementation  
+- Email configuration (JavaMail + FreeMarker)  
+- OpenAPI documentation & Actuator monitoring  
+- MariaDB optimisation and indexing  
+
+---
+
+#  Images
+
+<img src="/projects/stack_jeunesse.png" width="1500" height="150" />
+
+---
+
+#  Links
+
+-  Live site: https://jeunessedeporsel.ch  
+-  Frontend GitHub: https://github.com/paschek/jeunesseporsel  
+-  Backend GitHub: https://github.com/paschek/jeunesseporselbackend  

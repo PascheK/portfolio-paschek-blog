@@ -12,7 +12,7 @@ image: "/blogs/homelab.png"
 
 Je voulais un environnement qui me permette de :
 
-- **comprendre comment les applis tournent vraiment** (réseau, volumes, logs, mises à jour)  [oai_citation:0‡DEV Community](https://dev.to/code42cate/every-developer-needs-to-self-host-43mm?ref=dailydev&utm_source=chatgpt.com)  
+- **comprendre comment les applis tournent vraiment** (réseau, volumes, logs, mises à jour) 
 - tester des stacks complètes (web + base de données + proxy) sans dépendre d’un fournisseur cloud,
 - héberger de vrais services pour mes projets (Jeunesse, Giron, projets perso),
 - me former aux réflexes **DevOps / SRE** : monitoring, sauvegardes, sécurité.
@@ -42,7 +42,7 @@ En frontal, un reverse proxy gère :
 
 - les **vhosts** (domaines / sous-domaines),
 - la terminaison **HTTPS** (certificats Let’s Encrypt),
-- le routage vers les bons conteneurs (WordPress, Nextcloud, outils internes).  [oai_citation:1‡GitHub](https://github.com/mikeroyal/Self-Hosting-Guide?utm_source=chatgpt.com)  
+- le routage vers les bons conteneurs (WordPress, Nextcloud, outils internes). 
 
 Concrètement, ça me permet d’accéder à mes services avec des URLs propres du type :
 
@@ -118,7 +118,7 @@ Quelques règles que j’applique systématiquement :
 
 - Mise à jour régulière de l’OS et des images Docker.
 - Pas de ports ouverts publiquement hors 80/443 (et éventuellement SSH restreint).
-- Mots de passe forts + gestion des secrets dans des fichiers séparés ou un outil dédié.  [oai_citation:2‡infisical.com](https://infisical.com/blog/self-hosting-infisical-homelab?utm_source=chatgpt.com)  
+- Mots de passe forts + gestion des secrets dans des fichiers séparés ou un outil dédié.  
 - Logs de base consultables via `docker logs` + fichiers sur l’hôte.
 - Accès aux services internes via VPN ou réseau local uniquement.
 
@@ -159,7 +159,7 @@ Ce sont des compétences directement utiles :
 
 Les prochaines étapes pour mon homelab :
 
-- Ajouter un **monitoring** (Netdata, Prometheus / Grafana) pour suivre l’état du serveur.  [oai_citation:3‡GitHub](https://github.com/mikeroyal/Self-Hosting-Guide?utm_source=chatgpt.com)  
+- Ajouter un **monitoring** (Netdata, Prometheus / Grafana) pour suivre l’état du serveur. 
 - Mettre en place plus d’**infra as code** (scripts et fichiers de config versionnés).
 - Automatiser davantage les sauvegardes et les tests de restauration.
 - Documenter l’ensemble comme un vrai projet client (diagrammes, README, playbooks).

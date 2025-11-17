@@ -1,0 +1,169 @@
+---
+title: "My Dell R730 Homelab: Docker, Reverse Proxy and Self-Hosted Services"
+publishedAt: "2025-11-17"
+summary: "A look at how I set up my homelab on a Dell PowerEdge R730: Docker stack, reverse proxy, Nextcloud, WordPress and self-hosting best practices."
+tags: "homelab,devops,docker,reverse-proxy,self-hosting"
+image: "/blogs/homelab.png"
+---
+
+> This post documents my homelab: a Dell R730 that hosts several services (Nextcloud, WordPress, databases, …) behind a Docker reverse proxy. The idea is both to learn DevOps and to run an infrastructure that I’m fully responsible for.
+
+## 1. Why build a homelab?
+
+I wanted an environment that would let me:
+
+- **understand how apps actually run** (networking, volumes, logs, updates),
+- test full stacks (web + database + proxy) without relying on a cloud provider,
+- host real services for my projects (Jeunesse, Giron, personal projects),
+- train on **DevOps / SRE reflexes**: monitoring, backups, security.
+
+The homelab has become my **serious sandbox**: it’s not a “mission-critical” production environment, but it runs 24/7 and serves useful things.
+
+---
+
+## 2. Hardware & OS
+
+- **Server**: Dell PowerEdge R730  
+- **Role**: main homelab machine (compute + storage)  
+- **OS**: Ubuntu Server  
+- **Virtualisation / containers**: Docker + Docker Compose  
+
+The goal isn’t to stack 15 hypervisors, but to have a simple, controlled base: **one Linux host + clear Docker stacks**.
+
+---
+
+## 3. Docker stack & services
+
+My homelab is organised into several logical **Docker stacks**, all tied together by an internal network and a front-facing reverse proxy.
+
+### 3.1. Reverse proxy
+
+At the edge, a reverse proxy handles:
+
+- **vhosts** (domains / subdomains),
+- **HTTPS** termination (Let’s Encrypt certificates),
+- routing to the right containers (WordPress, Nextcloud, internal tools).
+
+Concretely, it lets me reach my services with clean URLs like:
+
+- `https://cloud.mydomain.ch`
+- `https://giron2026.ch`
+- `https://tools.mydomain.ch`
+
+…without having to remember IPs and ports.
+
+### 3.2. Nextcloud
+
+A **Nextcloud** container acts as a hub for:
+
+- project documents (Jeunesse, Giron, UN, school),
+- files shared with committees,
+- storage for backups or exports.
+
+Typical stack:
+
+- `nextcloud` (PHP + app),
+- `db_nextcloud` (MariaDB),
+- optionally Redis for caching,
+- persistent volumes mounted on the server.
+
+### 3.3. WordPress site
+
+For some projects (like the Giron de Porsel 2026), I host **WordPress** in Docker:
+
+- `wordpress + mariadb` stack,
+- Astra Pro + Elementor theme on the content side,
+- cache + media optimisation.
+
+The reverse proxy exposes the site securely on the public domain.
+
+### 3.4. Databases & internal services
+
+On top of Nextcloud and WordPress, the homelab hosts:
+
+- **MariaDB / PostgreSQL** databases dedicated to specific projects,
+- internal tools (for example, monitoring / SQL admin),
+- “utility” containers (tests, scripts, jobs).
+
+Each service has:
+
+- its own internal **network**,
+- mounted **volumes**,
+- environment variables managed cleanly.
+
+---
+
+## 4. Stack & network organisation
+
+I group my Docker stacks by “functional domain”:
+
+- `reverse-proxy`  
+- `cloud` (Nextcloud + DB)  
+- `web` (WordPress + related sites)  
+- `db` (shared / internal databases)  
+
+Principles:
+
+- One **Docker network per stack**, plus a shared **“proxy” network**.
+- Sensitive services (DB, admin tools) are **never exposed directly** to the internet.
+- Only the reverse proxy listens on ports 80/443 on the host.
+
+This separation reduces the risk of mistakes (like exposing a DB by accident).
+
+---
+
+## 5. Security & best practices
+
+A few rules I follow by default:
+
+- Regular updates of the OS and Docker images.
+- No public ports open except 80/443 (and possibly restricted SSH).
+- Strong passwords + secret management in separate files or a dedicated tool.
+- Basic logs accessible via `docker logs` + files on the host.
+- Access to internal services only via VPN or local network.
+
+The idea isn’t to be “paranoid”, but to start from the assumption that **any exposed service will be scanned** sooner or later.
+
+---
+
+## 6. Backups & resilience
+
+I’m progressively structuring backups:
+
+- regular database exports (SQL dumps),
+- snapshots of critical volumes (Nextcloud, WordPress),
+- synchronisation to another storage location (NAS / encrypted cloud).
+
+The goal is to be able to **recreate a stack** from docs + backups without spending days on it.
+
+---
+
+## 7. What the homelab brings me
+
+Beyond the “geek” aspect, the homelab forces me to:
+
+- think like an **operator**, not just a developer,
+- understand the network layers (DNS, proxy, SSL, ports),
+- care about **security** and failures,
+- document what I do so I can replay it later.
+
+These are skills that translate directly:
+
+- to my client projects (Jeunesse, Giron, UN),
+- to my personal projects (m3ntha, PascheK-ChatBox),
+- and to a future **internship abroad** or a DevOps / full-stack position.
+
+---
+
+## 8. Roadmap for what’s next
+
+Next steps for my homelab:
+
+- Add **monitoring** (Netdata, Prometheus / Grafana) to track the server’s health.
+- Introduce more **infra as code** (versioned scripts and config files).
+- Automate backups and restore tests further.
+- Document everything like a real client project (diagrams, README, playbooks).
+
+---
+
+My homelab isn’t perfect, but it’s **alive**: I learn things there that I would never see with a simple “one-click” cloud deployment. And that’s exactly what I was looking for.

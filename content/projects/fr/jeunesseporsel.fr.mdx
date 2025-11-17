@@ -24,24 +24,24 @@ L’ensemble forme une solution unifiée destinée à améliorer la gestion inte
 
 ---
 
-# 🎨 1. Frontend – Site Next.js
+#  1. Frontend – Site Next.js
 Le site est la vitrine principale de la Jeunesse de Porsel.  
 Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, contact.
 
 ## Fonctionnalités principales
 
-### 🏠 Page d’accueil
+###  Page d’accueil
 - Hero visuel
 - CTA vers Théâtre, Fondue, Giron 2026
 - Présentation de la société
 
-### 🎭 Module Théâtre
+###  Module Théâtre
 - Carrousel Embla pour les visuels du spectacle  
 - Synopsis & présentation des rôles  
 - Portraits des acteurs avec zoom  
 - Informations pratiques (horaires, billetterie)
 
-### 🍲 Module Fondue – Réservations
+###  Module Fondue – Réservations
 - Parcours multi-étapes :
   - choix de la date
   - nombre de personnes
@@ -51,12 +51,12 @@ Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, 
 - Modification sécurisée d’une réservation
 - Emails de confirmation
 
-### 🧑‍🤝‍🧑 Annuaire de la société
+###  Annuaire de la société
 - Comité  
 - Membres  
 - Données centralisées via store interne
 
-### ✉️ Centre de contact
+###  Centre de contact
 - Formulaire typé (Zod)
 - Envoi via API Route Next.js
 - Transport d’email avec **Nodemailer**
@@ -64,7 +64,7 @@ Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, 
 
 ---
 
-## 🧰 Stack technique frontend
+##  Stack technique frontend
 
 - **Next.js 15** (App Router)
 - **React 19 RC**
@@ -78,7 +78,7 @@ Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, 
 
 ---
 
-## 👤 Rôle & contributions (Frontend)
+##  Rôle & contributions (Frontend)
 
 - Conception UI/UX complète du site  
 - Module Théâtre : pages, carrousels, portraits  
@@ -89,43 +89,43 @@ Il regroupe tous les modules destinés au public : théâtre, fondue, annuaire, 
 
 ---
 
-# ⚙️ 2. Backend – API Spring Boot
+#  2. Backend – API Spring Boot
 
 Le backend centralise toute la logique métier.  
 Il communique avec le frontend Next.js via une API REST documentée et sécurisée.
 
 ## Fonctionnalités principales
 
-### 📅 Gestion des événements
+###  Gestion des événements
 - Création et listing des événements (fondue, théâtre)
 - Définition des capacités de places
 
-### 🧾 Gestion des inscriptions
+###  Gestion des inscriptions
 - Création d’une réservation  
 - Mise à jour atomique du quota disponible  
 - Vérification stricte des doublons (nom + email + événement)  
 - Modification sécurisée via OTP
 
-### 🔐 Workflow OTP
+###  Workflow OTP
 - Code à 6 chiffres  
 - Expiration après 5 minutes  
 - Destiné à la validation & modification d’inscriptions  
 
-### ✉️ Emails transactionnels
+###  Emails transactionnels
 - Confirmation  
 - Modification  
 - Notification interne  
 - Templates FreeMarker personnalisés  
 - Envois via JavaMail
 
-### 📊 Observabilité & documentation
+###  Observabilité & documentation
 - Endpoints **Actuator**
 - **OpenAPI / Swagger UI**
 - Logs de suivi
 
 ---
 
-## 🧰 Stack technique backend
+##  Stack technique backend
 
 - Spring Boot (Web, Validation, JPA, Actuator)  
 - Java 17  
@@ -138,7 +138,7 @@ Il communique avec le frontend Next.js via une API REST documentée et sécuris�
 
 ---
 
-## 👤 Rôle & contributions (Backend)
+##  Rôle & contributions (Backend)
 
 - Conception du modèle de données  
 - Création de l’API REST complète  
@@ -150,14 +150,14 @@ Il communique avec le frontend Next.js via une API REST documentée et sécuris�
 
 ---
 
-#  📸 Images
+#   Images
 
 <img src="/projects/stack_jeunesse.png" width="1500" height="150" />
 
 ---
 
-# 🔗 Liens
+#  Liens
 
-- 🌐 Démo en ligne : https://jeunessedeporsel.ch  
-- 💻 Frontend GitHub : https://github.com/paschek/jeunesseporsel  
-- ⚙️ Backend GitHub : https://github.com/your-username/jeunesseporselbackend  
+-  Démo en ligne : https://jeunessedeporsel.ch  
+-  Frontend GitHub : https://github.com/paschek/jeunesseporsel  
+-  Backend GitHub : https://github.com/paschek/jeunesseporselbackend  

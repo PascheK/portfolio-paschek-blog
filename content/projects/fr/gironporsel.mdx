@@ -7,7 +7,7 @@ image: "/projects/giron.png"
 ctaLabel: "Découvrir"
 ---
 
-# 🎉 Giron de Porsel 2026 – Infrastructure & Outils internes
+#  Giron de Porsel 2026 – Infrastructure & Outils internes
 
 Dans le cadre de l’organisation du **Giron de Porsel 2026**, j’ai réalisé et maintiens l’ensemble de l’infrastructure numérique de l’événement.  
 Cette infrastructure est hébergée sur mon **serveur Dell PowerEdge R730**, sous Linux, avec un **stack Docker complet et isolé**.
@@ -16,21 +16,21 @@ L’objectif : fournir des services robustes, sécurisés et accessibles aux dif
 
 ---
 
-# 🏗️ Projet 1 – Infrastructure self-hostée (serveur Dell R730)
+#  Projet 1 – Infrastructure self-hostée (serveur Dell R730)
 
-### 🎯 Objectifs
+###  Objectifs
 - Centraliser tous les services du Giron sur un seul serveur fiable  
 - Sécuriser les accès publics et internes  
 - Fournir un environnement stable pour WordPress, Nextcloud et la base de données  
 
-### 📦 Configuration principale
+###  Configuration principale
 - **OS : Ubuntu Server**  
 - **Virtualisation : Docker + docker-compose**  
 - **Reverse-proxy : Nginx Proxy Manager ou Traefik**  
 - **Gestion certificats HTTPS : Let’s Encrypt / Certbot**  
 - **Surveillance : logs + monitoring de conteneurs**  
 
-### 🔐 Sécurité & réseau
+###  Sécurité & réseau
 - Isolation via **networks Docker**
 - Règles firewall strictes (ports ouverts uniquement : 80/443)
 - Sous-réseau interne pour les services sensibles (DB, Nextcloud)
@@ -38,17 +38,17 @@ L’objectif : fournir des services robustes, sécurisés et accessibles aux dif
 
 ---
 
-# 🌐 Projet 2 – Site officiel WordPress
+#  Projet 2 – Site officiel WordPress
 
 Le site du Giron 2026 est construit sur un stack WordPress moderne, hébergé dans un conteneur dédié.
 
-### 🛠 Stack
+###  Stack
 - **WordPress (Docker)**  
 - **Thème Astra Pro**  
 - **Éditeur : Elementor Pro**  
 - **Plugins : SEO, sécurité, cache, formulaires**  
 
-### 🚀 Fonctionnalités du site
+###  Fonctionnalités du site
 - Page d’accueil dynamique  
 - Présentation des commissions  
 - Actualités & Articles  
@@ -56,13 +56,13 @@ Le site du Giron 2026 est construit sur un stack WordPress moderne, hébergé da
 - Mise en page fidèle à la maquette fournie  
 - Performances optimisées (cache + compression + CDN local)  
 
-### 🔄 CI/CD simplifié
+###  CI/CD simplifié
 - Déploiement via `docker-compose pull && docker-compose up -d`  
 - Sauvegardes automatiques des volumes WordPress  
 
 ---
 
-# ☁️ Projet 3 – Nextcloud (Documents & Organisation interne)
+#  Projet 3 – Nextcloud (Documents & Organisation interne)
 
 Nextcloud sert à centraliser :  
 - les documents officiels,  
@@ -71,14 +71,14 @@ Nextcloud sert à centraliser :
 - les exports comptables,  
 - la coordination interne.
 
-### 💡 Fonctionnalités activées
+###  Fonctionnalités activées
 - Partage sécurisé entre membres du comité  
 - Gestion des permissions par commission  
 - Versioning automatique  
 - Stockage + aperçu de médias  
 - Collabora Online pour édition collaborative  
 
-### 🧱 Stack Nextcloud
+###  Stack Nextcloud
 - Conteneur Docker Nextcloud  
 - Base de données dédiée (MariaDB / PostgreSQL)  
 - Redis pour optimiser le cache  
@@ -86,28 +86,28 @@ Nextcloud sert à centraliser :
 
 ---
 
-# 🗄️ Projet 4 – Base de données interne
+#  Projet 4 – Base de données interne
 
-### 📌 Usage
+###  Usage
 - Stockage des données WordPress  
 - Métadonnées Nextcloud  
 - Outils internes à venir (ex : inscriptions, bénévoles, sponsoring)  
 
-### 🔧 Stack
+###  Stack
 - MariaDB (Docker)  
 - Volumes persistants sur SSD  
 - Backups automatisés (cron + dump compressé)  
 
-### 🔐 Points forts
+###  Points forts
 - Accès limité au réseau Docker interne  
 - Isolation totale vis-à-vis des services publics  
 - Récupération rapide en cas de corruption  
 
 ---
 
-# 🔧 Projet 5 – Reverse Proxy & Réseau
+#  Projet 5 – Reverse Proxy & Réseau
 
-### 🎯 Objectif
+###  Objectif
 Permettre à tous les services (site, cloud, outils internes) d’être accessibles via HTTPS, tout en sécurisant les accès.
 
 ### Configuration
@@ -120,37 +120,33 @@ Permettre à tous les services (site, cloud, outils internes) d’être accessib
 ### Entrées DNS typiques
 - `giron2026.ch` → WordPress  
 - `cloud.giron2026.ch` → Nextcloud  
-- `admin.giron2026.ch` → outils internes (si besoin)  
+- `admin.giron2026.ch` → outils internes
 
 ---
 
-# 👤 Rôle & Contribution
+#  Rôle & Contribution
 
 Je suis responsable de l’ensemble de la plateforme technique du Giron de Porsel 2026 :
 
-### 🛠 DevOps / Infrastructure
+###  DevOps / Infrastructure
 - Conception et déploiement du stack Docker  
 - Mise en place du reverse-proxy  
 - Configuration du réseau Docker et des volumes persistants  
 - Gestion SSL et sécurité  
 - Monitoring, mises à jour, maintenance  
 
-### 🌐 Web / Frontend
+###  Web / Frontend
 - Intégration du site WordPress (Astra Pro + Elementor Pro)  
 - Implémentation des pages, animations et modules  
 - Optimisation des performances  
 
-### ☁️ Collaboration interne
+###  Collaboration interne
 - Installation et maintenance de Nextcloud  
 - Gestion des accès par commission  
 - Accompagnement du comité dans l'utilisation des outils  
 
 ---
 
-# 🔗 Liens
+#  Liens
 
-> (Tu peux ajouter les liens une fois le site & cloud live)
-
-- 🌐 Site officiel : https://giron2026.ch  
-- ☁️ Nextcloud : https://cloud.giron2026.ch  
-- 🔧 Repo infra (si public) : *à ajouter si nécessaire*
+-  Site officiel : https://porsel2026.ch  

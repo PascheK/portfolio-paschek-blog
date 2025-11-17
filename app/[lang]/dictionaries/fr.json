@@ -81,6 +81,12 @@
     "experienceTitle": "Parcours / Expérience",
     "experiences": [
       {
+        "title": "Développeur full-stack en appui",
+        "org": "Div-In",
+        "period": "25.08.2025 — Aujourd’hui",
+        "description": "Participation au développement de l’application mobile Div-In (React Native + Laravel) : implémentation de fonctionnalités ciblées, corrections de bugs et rédaction de documentation technique pour faciliter l’onboarding des développeurs."
+      },
+      {
         "title": "Assistant principal en gestion de l’information et analyse",
         "org": "UNOPS",
         "period": "21.04.2025 — Aujourd’hui",
@@ -106,7 +112,7 @@
       },
       {
         "title": "Aide monteur électricien",
-        "org": "Groupe",
+        "org": "Groupe E",
         "period": "01.09.2023 - 23.12.2023",
         "description": "Assistance sur divers chantiers électriques."
       },

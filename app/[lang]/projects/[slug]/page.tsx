@@ -6,6 +6,7 @@ import { getProjectPosts } from "@/lib/posts";
 import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
+import Link from "next/link";
 
 
 export async function generateStaticParams() {
@@ -153,6 +154,14 @@ export default async function ProjectPage({ params }) {
       ) : (
         <div className="text-center text-muted-foreground">Aucun contenu détaillé disponible pour ce projet.</div>
       )}
+      <div className="mt-10 flex justify-center">
+        <Link
+          href={`/${lang ?? "en"}/projects`}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow-sm"
+        >
+          ← {lang === "fr" ? "Retour aux projets" : "Back to projects"}
+        </Link>
+      </div>
     </section>
   );
 }

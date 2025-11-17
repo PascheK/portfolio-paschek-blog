@@ -6,6 +6,7 @@ import { getBlogPosts } from "@/lib/posts";
 import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   // Default to English for prerendered slugs; per-language pages will be handled via [lang] segment
@@ -116,7 +117,17 @@ export default async function Blog({ params }) {
 
       <article className="prose prose-invert mx-auto">
         <CustomMDX source={post.content} />
+
       </article>
+
+      <div className="mt-10 flex justify-center">
+        <Link
+          href={`/${lang ?? "en"}/blog`}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow-sm"
+        >
+          ← {(lang ?? "en") === "fr" ? "Retour au blog" : "Back to blog"}
+        </Link>
+      </div>
     </section>
   );
 }

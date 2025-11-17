@@ -1,0 +1,142 @@
+---
+title: "UNOPS – Disaster Response & Project Platforms"
+publishedAt: "2025-06-19"
+summary: "Web developments and interactive tools built for UNOPS: crisis storytelling, ArcGIS visualisations, project management platforms and custom front-end solutions."
+tags: ["Next.js", "TypeScript"]
+image: "/projects/unops.png"
+ctaLabel: "View projects"
+---
+
+#  UNOPS – Delivered Projects
+
+As part of my assignments for **UNOPS** (United Nations Office for Project Services), I developed several web platforms focused on **impact analysis**, **data visualisation**, **operational communication**, and **project management**.
+
+These solutions are designed to:
+- facilitate access to field data,
+- improve preparedness and humanitarian response,
+- disseminate geospatial analyses,
+- modernise communication for IMAT and UNOSAT teams.
+
+---
+
+#  Project 1 — Hurricane Beryl: Scroll Storytelling Platform
+
+###  Goal  
+Build an interactive platform to tell the story of **Hurricane Beryl**, from pre-impact to recovery, using smooth storytelling synchronised with video and geospatial data.
+
+---
+
+## Overview
+
+**Beryl Impact Scroll Storytelling** is an immersive Next.js experience that guides the user through the **before**, **during** and **after** phases of Hurricane Beryl:
+
+- videos synchronised with scroll,  
+- animated overlays,  
+- configurable narrative content,  
+- integration of live **StoryMaps** and **ArcGIS** dashboards,  
+- end of the journey with a **downloadable PDF report**.
+
+The experience is powered by generic components (`FullScrollSection`, `useScrollVideo`) that make it easier to precisely synchronise the page progress with the video.
+
+---
+
+## Features
+
+- Story split into **3 phases** with overlays triggered from a central configuration file.  
+- Immersive hero section with animated satellite imagery and scroll cue.  
+- **Smooth scrolling** using Lenis + GSAP triggers.  
+- Global overlay to handle transitions & preloading.  
+- Direct integration of ArcGIS StoryMap + dynamic dashboards.  
+- Final PDF report to extend the analysis.  
+- Video preloading to guarantee stable animations.
+
+---
+
+## Tech stack
+
+- Next.js (App Router) • TypeScript  
+- React 19  
+- Tailwind CSS 4  
+- GSAP ScrollTrigger • Framer Motion  
+- Lenis (smooth scroll)  
+- ArcGIS StoryMap / ArcGIS Dashboards  
+- Lucide Icons  
+
+---
+
+## Role & Contribution
+
+As a **front-end storytelling engineer**:
+
+- Designed the complete narrative journey  
+- Integrated GSAP + ScrollTrigger  
+- Developed the `useScrollVideo` hook (scroll-synced playback)  
+- Configured advanced overlays  
+- Built `FullScrollSection` to orchestrate the phases  
+- Integrated ArcGIS dashboards and StoryMaps  
+- Set up the downloadable PDF for stakeholders  
+
+---
+
+## Links
+
+-  [Live demo](https://beryl-impact-mockup.vercel.app)  
+-  [GitHub repo](https://github.com/PascheK/beryl-impact-mockup)  
+
+---
+
+#  Project 2 — “Portfolio Tools” Project Management Platform
+
+###  Goal  
+Develop a full-stack web application for UNOPS teams (or associated mission) to manage and showcase projects, with an admin interface and public publication.
+
+## Overview  
+The “Portfolio Tools” application is a registry that allows authenticated users to create, edit and display projects via an admin interface, then showcase them publicly.  
+Key features:  
+- Google authentication + user roles  
+- Firestore database to manage projects  
+- Image storage (cover + gallery) via Firebase Storage  
+- Dynamic public pages for each project (`/project/[id]`)  
+- Search, filtering, pagination, favourites  
+- Dark mode & modern UI with Tailwind CSS and Lucide Icons  
+
+## Main features  
+- Admin interface: create / edit / delete projects  
+- Image upload (drag-and-drop, reordering)  
+- Public listing: project grid with filters  
+- Detailed project pages with rich descriptions and gallery  
+- Auth & security: “superadmin” role and owner permissions  
+- Responsive design & accessibility  
+
+## Tech stack  
+- Next.js 15+ (App Router)  
+- TypeScript  
+- Firebase: Authentication (Google), Firestore, Storage  
+- Tailwind CSS v4  
+- Lucide React Icons  
+- React Quill / rich-text editor  
+- Architecture: `/app/admin`, `/app/project/[id]`, `/services`, `/hooks`, `/models`, `/lib/firebase.ts`
+
+## Role & Contribution  
+- Designed and built the full admin interface  
+- Implemented Google authentication + role management  
+- Set up Firestore & Storage backend (project CRUD)  
+- Developed public pages, filters and pagination  
+- Created a modern UI + dark mode integration  
+- Optimised UX for image & gallery management  
+
+## Links  
+-  [GitHub repo](https://github.com/PascheK/portfolio-tools)  
+
+---
+
+#  Conclusion
+
+These projects built for **UN / UNOPS** provide tools that are:
+
+- more visual,  
+- more narrative,  
+- more accessible to decision-makers,  
+- and better integrated with UNOSAT geospatial data.
+
+They highlight my ability to work on **high-impact humanitarian projects** with strong **performance**, **reliability** and **structured storytelling** requirements.

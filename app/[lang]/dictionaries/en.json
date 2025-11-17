@@ -81,6 +81,12 @@
     "experienceTitle": "Experience",
     "experiences": [
       {
+  "title": "Supporting full-stack developer",
+  "org": "Div-In",
+  "period": "25.08.2025 — Present",
+  "description": "Participation in the development of the Div-In mobile application (React Native + Laravel): implementation of targeted features, bug fixing, and writing technical documentation to make developer onboarding easier."
+},
+      {
         "title": "Information Management & Analysis Associate (Lead)",
         "org": "UNOPS",
         "period": "Apr 21, 2025 — Present",
@@ -106,7 +112,7 @@
       },
       {
         "title": "Electrical Installation Assistant",
-        "org": "Group",
+        "org": "Groupe E",
         "period": "Sep 01, 2023 – Dec 23, 2023",
         "description": "Assisted on various electrical site installations."
       },
