@@ -1,9 +1,11 @@
 'use client';
 
 import React from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useTheme } from "./theme-provider";
 import { Command, Moon, Sun, Mail, Download, Home, BookOpen, Layers } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type BaseItem = {
   id: string;
@@ -38,12 +40,19 @@ export function CommandPalette({
   labels,
   cvHref,
   contactHref,
-}: CommandPaletteProps) {
+  inlineTrigger = false,
+  triggerClassName = "",
+}: CommandPaletteProps & { inlineTrigger?: boolean; triggerClassName?: string }) {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Build actions that depend on hooks
   const actionItems = React.useMemo<BaseItem[]>(() => [
@@ -106,13 +115,9 @@ export function CommandPalette({
   React.useEffect(() => {
     if (open) {
       setTimeout(() => inputRef.current?.focus(), 10);
-      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "";
+      // do nothing
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [open]);
 
   const handleSelect = (item: BaseItem) => {
@@ -131,22 +136,30 @@ export function CommandPalette({
     }
   };
 
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-surface-alt/70 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
-        aria-label={labels.open}
-      >
-        <Command className="size-4" />
-        <span className="text-sm">{labels.open}</span>
-        <span className="text-xs text-muted-foreground border border-border rounded px-1">⌘K</span>
-      </button>
+  if (typeof document === "undefined" || !mounted) return null;
 
+  const triggerClasses = [
+    "hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/40 bg-surface text-foreground shadow-lg hover:bg-primary hover:text-primary-foreground transition-colors",
+    inlineTrigger ? "" : "fixed right-4 top-4 z-[20000]",
+    triggerClassName,
+  ].join(" ").trim();
+
+  const overlay = (
+    <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-background/70 backdrop-blur-sm px-4 py-10">
-          <div className="w-full max-w-2xl rounded-xl border border-border bg-surface shadow-lg">
+        <motion.div
+          className="fixed inset-0 z-[20010] flex items-start justify-center bg-background/70 backdrop-blur-sm px-4 py-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="w-full max-w-2xl rounded-xl border border-border bg-surface shadow-lg"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ type: "spring", stiffness: 280, damping: 26, mass: 0.8 }}
+          >
             <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
               <Command className="size-5 text-muted-foreground" />
               <input
@@ -171,7 +184,7 @@ export function CommandPalette({
                 </div>
               )}
               {filtered.length > 0 && (
-                <div className="space-y-2">
+                <motion.div layout className="space-y-2">
                   {filtered.map((item) => {
                     const icon =
                       item.group === "nav" ? <Home className="size-4 text-muted-foreground" /> :
@@ -182,10 +195,12 @@ export function CommandPalette({
                                 item.id === "action-contact" ? <Mail className="size-4 text-muted-foreground" /> : null;
 
                     return (
-                      <button
+                      <motion.button
                         key={item.id}
                         onClick={() => handleSelect(item)}
                         className="w-full text-left px-3 py-2 rounded-lg hover:bg-surface-alt transition-colors border border-transparent hover:border-border flex items-start gap-3"
+                        whileHover={{ scale: 1.01 }}
+                        transition={{ type: "spring", stiffness: 250, damping: 18 }}
                       >
                         <span className="mt-0.5">{icon}</span>
                         <span className="flex-1">
@@ -194,15 +209,31 @@ export function CommandPalette({
                             <span className="block text-xs text-muted-foreground">{item.subtitle}</span>
                           )}
                         </span>
-                      </button>
+                      </motion.button>
                     );
                   })}
-                </div>
+                </motion.div>
               )}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+    </AnimatePresence>
+  );
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={triggerClasses}
+        aria-label={labels.open}
+      >
+        <Command className="size-4" />
+        <span className="text-sm">{labels.open}</span>
+        <span className="text-xs text-primary border border-primary/50 rounded px-1 bg-surface-alt/70">⌘K</span>
+      </button>
+      {mounted && createPortal(overlay, document.body)}
     </>
   );
 }

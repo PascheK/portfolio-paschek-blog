@@ -209,6 +209,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
           </div>
         </div>
       )}
+
     </nav>
   );
 }

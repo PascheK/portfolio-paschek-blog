@@ -13,48 +13,43 @@
 /* Light theme (base) */
 :root,
 :root[data-theme="light"] {
-  /* Code highlighting colors keep consistency */
-  --sh-class: #4c4ff8;
-  --sh-identifier: #212127;
-  --sh-sign: #58616b;
-  --sh-string: #0c7f75;
-  --sh-keyword: #b64d46;
-  --sh-comment: #84808a;
-  --sh-jsxliterals: #4b4fb8;
-  --sh-property: #c24c18;
-  --sh-entity: #c24c18;
+  /* Code highlighting (light) */
+  --sh-class: #3b82f6;
+  --sh-identifier: #0f172a;
+  --sh-sign: #475569;
+  --sh-string: #0f766e;
+  --sh-keyword: #c026d3;
+  --sh-comment: #94a3b8;
+  --sh-jsxliterals: #2563eb;
+  --sh-property: #d97706;
+  --sh-entity: #d97706;
   /* Core semantic tokens */
-  --background: oklch(
-    0.99 0.005 95
-  ); /* Presque blanc pur pour enlever voile gris */
-  /* Foreground encore plus profond (≈ neutral 900) pour lisibilité */
-  --foreground: oklch(0.125 0.02 255);
-  --card: oklch(1 0 0); /* Blanc pur pour cartes épurées */
+  --background: oklch(0.98 0.02 245); /* light with a hint of blue */
+  --foreground: oklch(0.18 0.02 245);
+  --card: oklch(0.99 0.01 245);
   --card-foreground: var(--foreground);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.99 0.01 245);
   --popover-foreground: var(--foreground);
-  /* Slightly deeper primary for clearer CTA presence */
-  --primary: oklch(0.6 0.26 300);
-  --primary-foreground: oklch(0.99 0 95);
-  --secondary: oklch(0.92 0.012 255);
-  --secondary-foreground: oklch(0.22 0.03 255);
-  --muted: oklch(0.93 0.008 255);
-  /* Muted foreground encore foncé mais pas froid, légère chroma */
-  --muted-foreground: oklch(0.3 0.025 255);
+  --primary: oklch(0.62 0.18 250); /* bright dev blue */
+  --primary-foreground: oklch(0.98 0.02 245);
+  --secondary: oklch(0.93 0.04 220); /* soft slate */
+  --secondary-foreground: oklch(0.24 0.02 230);
+  --muted: oklch(0.94 0.02 230);
+  --muted-foreground: oklch(0.36 0.02 240);
   --body-secondary: var(--muted-foreground);
-  --accent: oklch(0.93 0.05 320);
-  --accent-foreground: oklch(0.28 0.035 300);
-  --destructive: oklch(0.58 0.2 25);
-  --border: oklch(0.82 0.01 255);
-  --input: oklch(0.92 0.008 255);
-  --ring: oklch(0.55 0.24 265);
-  /* Charts (reuse dark hues for brand consistency, lighten if needed) */
-  --chart-1: oklch(0.62 0.25 264.376);
-  --chart-2: oklch(0.74 0.18 162.48);
-  --chart-3: oklch(0.79 0.2 70.08);
-  --chart-4: oklch(0.7 0.27 303.9);
-  --chart-5: oklch(0.71 0.26 16.439);
-  --sidebar: oklch(0.97 0.005 95);
+  --accent: oklch(0.9 0.08 180); /* teal accent */
+  --accent-foreground: oklch(0.24 0.02 230);
+  --destructive: oklch(0.58 0.22 25);
+  --border: oklch(0.88 0.02 230);
+  --input: oklch(0.92 0.02 225);
+  --ring: oklch(0.62 0.18 250);
+  /* Charts */
+  --chart-1: oklch(0.62 0.18 250);
+  --chart-2: oklch(0.62 0.16 180);
+  --chart-3: oklch(0.6 0.2 35);
+  --chart-4: oklch(0.64 0.2 310);
+  --chart-5: oklch(0.56 0.18 120);
+  --sidebar: oklch(0.97 0.01 240);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -63,13 +58,13 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
   /* Surfaces (layering) */
-  --surface: oklch(0.995 0 95); /* Surface de base quasi blanche */
-  --surface-alt: oklch(0.97 0.006 95); /* Légère élévation */
-  --surface-muted: oklch(0.94 0.008 95 / 55%);
+  --surface: oklch(0.985 0.01 245);
+  --surface-alt: oklch(0.96 0.02 245);
+  --surface-muted: oklch(0.94 0.02 245 / 55%);
   --surface-accent: linear-gradient(
     to bottom right,
-    oklch(0.88 0.05 300),
-    oklch(0.9 0.06 340)
+    oklch(0.92 0.08 250),
+    oklch(0.94 0.06 200)
   );
   background-color: var(--background);
   color: var(--foreground);
@@ -142,7 +137,7 @@ html {
 
 /* Typography adjustments: rely on tokens instead of fixed black/white */
 .prose {
-  color: var(--foreground);
+  color: var(--foreground) !important;
 }
 /* Base link color relies on primary token (light & dark) */
 .prose a {
@@ -152,6 +147,7 @@ html {
   color: var(--primary);
 }
 .prose strong,
+.prose h1,
 .prose h2,
 .prose h3,
 .prose h4,

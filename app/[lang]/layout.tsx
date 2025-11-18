@@ -117,15 +117,13 @@ export default async function RootLayout({
       </head>
       <body className="antialiased min-h-screen font-sans flex flex-col bg-code-grid text-foreground transition-colors">
         <ThemeProvider>
-          <div className="fixed right-4 top-4 z-50">
-            <CommandPalette
-              navItems={navItems}
-              contentItems={[...blogPosts, ...projectPosts]}
-              labels={dict.palette}
-              cvHref="/documents/kp_cv.pdf"
-              contactHref={socialLinks.email}
-            />
-          </div>
+          <CommandPalette
+            navItems={navItems}
+            contentItems={[...blogPosts, ...projectPosts]}
+            labels={dict.palette}
+            cvHref="/documents/kp_cv.pdf"
+            contactHref={socialLinks.email}
+          />
           <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
             <Navbar dict={dict} lang={lang} />
           </Suspense>
