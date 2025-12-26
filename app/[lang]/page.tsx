@@ -6,6 +6,7 @@ import { Github, Linkedin, Mail, Instagram, ChevronDown, Code2, Database, Server
 import Link from 'next/link';
 import { Reveal, RevealStagger, RevealItem } from '@/components/ui/reveal';
 import { getProjectPosts } from "@/lib/posts";
+import Snowfalling from "@/components/Snowfalling";
 
 export default async function Page({
   params,
@@ -22,6 +23,7 @@ export default async function Page({
   const featuredProjects = posts.slice(0, 3);
   return (
     <>
+  <Snowfalling/>
       {/* Navbar is rendered from layout */}
       <main className="flex-1 w-full min-w-0 flex flex-col px-6 sm:px-6 md:px-8">
         {/* HERO */}
