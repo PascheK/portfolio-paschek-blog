@@ -26,6 +26,12 @@
       "title_suffix": "and I am a Fullstack Developer",
       "tagline": "I love building fast, accessible and beautiful web experiences. From design to deploy, I handle it all."
     },
+    "stats": {
+      "projects": "Projects",
+      "years": "Years of exp.",
+      "technologies": "Technologies",
+      "coffees": "Coffees"
+    },
     "services": {
       "title": "My services",
       "subtitle": "How I can help your business",
@@ -45,8 +51,22 @@
       }
     },
     "contact": {
-      "title": "Contact",
-      "email": "E-mail"
+      "title": "Get in touch",
+      "subtitle": "Have a project in mind? Let's work together.",
+      "email": "E-mail",
+      "form": {
+        "name": "Your name",
+        "namePlaceholder": "John Doe",
+        "email": "Your email",
+        "emailPlaceholder": "john@example.com",
+        "message": "Message",
+        "messagePlaceholder": "Tell me about your project...",
+        "send": "Send message",
+        "sending": "Sending...",
+        "success": "Message sent! I'll get back to you soon.",
+        "error": "Something went wrong. Please try again or reach out directly."
+      },
+      "social": "Or reach me on"
     },
     "project": {
       "discover": "Discover"
@@ -56,10 +76,14 @@
     }
   },
   "blogPage": {
-    "imageAlt": "Cover image for {{title}}"
+    "imageAlt": "Cover image for {{title}}",
+    "search": "Search articles...",
+    "noResults": "No articles found for \"{{query}}\"",
+    "readingTime": "min read"
   },
   "a11y": {
     "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "goToProjects": "Go to projects",
     "language": "Language"
   },
@@ -72,7 +96,9 @@
     "details": "Details",
     "filter": "Filter",
     "display": "Display",
-    "imageAlt": "Cover image for {{title}}"
+    "imageAlt": "Cover image for {{title}}",
+    "search": "Search projects...",
+    "noResults": "No projects found for \"{{query}}\""
   },
   "palette": {
     "placeholder": "Search posts, projects, actions…",
@@ -90,48 +116,60 @@
     "tagline": "Full‑stack developer passionate about web and innovation.",
     "profileAlt": "Profile photo of {{name}}",
     "experienceTitle": "Experience",
+    "skillsCategories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps & Tools"
+    },
     "experiences": [
       {
-  "title": "Supporting full-stack developer",
-  "org": "Div-In",
-  "period": "25.08.2025 — Present",
-  "description": "Participation in the development of the Div-In mobile application (React Native + Laravel): implementation of targeted features, bug fixing, and writing technical documentation to make developer onboarding easier."
-},
+        "title": "Supporting full-stack developer",
+        "org": "Div-In",
+        "period": "25.08.2025 — Present",
+        "description": "Participation in the development of the Div-In mobile application (React Native + Laravel): implementation of targeted features, bug fixing, and writing technical documentation to make developer onboarding easier.",
+        "type": "work"
+      },
       {
         "title": "Information Management & Analysis Associate (Lead)",
         "org": "UNOPS",
         "period": "Apr 21, 2025 — Present",
-        "description": "Supporting information management and analytical reporting for digital decision-support solutions."
+        "description": "Supporting information management and analytical reporting for digital decision-support solutions.",
+        "type": "work"
       },
       {
         "title": "Web Lead",
         "org": "Jeunesse de Porsel",
         "period": "2021 — Present",
-        "description": "Implemented and maintained the event / association digital platform."
+        "description": "Implemented and maintained the event / association digital platform.",
+        "type": "personal"
       },
       {
         "title": "Personal Projects",
         "org": "Open Source",
         "period": "Ongoing",
-        "description": "Multiple projects around React, Next.js and Node.js released as open source."
+        "description": "Multiple projects around React, Next.js and Node.js released as open source.",
+        "type": "personal"
       },
       {
         "title": "Non-Commissioned Officer Training (Service)",
         "org": "Swiss Army",
         "period": "Jan 14, 2024 – Nov 01, 2024",
-        "description": "Discipline, teamwork, leadership, responsibility and loyalty strengthened through military service."
+        "description": "Discipline, teamwork, leadership, responsibility and loyalty strengthened through military service.",
+        "type": "other"
       },
       {
         "title": "Electrical Installation Assistant",
         "org": "Groupe E",
         "period": "Sep 01, 2023 – Dec 23, 2023",
-        "description": "Assisted on various electrical site installations."
+        "description": "Assisted on various electrical site installations.",
+        "type": "work"
       },
       {
         "title": "Full‑stack Developer Intern",
         "org": "Plurial SA",
         "period": "Feb 15, 2023 – May 15, 2023",
-        "description": "Internship focused on full‑stack application development."
+        "description": "Internship focused on full‑stack application development.",
+        "type": "work"
       }
     ],
     "skills": {
@@ -151,7 +189,12 @@
         "PostgreSQL",
         "CI/CD",
         "Vercel"
-      ]
+      ],
+      "categories": {
+        "frontend": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
+        "backend": ["Node.js", "Express.js", "Java", "Spring Boot", "MongoDB", "PostgreSQL"],
+        "devops": ["Docker", "CI/CD", "Vercel"]
+      }
     },
     "education": {
       "title": "Education",
