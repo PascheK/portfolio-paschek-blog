@@ -136,6 +136,29 @@ html {
   }
 }
 
+/* Admin uses native cursor because custom cursor is not mounted there */
+@media (pointer: fine) {
+  .admin-area,
+  .admin-area *,
+  .admin-area *::before,
+  .admin-area *::after {
+    cursor: auto !important;
+  }
+
+  .admin-area input,
+  .admin-area textarea {
+    cursor: text !important;
+  }
+
+  .admin-area button,
+  .admin-area a,
+  .admin-area label,
+  .admin-area select,
+  .admin-area [role="button"] {
+    cursor: pointer !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

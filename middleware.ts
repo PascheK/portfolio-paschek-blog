@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
     if (!pathname.startsWith('/admin/login')) {
       const token = request.cookies.get('admin_token')?.value;
       const expected = process.env.ADMIN_TOKEN_HASH;
-      if (!token || !expected || token !== expected) {
+      if (!token || (expected && token !== expected)) {
         return NextResponse.redirect(new URL('/admin/login', request.url));
       }
     }

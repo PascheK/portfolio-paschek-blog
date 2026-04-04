@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased min-h-screen bg-background text-foreground font-sans">
+      <body className="admin-area antialiased min-h-screen bg-background text-foreground font-sans">
         <ThemeProvider>
           {children}
         </ThemeProvider>
