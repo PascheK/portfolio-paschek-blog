@@ -24,7 +24,13 @@
       "hello": "Bonjour !",
       "title_prefix": "Je m'appelle",
       "title_suffix": "et je suis développeur Full‑Stack",
-      "tagline": "Passionné par la création d’expériences web rapides, accessibles et élégantes. Du design au déploiement, je m’occupe de tout."
+      "tagline": "Passionné par la création d'expériences web rapides, accessibles et élégantes. Du design au déploiement, je m'occupe de tout."
+    },
+    "stats": {
+      "projects": "Projets",
+      "years": "Ans d'exp.",
+      "technologies": "Technologies",
+      "coffees": "Cafés"
     },
     "services": {
       "title": "Mes services",
@@ -32,11 +38,11 @@
       "items": {
         "web": {
           "title": "Sites web et applications",
-          "desc": "Développement de sites et d’applications performants et accessibles."
+          "desc": "Développement de sites et d'applications performants et accessibles."
         },
         "api": {
           "title": "API et base de données",
-          "desc": "Conception d’API et modélisation/gestion de bases de données."
+          "desc": "Conception d'API et modélisation/gestion de bases de données."
         },
         "devops": {
           "title": "DevOps",
@@ -45,21 +51,39 @@
       }
     },
     "contact": {
-      "title": "Contact",
-      "email": "E-mail"
+      "title": "Me contacter",
+      "subtitle": "Un projet en tête ? Travaillons ensemble.",
+      "email": "E-mail",
+      "form": {
+        "name": "Votre nom",
+        "namePlaceholder": "Jean Dupont",
+        "email": "Votre e-mail",
+        "emailPlaceholder": "jean@exemple.com",
+        "message": "Message",
+        "messagePlaceholder": "Parlez-moi de votre projet...",
+        "send": "Envoyer le message",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé ! Je vous réponds bientôt.",
+        "error": "Une erreur s'est produite. Réessayez ou contactez-moi directement."
+      },
+      "social": "Ou me retrouver sur"
     },
     "project": {
       "discover": "Découvrir"
     },
     "blog": {
-      "read": "Lire l’article"
+      "read": "Lire l'article"
     }
   },
   "blogPage": {
-    "imageAlt": "Image de couverture pour {{title}}"
+    "imageAlt": "Image de couverture pour {{title}}",
+    "search": "Rechercher des articles...",
+    "noResults": "Aucun article trouvé pour « {{query}} »",
+    "readingTime": "min de lecture"
   },
   "a11y": {
     "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
     "goToProjects": "Aller aux projets",
     "language": "Langue"
   },
@@ -72,7 +96,9 @@
     "details": "Détails",
     "filter": "Filtrer",
     "display": "Affichage",
-    "imageAlt": "Image de couverture pour {{title}}"
+    "imageAlt": "Image de couverture pour {{title}}",
+    "search": "Rechercher des projets...",
+    "noResults": "Aucun projet trouvé pour « {{query}} »"
   },
   "palette": {
     "placeholder": "Rechercher articles, projets, actions…",
@@ -87,51 +113,63 @@
   },
   "about": {
     "title": "À propos de moi",
-    "tagline": "Développeur full‑stack passionné par le web et l’innovation.",
+    "tagline": "Développeur full‑stack passionné par le web et l'innovation.",
     "profileAlt": "Photo de profil de {{name}}",
     "experienceTitle": "Parcours / Expérience",
+    "skillsCategories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps & Outils"
+    },
     "experiences": [
       {
         "title": "Développeur full-stack en appui",
         "org": "Div-In",
-        "period": "25.08.2025 — Aujourd’hui",
-        "description": "Participation au développement de l’application mobile Div-In (React Native + Laravel) : implémentation de fonctionnalités ciblées, corrections de bugs et rédaction de documentation technique pour faciliter l’onboarding des développeurs."
+        "period": "25.08.2025 — Aujourd'hui",
+        "description": "Participation au développement de l'application mobile Div-In (React Native + Laravel) : implémentation de fonctionnalités ciblées, corrections de bugs et rédaction de documentation technique pour faciliter l'onboarding des développeurs.",
+        "type": "work"
       },
       {
-        "title": "Assistant principal en gestion de l’information et analyse",
+        "title": "Assistant principal en gestion de l'information et analyse",
         "org": "UNOPS",
-        "period": "21.04.2025 — Aujourd’hui",
-        "description": "Appui à la gestion et à l’analyse de l’information pour le développement de solutions numériques et de rapports décisionnels."
+        "period": "21.04.2025 — Aujourd'hui",
+        "description": "Appui à la gestion et à l'analyse de l'information pour le développement de solutions numériques et de rapports décisionnels.",
+        "type": "work"
       },
       {
         "title": "Responsable Web",
         "org": "Jeunesse de Porsel",
-        "period": "2021 — Aujourd’hui",
-        "description": "Mise en place et maintenance de la plateforme numérique de l’évènement."
+        "period": "2021 — Aujourd'hui",
+        "description": "Mise en place et maintenance de la plateforme numérique de l'évènement.",
+        "type": "personal"
       },
       {
         "title": "Projets personnels",
         "org": "Open Source",
         "period": "En cours",
-        "description": "Nombreux projets autour de React, Next.js et Node.js. Tous ces projets sont réalisés en open source."
+        "description": "Nombreux projets autour de React, Next.js et Node.js. Tous ces projets sont réalisés en open source.",
+        "type": "personal"
       },
       {
         "title": "Paiement de gallon de sous-officier",
         "org": "Armée Suisse",
         "period": "14.01.2024 - 01.11.2024",
-        "description": "Responsabilité,  discipline, esprit d’équipe, loyauté, gestion de groupes, sont les valeurs principales que m’ont appris mon service militaire."
+        "description": "Responsabilité, discipline, esprit d'équipe, loyauté, gestion de groupes, sont les valeurs principales que m'ont appris mon service militaire.",
+        "type": "other"
       },
       {
         "title": "Aide monteur électricien",
         "org": "Groupe E",
         "period": "01.09.2023 - 23.12.2023",
-        "description": "Assistance sur divers chantiers électriques."
+        "description": "Assistance sur divers chantiers électriques.",
+        "type": "work"
       },
       {
         "title": "Stagiaire développeur fullstack",
         "org": "Plurial SA",
         "period": "15.02.2023 - 15.05.2023",
-        "description": "Stage chez Plurial SA."
+        "description": "Stage chez Plurial SA.",
+        "type": "work"
       }
     ],
     "skills": {
@@ -151,13 +189,18 @@
         "PostgreSQL",
         "CI/CD",
         "Vercel"
-      ]
+      ],
+      "categories": {
+        "frontend": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
+        "backend": ["Node.js", "Express.js", "Java", "Spring Boot", "MongoDB", "PostgreSQL"],
+        "devops": ["Docker", "CI/CD", "Vercel"]
+      }
     },
     "education": {
       "title": "Formation",
       "items": [
         {
-          "degree": "CFC d’informaticien",
+          "degree": "CFC d'informaticien",
           "school": "Suisse",
           "year": "2019-2023"
         }

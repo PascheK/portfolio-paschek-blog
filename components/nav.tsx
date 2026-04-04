@@ -8,6 +8,28 @@ import { Sun, Moon } from "lucide-react";
 import { metaData } from "@/lib/config";
 import { usePathname } from "next/navigation";
 
+function ScrollProgress() {
+  const [progress, setProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const update = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+
+  return (
+    <div
+      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-none z-50"
+      style={{ width: `${progress}%` }}
+      aria-hidden
+    />
+  );
+}
+
 
 
 function TimezoneDisplay() {
@@ -158,8 +180,8 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
           </div>
         </div>
       </div>
-      {/* Accent underline */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500/90 opacity-70" />
+      {/* Scroll progress bar (replaces static accent underline) */}
+      <ScrollProgress />
 
       {/* Mobile menu with overlay */}
       {menuOpen && (
@@ -204,7 +226,7 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
                   ))}
                 </div>
               </div>
-              <div className="h-[2px] w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500/90 opacity-70" />
+              <div className="h-[2px] w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500/90 opacity-50" />
             </div>
           </div>
         </div>
