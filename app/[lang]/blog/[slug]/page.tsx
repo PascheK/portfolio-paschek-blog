@@ -9,6 +9,16 @@ import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { extractHeadings } from "@/lib/toc";
 import { TableOfContents } from "@/components/ui/table-of-contents";
+import { ArrowRight } from "lucide-react";
+
+function parseTags(raw?: string): string[] {
+  if (!raw) return [];
+  const t = raw.trim();
+  if (t.startsWith('[')) {
+    try { const a = JSON.parse(t); if (Array.isArray(a)) return a.map(String); } catch {}
+  }
+  return t.split(',').map(s => s.trim()).filter(Boolean);
+}
 
 export async function generateStaticParams() {
   // Default to English for prerendered slugs; per-language pages will be handled via [lang] segment
@@ -58,9 +68,28 @@ export async function generateMetadata({
 
 export default async function Blog({ params }) {
   const { slug, lang } = await params;
-  const dict = await getDictionary(lang ?? "en");
-  const post = getBlogPosts(lang ?? "en").find((p) => p.slug === slug);
+  const resolvedLang = lang ?? "en";
+  const dict = await getDictionary(resolvedLang);
+  const allPosts = getBlogPosts(resolvedLang);
+  const post = allPosts.find((p) => p.slug === slug);
   const headings = post?.content ? extractHeadings(post.content) : [];
+
+  // Related posts: same tags or fallback to 2 most recent
+  const postTags = parseTags(post?.metadata.tags);
+  const related = allPosts
+    .filter(p => p.slug !== slug)
+    .map(p => ({
+      ...p,
+      score: parseTags(p.metadata.tags).filter(t => postTags.includes(t)).length,
+    }))
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      const da = a.metadata.publishedAt ? new Date(a.metadata.publishedAt).getTime() : 0;
+      const db = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
+      return db - da;
+    })
+    .slice(0, 2);
+  const locale = resolvedLang === 'fr' ? 'fr-FR' : 'en-US';
 
   if (!post) {
     notFound();
@@ -130,12 +159,42 @@ export default async function Blog({ params }) {
 
       <div className="mt-10 flex justify-center">
         <Link
-          href={`/${lang ?? "en"}/blog`}
+          href={`/${resolvedLang}/blog`}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow-sm"
         >
-          ← {(lang ?? "en") === "fr" ? "Retour au blog" : "Back to blog"}
+          ← {resolvedLang === "fr" ? "Retour au blog" : "Back to blog"}
         </Link>
       </div>
+
+      {/* Related articles */}
+      {related.length > 0 && (
+        <div className="mt-14 border-t border-border pt-10">
+          <h2 className="text-lg font-semibold mb-5">
+            {resolvedLang === 'fr' ? 'Articles similaires' : 'Related articles'}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {related.map((r) => (
+              <Link
+                key={r.slug}
+                href={`/${resolvedLang}/blog/${r.slug}`}
+                className="group flex flex-col gap-1 rounded-xl border border-border bg-surface-alt/60 backdrop-blur p-4 hover:border-primary/40 hover:bg-primary/5 transition-all"
+              >
+                <span className="font-medium text-sm group-hover:text-primary transition-colors line-clamp-2">
+                  {r.metadata.title}
+                </span>
+                {r.metadata.publishedAt && (
+                  <span className="text-xs text-muted-foreground">
+                    {formatDate(r.metadata.publishedAt, false, locale)}
+                  </span>
+                )}
+                <span className="mt-1 inline-flex items-center gap-1 text-xs text-primary">
+                  {resolvedLang === 'fr' ? 'Lire' : 'Read'} <ArrowRight className="size-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

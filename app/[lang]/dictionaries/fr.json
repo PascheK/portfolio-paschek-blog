@@ -208,5 +208,71 @@
     },
     "downloadCV": "Télécharger mon CV",
     "cvUrl": "/documents/kp_cv.pdf"
+  },
+  "footer": {
+    "tagline": "Développeur full-stack passionné par la création d'expériences web rapides, accessibles et élégantes.",
+    "availability": "Disponible",
+    "quickLinks": "Liens rapides",
+    "links": {
+      "home": "Accueil",
+      "blog": "Blog",
+      "projects": "Projets",
+      "about": "À propos",
+      "uses": "Setup"
+    },
+    "connect": "Me contacter",
+    "rss": "Flux RSS",
+    "copyright": "Tous droits réservés."
+  },
+  "uses": {
+    "title": "Mon Setup",
+    "tagline": "Les outils, apps et hardware que j'utilise au quotidien.",
+    "sections": {
+      "editor": {
+        "title": "Éditeur & Terminal",
+        "items": [
+          { "name": "Visual Studio Code", "desc": "Mon éditeur principal — avec les raccourcis Vim." },
+          { "name": "Warp", "desc": "Terminal rapide et moderne avec autocomplétion IA." },
+          { "name": "One Dark Pro", "desc": "Mon thème VS Code depuis des années." },
+          { "name": "JetBrains Mono", "desc": "Ma police monospace préférée pour coder." }
+        ]
+      },
+      "hardware": {
+        "title": "Hardware",
+        "items": [
+          { "name": "MacBook Pro M1", "desc": "Ma machine de développement principale — rapide et silencieuse." },
+          { "name": "Écran LG 27\" 4K", "desc": "Écran externe pour une meilleure ergonomie." },
+          { "name": "Logitech MX Keys", "desc": "Clavier pleine taille confortable." },
+          { "name": "Logitech MX Master 3", "desc": "Souris ergonomique avec une molette excellente." }
+        ]
+      },
+      "apps": {
+        "title": "Apps & Outils",
+        "items": [
+          { "name": "Raycast", "desc": "Remplacement de Spotlight avec des extensions puissantes." },
+          { "name": "Linear", "desc": "Suivi des tâches pour mes projets personnels." },
+          { "name": "Figma", "desc": "Design UI/UX et prototypage." },
+          { "name": "TablePlus", "desc": "Interface graphique pour PostgreSQL et MongoDB." },
+          { "name": "Notion", "desc": "Notes, docs et gestion de projets." },
+          { "name": "Docker Desktop", "desc": "Gestion de conteneurs simplifiée." }
+        ]
+      },
+      "stack": {
+        "title": "Stack quotidienne",
+        "items": [
+          { "name": "Next.js + TypeScript", "desc": "Mon stack par défaut pour les apps web." },
+          { "name": "Tailwind CSS", "desc": "CSS utilitaire dont je ne peux plus me passer." },
+          { "name": "Vercel", "desc": "Déploiements et hébergement — zéro config." },
+          { "name": "GitHub", "desc": "Contrôle de version et contributions open source." }
+        ]
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "message": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "home": "Retour à l'accueil",
+    "blog": "Lire le blog",
+    "projects": "Voir les projets"
   }
 }

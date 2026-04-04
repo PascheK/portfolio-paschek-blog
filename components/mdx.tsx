@@ -11,6 +11,7 @@ import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import "katex/dist/katex.min.css";
 import { slugify } from "@/lib/slugify";
+import { CodeBlock } from "./ui/code-block";
 
 function CustomLink(props) {
   let href = props.href;
@@ -100,6 +101,7 @@ let components = {
   Caption: CaptionComponent,
   YouTube: YouTubeComponent,
   code: Code,
+  pre: CodeBlock,
   Table,
   Callout,
 };
