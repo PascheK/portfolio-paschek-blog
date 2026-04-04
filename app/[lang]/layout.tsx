@@ -12,6 +12,8 @@ import { Loader } from "@/components/ui/loader";
 import PageTransition from "@/components/ui/page-transition";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { CommandPalette } from "@/components/ui/command-palette";
+import { BackToTop } from "@/components/ui/back-to-top";
+import { CustomCursor } from "@/components/ui/custom-cursor";
 
 function parseTags(raw?: string) {
   if (!raw) return [] as string[];
@@ -131,6 +133,8 @@ export default async function RootLayout({
             <PageTransition>{children}</PageTransition>
           </Suspense>
           <Footer dict={dict} />
+          <BackToTop />
+          <CustomCursor />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

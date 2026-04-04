@@ -129,6 +129,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide default cursor on desktop so the custom cursor takes over */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

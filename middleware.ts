@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 
@@ -13,9 +14,25 @@ function getPreferredLocale(request: Request) {
   return match(languages, locales, defaultLocale);
 }
 
-export function middleware(request: Request) {
+export function middleware(request: NextRequest) {
   const { pathname } = new URL(request.url);
-  // Ignore Next internals, API & fichiers statiques
+
+  // ── Admin route protection ──────────────────────────────────────────
+  if (pathname.startsWith('/admin')) {
+    // Let /admin/login pass through without a token check
+    if (!pathname.startsWith('/admin/login')) {
+      const token = request.cookies.get('admin_token')?.value;
+      const expected = process.env.ADMIN_TOKEN_HASH;
+      if (!token || !expected || token !== expected) {
+        return NextResponse.redirect(new URL('/admin/login', request.url));
+      }
+    }
+    // Don't apply i18n to admin routes
+    return NextResponse.next();
+  }
+
+  // ── i18n routing ─────────────────────────────────────────────────────
+  // Ignore Next internals, API & static files
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -24,13 +41,13 @@ export function middleware(request: Request) {
     return;
   }
 
-  // L'URL a-t-elle déjà une locale ?
+  // Already has a locale prefix?
   const hasLocale = locales.some(
     (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
   );
   if (hasLocale) return;
 
-  // Sinon, redirige vers la meilleure locale
+  // Redirect to preferred locale
   const locale = getPreferredLocale(request);
   return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
 }

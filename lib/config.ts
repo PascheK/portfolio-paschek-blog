@@ -13,3 +13,9 @@ export const socialLinks = {
   email: "mailto:killian.pasche7@gmail.com",
   telephone: "tel:+41763103560",
 };
+
+export const availability = {
+  available: true,         // set to false to hide the badge
+  labelEn: "Open to work",
+  labelFr: "Disponible",
+};
