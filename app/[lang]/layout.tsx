@@ -100,38 +100,24 @@ export default async function RootLayout({
   return (
     <html lang={lang} suppressHydrationWarning>
       <head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href="/rss.xml"
-          title="RSS Feed"
-        />
-        <link
-          rel="alternate"
-          type="application/atom+xml"
-          href="/atom.xml"
-          title="Atom Feed"
-        />
-        <link
-          rel="alternate"
-          type="application/feed+json"
-          href="/feed.json"
-          title="JSON Feed"
-        />
+        <link rel="alternate" type="application/rss+xml" href={`/${lang}/feed/rss.xml`} title="RSS Feed" />
+        <link rel="alternate" type="application/atom+xml" href={`/${lang}/feed/atom.xml`} title="Atom Feed" />
+        <link rel="alternate" type="application/feed+json" href={`/${lang}/feed/feed.json`} title="JSON Feed" />
       </head>
       <body className="antialiased min-h-screen font-sans flex flex-col bg-code-grid text-foreground transition-colors">
         <ThemeProvider>
           <AuroraBackground />
           <SmoothScrollProvider>
-          <CommandPalette
-            navItems={navItems}
-            contentItems={[...blogPosts, ...projectPosts]}
-            labels={dict.palette}
-            cvHref="/documents/kp_cv.pdf"
-            contactHref={socialLinks.email}
-          />
           <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
-            <Navbar dict={dict} lang={lang} />
+            <Navbar
+              dict={dict}
+              lang={lang}
+              paletteNavItems={navItems}
+              paletteContentItems={[...blogPosts, ...projectPosts]}
+              paletteLabels={dict.palette}
+              cvHref="/documents/kp_cv.pdf"
+              contactHref={socialLinks.email}
+            />
           </Suspense>
           <Suspense fallback={<Loader size={28} />}>
             <PageTransition>{children}</PageTransition>

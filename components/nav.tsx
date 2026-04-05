@@ -7,6 +7,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { Sun, Moon } from "lucide-react";
 import { metaData } from "@/lib/config";
 import { usePathname } from "next/navigation";
+import { CommandPalette } from "@/components/ui/command-palette";
 
 function ScrollProgress() {
   const [progress, setProgress] = React.useState(0);
@@ -48,7 +49,17 @@ function TimezoneDisplay() {
   }, []);
   return <span className="text-sm text-neutral-500">{time}</span>;
 }
-function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
+interface NavbarProps {
+  dict: any;
+  lang: 'en' | 'fr';
+  paletteNavItems?: any[];
+  paletteContentItems?: any[];
+  paletteLabels?: any;
+  cvHref?: string;
+  contactHref?: string;
+}
+
+function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabels, cvHref, contactHref }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);
@@ -159,6 +170,17 @@ function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
                 );
               })}
             </div>
+            {/* Command palette inline trigger */}
+            {paletteNavItems && paletteLabels && (
+              <CommandPalette
+                navItems={paletteNavItems}
+                contentItems={paletteContentItems ?? []}
+                labels={paletteLabels}
+                cvHref={cvHref ?? ''}
+                contactHref={contactHref ?? ''}
+                inlineTrigger
+              />
+            )}
             <button
               type="button"
               onClick={toggleTheme}

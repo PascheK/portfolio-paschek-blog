@@ -97,8 +97,9 @@ export default function Footer({ dict }: { dict?: any }) {
                 <TbMailFilled className="size-4" /> {dict?.home?.contact?.email ?? "E-mail"}
               </a>
               <a
-                href="/rss.xml"
-                target="_self"
+                href={`/${lang}/feed/rss.xml`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <FaRss className="size-4" /> {f?.rss ?? "RSS Feed"}

@@ -140,7 +140,6 @@ export function CommandPalette({
 
   const triggerClasses = [
     "hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/40 bg-surface text-foreground shadow-lg hover:bg-primary hover:text-primary-foreground transition-colors",
-    inlineTrigger ? "" : "fixed right-4 top-4 z-[20000]",
     triggerClassName,
   ].join(" ").trim();
 

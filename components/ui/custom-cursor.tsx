@@ -56,7 +56,7 @@ export function CustomCursor() {
           scale: isPointer ? 0.4 : 1,
         }}
         transition={{ duration: 0.12 }}
-        className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full bg-primary pointer-events-none"
+        className="fixed top-0 left-0 z-[99999] w-2 h-2 rounded-full bg-primary pointer-events-none"
       />
 
       {/* Ring — trailing spring */}
@@ -68,7 +68,7 @@ export function CustomCursor() {
           borderColor: isPointer ? 'var(--primary)' : 'var(--muted-foreground)',
         }}
         transition={{ duration: 0.18 }}
-        className="fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full border-2 border-muted-foreground pointer-events-none"
+        className="fixed top-0 left-0 z-[99998] w-8 h-8 rounded-full border-2 border-muted-foreground pointer-events-none"
       />
     </>
   );
