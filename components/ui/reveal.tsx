@@ -12,19 +12,19 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  duration = 0.45,
-  y = 10,
+  duration = 0.55,
+  y = 22,
   once = true,
-  amount = 0.2,
-  margin = "-10% 0px -10% 0px",
+  amount = 0.15,
+  margin = "-8% 0px -8% 0px",
 }: BaseProps & { delay?: number; duration?: number; y?: number; once?: boolean; amount?: number; margin?: string }) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y, filter: 'blur(4px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={{ once, amount, margin }}
-      transition={{ duration, delay }}
+      transition={{ duration, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {children}
     </motion.div>
@@ -58,14 +58,19 @@ export function RevealStagger({
 export function RevealItem({
   children,
   className,
-  duration = 0.35,
-  y = 8,
+  duration = 0.45,
+  y = 16,
 }: BaseProps & { duration?: number; y?: number }) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
-      variants={{ show: { opacity: 1, y: 0, transition: { duration } } }}
+      initial={{ opacity: 0, y, filter: 'blur(3px)' }}
+      variants={{
+        show: {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          transition: { duration, ease: [0.25, 0.46, 0.45, 0.94] },
+        },
+      }}
     >
       {children}
     </motion.div>

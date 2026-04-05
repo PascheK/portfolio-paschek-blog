@@ -14,6 +14,8 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { CommandPalette } from "@/components/ui/command-palette";
 import { BackToTop } from "@/components/ui/back-to-top";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { AuroraBackground } from "@/components/ui/aurora";
+import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 
 function parseTags(raw?: string) {
   if (!raw) return [] as string[];
@@ -119,6 +121,8 @@ export default async function RootLayout({
       </head>
       <body className="antialiased min-h-screen font-sans flex flex-col bg-code-grid text-foreground transition-colors">
         <ThemeProvider>
+          <AuroraBackground />
+          <SmoothScrollProvider>
           <CommandPalette
             navItems={navItems}
             contentItems={[...blogPosts, ...projectPosts]}
@@ -137,6 +141,7 @@ export default async function RootLayout({
           <CustomCursor />
           <Analytics />
           <SpeedInsights />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>
