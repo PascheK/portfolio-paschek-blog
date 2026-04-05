@@ -115,9 +115,11 @@ export function CommandPalette({
   React.useEffect(() => {
     if (open) {
       setTimeout(() => inputRef.current?.focus(), 10);
+      document.body.style.overflow = 'hidden';
     } else {
-      // do nothing
+      document.body.style.overflow = '';
     }
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   const handleSelect = (item: BaseItem) => {
