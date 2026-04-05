@@ -1,13 +1,19 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { loginAdmin } from '@/app/actions/admin';
 import { Lock } from 'lucide-react';
 
-const initial = { error: undefined };
+const initial: { error?: string; ok?: boolean } = {};
 
 export default function AdminLoginPage() {
+  const router = useRouter();
   const [state, action, pending] = useActionState(loginAdmin, initial);
+
+  useEffect(() => {
+    if (state?.ok) router.push('/admin');
+  }, [state?.ok, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">

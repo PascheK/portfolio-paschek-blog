@@ -123,7 +123,7 @@ const BRANCH = (process.env.GITHUB_BRANCH ?? 'main').trim().replace(/^refs\/head
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
-export async function loginAdmin(prevState: { error?: string }, formData: FormData) {
+export async function loginAdmin(prevState: { error?: string; ok?: boolean }, formData: FormData) {
   const password = formData.get('password')?.toString() ?? '';
   const adminPassword = process.env.ADMIN_PASSWORD ?? '';
   if (!password || password !== adminPassword) {
@@ -140,7 +140,7 @@ export async function loginAdmin(prevState: { error?: string }, formData: FormDa
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 
-  redirect('/admin');
+  return { ok: true };
 }
 
 export async function logoutAdmin() {
