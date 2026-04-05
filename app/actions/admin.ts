@@ -250,6 +250,96 @@ export async function savePostGitHub(
   return { ok: true };
 }
 
+// ── Media (images) ───────────────────────────────────────────────────────────
+
+export async function listImagesGitHub(folder: 'blogs' | 'projects') {
+  await assertAdmin();
+  if (!REPO) return [];
+
+  const repoInfo = await resolveRepoInfo();
+  if (!repoInfo?.fullName) return [];
+  const repo = repoInfo.fullName;
+  const branch = BRANCH || repoInfo.defaultBranch || 'main';
+
+  const path = `public/${folder}`;
+  const url = buildContentsUrlFor(repo, path, branch);
+  const res = await fetch(url, { headers: githubHeaders(), cache: 'no-store' });
+  if (!res.ok) return [];
+
+  const files: any = await res.json();
+  if (!Array.isArray(files)) return [];
+
+  return files
+    .filter((f) => /\.(png|jpe?g|gif|webp|svg|avif|ico)$/i.test(f.name))
+    .map((f) => ({
+      name: f.name as string,
+      path: f.path as string,
+      sha: f.sha as string,
+      url: `/${folder}/${f.name}` as string,
+      previewUrl: (f.download_url ?? '') as string,
+    }));
+}
+
+export async function uploadImageGitHub(
+  folder: 'blogs' | 'projects',
+  filename: string,
+  base64Content: string,
+) {
+  await assertAdmin();
+  if (!REPO) return { ok: false, error: 'GITHUB_REPO not configured.' };
+
+  const repoInfo = await resolveRepoInfo();
+  if (!repoInfo?.fullName) return { ok: false, error: 'Repository not found.' };
+  const repo = repoInfo.fullName;
+  const branch = BRANCH || repoInfo.defaultBranch || 'main';
+
+  const path = `public/${folder}/${filename}`;
+  const url = `https://api.github.com/repos/${repo}/contents/${encodePath(path)}`;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: githubHeaders(),
+    body: JSON.stringify({
+      message: `media: upload ${folder}/${filename}`,
+      content: base64Content,
+      branch,
+    }),
+  });
+
+  if (!res.ok) return { ok: false, error: await res.text() };
+  return { ok: true, publicUrl: `/${folder}/${filename}` };
+}
+
+export async function deleteImageGitHub(
+  folder: 'blogs' | 'projects',
+  filename: string,
+  sha: string,
+) {
+  await assertAdmin();
+  if (!REPO) return { ok: false, error: 'GITHUB_REPO not configured.' };
+
+  const repoInfo = await resolveRepoInfo();
+  if (!repoInfo?.fullName) return { ok: false, error: 'Repository not found.' };
+  const repo = repoInfo.fullName;
+  const branch = BRANCH || repoInfo.defaultBranch || 'main';
+
+  const path = `public/${folder}/${filename}`;
+  const url = `https://api.github.com/repos/${repo}/contents/${encodePath(path)}`;
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: githubHeaders(),
+    body: JSON.stringify({
+      message: `media: delete ${folder}/${filename}`,
+      sha,
+      branch,
+    }),
+  });
+
+  if (!res.ok) return { ok: false, error: await res.text() };
+  return { ok: true };
+}
+
 export async function deletePostGitHub(
   type: 'blog' | 'projects',
   lang: 'en' | 'fr',

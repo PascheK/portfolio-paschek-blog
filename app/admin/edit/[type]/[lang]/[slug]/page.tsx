@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect, useRef, useTransition } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getPostGitHub, savePostGitHub, deletePostGitHub } from '@/app/actions/admin';
+import { MarkdownToolbar } from '@/components/admin/markdown-toolbar';
 import { ArrowLeft, Save, Trash2 } from 'lucide-react';
 
 function parseFrontmatterField(content: string, key: string): string {
@@ -30,6 +31,7 @@ export default function EditPostPage() {
   const type = params.type as 'blog' | 'projects';
   const lang = params.lang as 'en' | 'fr';
   const slug = params.slug as string;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isPending, startTransition] = useTransition();
   const [loading, setLoading] = useState(true);
@@ -89,6 +91,8 @@ export default function EditPostPage() {
       </div>
     );
   }
+
+  const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
 
   return (
     <div className="min-h-screen px-6 py-8 max-w-5xl mx-auto">
@@ -150,14 +154,18 @@ export default function EditPostPage() {
         </div>
 
         {/* Editor */}
-        <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Content (Markdown / MDX)</label>
+        <div className="flex flex-col">
+          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+            Content (Markdown / MDX)
+          </label>
+          <MarkdownToolbar textareaRef={textareaRef} value={body} onChange={setBody} />
           <textarea
+            ref={textareaRef}
             value={body}
             onChange={e => setBody(e.target.value)}
-            className="rounded-2xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-3 text-sm font-mono leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[60vh]"
+            className="rounded-b-2xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-3 text-sm font-mono leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[60vh]"
           />
-          <p className="text-xs text-muted-foreground">{body.trim().split(/\s+/).filter(Boolean).length} words</p>
+          <p className="text-xs text-muted-foreground mt-1.5">{wordCount} words</p>
         </div>
       </div>
     </div>
