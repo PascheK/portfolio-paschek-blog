@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation';
 
 /**
  * Wraps the app with Lenis smooth scroll.
- * – Duration 1.1s with expo-ease for that premium inertia feel
- * – Re-creates on route change so the scroll position resets correctly
- * – Dynamic import avoids SSR crash
+ *
+ * Listens to two custom window events so other components can pause/resume:
+ *   window.dispatchEvent(new Event('lenis:stop'))
+ *   window.dispatchEvent(new Event('lenis:start'))
  */
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<any>(null);
@@ -35,16 +36,30 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
         rafRef.current = requestAnimationFrame(raf);
       }
       rafRef.current = requestAnimationFrame(raf);
+
+      // Custom events — lets any component pause/resume Lenis without prop drilling
+      const stop  = () => instance?.stop();
+      const start = () => instance?.start();
+      window.addEventListener('lenis:stop',  stop);
+      window.addEventListener('lenis:start', start);
+
+      // Store cleanup on instance so the effect teardown can remove them
+      (instance as any)._stopHandler  = stop;
+      (instance as any)._startHandler = start;
     };
 
     init();
 
     return () => {
       cancelAnimationFrame(rafRef.current);
+      if (lenisRef.current) {
+        window.removeEventListener('lenis:stop',  lenisRef.current._stopHandler);
+        window.removeEventListener('lenis:start', lenisRef.current._startHandler);
+      }
       instance?.destroy();
       lenisRef.current = null;
     };
-  }, [pathname]);   // re-init on route change
+  }, [pathname]);
 
   return <>{children}</>;
 }

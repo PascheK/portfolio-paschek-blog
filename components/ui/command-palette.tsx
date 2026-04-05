@@ -98,35 +98,23 @@ export function CommandPalette({
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Lock scroll (body + block Lenis wheel events) when open
+  // Lock scroll when palette is open — stops both native scroll and Lenis
   React.useEffect(() => {
     if (!open) return;
 
-    // Lock body native scroll
+    // 1. Stop Lenis (custom event picked up by SmoothScrollProvider)
+    window.dispatchEvent(new Event('lenis:stop'));
+
+    // 2. Lock native body scroll as fallback
     const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
-    // Block wheel events so Lenis can't scroll underneath
-    const blockWheel = (e: WheelEvent) => {
-      const inside = listRef.current?.contains(e.target as Node);
-      if (!inside) e.preventDefault();
-    };
-    window.addEventListener("wheel", blockWheel, { passive: false });
-
-    // Block touchmove too
-    const blockTouch = (e: TouchEvent) => {
-      const inside = listRef.current?.contains(e.target as Node);
-      if (!inside) e.preventDefault();
-    };
-    window.addEventListener("touchmove", blockTouch, { passive: false });
-
-    // Focus input
+    // 3. Focus input
     setTimeout(() => inputRef.current?.focus(), 10);
 
     return () => {
       document.body.style.overflow = prev;
-      window.removeEventListener("wheel", blockWheel);
-      window.removeEventListener("touchmove", blockTouch);
+      window.dispatchEvent(new Event('lenis:start'));
     };
   }, [open]);
 
