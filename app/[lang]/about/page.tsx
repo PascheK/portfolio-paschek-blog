@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getDictionary } from "@/lib/dictionaries";
 import { metaData } from "@/lib/config";
-import { Reveal, RevealStagger, RevealItem } from "@/components/ui/reveal";
+import { Reveal, RevealScale, RevealX, RevealBounce, RevealStagger, RevealItem } from "@/components/ui/reveal";
 import { Timeline } from "@/components/ui/timeline";
 import { Download } from "lucide-react";
 
@@ -30,7 +30,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: "e
       <div className="max-w-6xl mx-auto">
 
         {/* ── INTRO ──────────────────────────────────────────────── */}
-        <Reveal className="flex flex-col items-center text-center gap-4 mb-12">
+        <RevealScale scale={0.88} duration={0.65} className="flex flex-col items-center text-center gap-4 mb-12">
           <div className="relative">
             <div className="absolute inset-0 rounded-full blur-2xl bg-gradient-to-br from-blue-500/25 via-purple-500/15 to-emerald-500/15 scale-150" />
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-primary/40 shadow-2xl ring-4 ring-primary/10">
@@ -55,28 +55,28 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: "e
               </p>
             )}
           </div>
-        </Reveal>
+        </RevealScale>
 
         {/* ── MAIN LAYOUT ────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 items-start">
 
-          {/* Left: Timeline */}
+          {/* Left: Timeline — slides from left */}
           <div>
-            <Reveal className="mb-5">
+            <RevealX from="left" duration={0.5} className="mb-5">
               <h2 className="text-xl font-semibold">
                 {dict?.about?.experienceTitle ?? (lang === "fr" ? "Parcours / Expérience" : "Experience")}
               </h2>
-            </Reveal>
-            <Reveal>
+            </RevealX>
+            <RevealX from="left" duration={0.55} delay={0.05}>
               <Timeline items={experiences} />
-            </Reveal>
+            </RevealX>
           </div>
 
-          {/* Right: Skills + Education + CV */}
+          {/* Right: Skills + Education + CV — slides from right */}
           <div className="flex flex-col gap-5">
 
             {/* Skills grouped by category */}
-            <Reveal>
+            <RevealX from="right" duration={0.5}>
               <div className="rounded-2xl border border-border bg-surface-alt/60 backdrop-blur p-5 shadow-sm">
                 <h2 className="text-base font-semibold mb-4">
                   {dict?.about?.skills?.title ?? (lang === "fr" ? "Compétences" : "Skills")}
@@ -101,10 +101,10 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: "e
                   ))}
                 </div>
               </div>
-            </Reveal>
+            </RevealX>
 
             {/* Education */}
-            <Reveal>
+            <RevealX from="right" duration={0.5} delay={0.08}>
               <div className="rounded-2xl border border-border bg-surface-alt/60 backdrop-blur p-5 shadow-sm">
                 <h2 className="text-base font-semibold mb-3">
                   {dict?.about?.education?.title ?? (lang === "fr" ? "Formation" : "Education")}
@@ -119,10 +119,10 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: "e
                   ))}
                 </div>
               </div>
-            </Reveal>
+            </RevealX>
 
-            {/* Download CV */}
-            <Reveal>
+            {/* Download CV — bounce pop */}
+            <RevealBounce delay={0.15}>
               <a
                 href={cvUrl}
                 download
@@ -131,7 +131,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: "e
                 <Download className="size-4" />
                 {dict?.about?.downloadCV ?? (lang === "fr" ? "Télécharger mon CV" : "Download my CV")}
               </a>
-            </Reveal>
+            </RevealBounce>
           </div>
         </div>
       </div>

@@ -98,23 +98,19 @@ export function CommandPalette({
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Lock scroll when palette is open — stops both native scroll and Lenis
+  // Lock page scroll while keeping the palette list scrollable
   React.useEffect(() => {
     if (!open) return;
 
-    // 1. Stop Lenis (custom event picked up by SmoothScrollProvider)
-    window.dispatchEvent(new Event('lenis:stop'));
-
-    // 2. Lock native body scroll as fallback
+    // Lock native body scroll in the background
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // 3. Focus input
+    // Focus input
     setTimeout(() => inputRef.current?.focus(), 10);
 
     return () => {
       document.body.style.overflow = prev;
-      window.dispatchEvent(new Event('lenis:start'));
     };
   }, [open]);
 
@@ -202,7 +198,13 @@ export function CommandPalette({
             </div>
 
             {/* Results */}
-            <div ref={listRef} className="max-h-[50vh] overflow-y-auto overscroll-contain px-2 pb-2">
+            <div
+              ref={listRef}
+              data-lenis-prevent
+              onWheelCapture={(e) => e.stopPropagation()}
+              onTouchMoveCapture={(e) => e.stopPropagation()}
+              className="max-h-[50vh] overflow-y-auto overscroll-contain px-2 pb-2 [touch-action:pan-y]"
+            >
               {filtered.length === 0 && (
                 <div className="px-4 py-10 text-sm text-muted-foreground text-center">
                   {labels.noResults}

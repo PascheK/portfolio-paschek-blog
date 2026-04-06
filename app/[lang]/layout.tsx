@@ -1,4 +1,3 @@
-import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/nav";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,12 +9,10 @@ import { getBlogPosts, getProjectPosts } from "@/lib/posts";
 import { Suspense } from "react";
 import { Loader } from "@/components/ui/loader";
 import PageTransition from "@/components/ui/page-transition";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { CommandPalette } from "@/components/ui/command-palette";
 import { BackToTop } from "@/components/ui/back-to-top";
-import { CustomCursor } from "@/components/ui/custom-cursor";
 import { AuroraBackground } from "@/components/ui/aurora";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
+import { HtmlLang } from "@/components/ui/html-lang";
 
 function parseTags(raw?: string) {
   if (!raw) return [] as string[];
@@ -33,40 +30,51 @@ export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'fr' }];
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(metaData.baseUrl),
-  title: {
-    default: metaData.title,
-    template: `%s | ${metaData.title}`,
-  },
-  description: metaData.description,
-  openGraph: {
-    images: metaData.ogImage,
-    title: metaData.title,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  return {
+    metadataBase: new URL(metaData.baseUrl),
+    title: {
+      default: metaData.title,
+      template: `%s | ${metaData.title}`,
+    },
     description: metaData.description,
-    url: metaData.baseUrl,
-    siteName: metaData.name,
-    locale: "en_US",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    openGraph: {
+      images: metaData.ogImage,
+      title: metaData.title,
+      description: metaData.description,
+      url: metaData.baseUrl,
+      siteName: metaData.name,
+      locale: lang === 'fr' ? 'fr_FR' : 'en_US',
+      type: "website",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
+    icons: { icon: "/favicon.ico" },
+    alternates: {
+      types: {
+        "application/rss+xml": `/${lang}/feed/rss.xml`,
+        "application/atom+xml": `/${lang}/feed/atom.xml`,
+        "application/feed+json": `/${lang}/feed/feed.json`,
+      },
+    },
+  };
+}
 
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
-
-export default async function RootLayout({
+export default async function LangLayout({
   children,
   params,
 }: {
@@ -91,45 +99,38 @@ export default async function RootLayout({
     keywords: parseTags(p.metadata.tags),
   }));
   const navItems = [
-    { id: 'nav-home', title: lang === 'fr' ? 'Accueil' : 'Home', href: `/${lang}` },
-    { id: 'nav-blog', title: dict.nav.blog, href: `/${lang}/blog` },
-    { id: 'nav-projects', title: dict.nav.projects, href: `/${lang}/projects` },
-    { id: 'nav-about', title: dict.nav.about, href: `/${lang}/about` },
+    { id: 'nav-home',     title: lang === 'fr' ? 'Accueil' : 'Home',     href: `/${lang}` },
+    { id: 'nav-blog',     title: dict.nav.blog,                            href: `/${lang}/blog` },
+    { id: 'nav-projects', title: dict.nav.projects,                        href: `/${lang}/projects` },
+    { id: 'nav-about',   title: dict.nav.about,                            href: `/${lang}/about` },
+    { id: 'nav-uses',    title: dict.nav.uses   ?? 'Uses',                 href: `/${lang}/uses` },
+    { id: 'nav-photos',  title: dict.nav.photos ?? 'Photos',               href: `/${lang}/photos` },
   ];
 
   return (
-    <html lang={lang} suppressHydrationWarning>
-      <head>
-        <link rel="alternate" type="application/rss+xml" href={`/${lang}/feed/rss.xml`} title="RSS Feed" />
-        <link rel="alternate" type="application/atom+xml" href={`/${lang}/feed/atom.xml`} title="Atom Feed" />
-        <link rel="alternate" type="application/feed+json" href={`/${lang}/feed/feed.json`} title="JSON Feed" />
-      </head>
-      <body className="antialiased min-h-screen font-sans flex flex-col bg-code-grid text-foreground transition-colors">
-        <ThemeProvider>
-          <AuroraBackground />
-          <SmoothScrollProvider>
-          <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
-            <Navbar
-              dict={dict}
-              lang={lang}
-              paletteNavItems={navItems}
-              paletteContentItems={[...blogPosts, ...projectPosts]}
-              paletteLabels={dict.palette}
-              cvHref="/documents/kp_cv.pdf"
-              contactHref={socialLinks.email}
-            />
-          </Suspense>
-          <Suspense fallback={<Loader size={28} />}>
-            <PageTransition>{children}</PageTransition>
-          </Suspense>
-          <Footer dict={dict} />
-          <BackToTop />
-          <CustomCursor />
-          <Analytics />
-          <SpeedInsights />
-          </SmoothScrollProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <HtmlLang lang={lang} />
+      <AuroraBackground />
+      <SmoothScrollProvider>
+        <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
+          <Navbar
+            dict={dict}
+            lang={lang}
+            paletteNavItems={navItems}
+            paletteContentItems={[...blogPosts, ...projectPosts]}
+            paletteLabels={dict.palette}
+            cvHref="/documents/kp_cv.pdf"
+            contactHref={socialLinks.email}
+          />
+        </Suspense>
+        <Suspense fallback={<Loader size={28} />}>
+          <PageTransition>{children}</PageTransition>
+        </Suspense>
+        <Footer dict={dict} />
+        <BackToTop />
+        <Analytics />
+        <SpeedInsights />
+      </SmoothScrollProvider>
+    </>
   );
 }

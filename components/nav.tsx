@@ -58,10 +58,12 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Desktop nav: all main sections
   const navLinks = [
     { href: `/${lang}/blog`,     label: dict.nav.blog },
     { href: `/${lang}/projects`, label: dict.nav.projects },
     { href: `/${lang}/about`,    label: dict.nav.about },
+    { href: `/${lang}/uses`,     label: dict.nav.uses   ?? "Uses" },
   ];
 
   // Mobile: lock scroll + focus trap
@@ -132,7 +134,7 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
                     href={href}
                     aria-current={active ? "page" : undefined}
                     className={[
-                      "relative px-3 py-1.5 text-[13px] font-medium rounded-lg transition-colors duration-150",
+                      "relative px-2.5 py-1.5 text-[12.5px] font-medium rounded-lg transition-colors duration-150",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                       active ? "text-foreground" : "text-foreground/50 hover:text-foreground/80",
                     ].join(" ")}

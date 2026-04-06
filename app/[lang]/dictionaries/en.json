@@ -2,7 +2,9 @@
   "nav": {
     "blog": "Blog",
     "projects": "Projects",
-    "about": "About"
+    "about": "About",
+    "uses": "Uses",
+    "photos": "Photos"
   },
   "home": {
     "title": "Welcome",
@@ -191,9 +193,26 @@
         "Vercel"
       ],
       "categories": {
-        "frontend": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
-        "backend": ["Node.js", "Express.js", "Java", "Spring Boot", "MongoDB", "PostgreSQL"],
-        "devops": ["Docker", "CI/CD", "Vercel"]
+        "frontend": [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "JavaScript",
+          "Tailwind CSS"
+        ],
+        "backend": [
+          "Node.js",
+          "Express.js",
+          "Java",
+          "Spring Boot",
+          "MongoDB",
+          "PostgreSQL"
+        ],
+        "devops": [
+          "Docker",
+          "CI/CD",
+          "Vercel"
+        ]
       }
     },
     "education": {
@@ -231,39 +250,85 @@
       "editor": {
         "title": "Editor & Terminal",
         "items": [
-          { "name": "Visual Studio Code", "desc": "My main code editor — with Vim keybindings." },
-          { "name": "Warp", "desc": "Fast, modern terminal with AI autocompletions." },
-          { "name": "One Dark Pro", "desc": "VS Code theme I've been using for years." },
-          { "name": "JetBrains Mono", "desc": "My go-to monospace font for coding." }
+          {
+            "name": "Visual Studio Code",
+            "desc": "My main code editor — with Vim keybindings."
+          },
+          {
+            "name": "JetBrains Rider",
+            "desc": "My editor for C# projects."
+          },
+          {
+            "name": "One Dark Pro",
+            "desc": "VS Code theme I've been using for years."
+          },
+          {
+            "name": "JetBrains Mono",
+            "desc": "My go-to monospace font for coding."
+          }
         ]
       },
       "hardware": {
         "title": "Hardware",
         "items": [
-          { "name": "MacBook Pro M1", "desc": "Main development machine — fast and silent." },
-          { "name": "LG 27\" 4K Monitor", "desc": "External display for better ergonomics." },
-          { "name": "Logitech MX Keys", "desc": "Comfortable full-size keyboard." },
-          { "name": "Logitech MX Master 3", "desc": "Ergonomic mouse with great scroll wheel." }
+          {
+            "name": "MacBook Pro M4 Max",
+            "desc": "Main development machine — fast and silent."
+          },
+          {
+            "name": "LG 27\" 4K Monitor",
+            "desc": "External display for better ergonomics."
+          }
         ]
       },
       "apps": {
         "title": "Apps & Tools",
         "items": [
-          { "name": "Raycast", "desc": "Spotlight replacement with powerful extensions." },
-          { "name": "Linear", "desc": "Issue tracking for personal projects." },
-          { "name": "Figma", "desc": "UI/UX design and prototyping." },
-          { "name": "TablePlus", "desc": "Database GUI for PostgreSQL and MongoDB." },
-          { "name": "Notion", "desc": "Notes, docs and project management." },
-          { "name": "Docker Desktop", "desc": "Container management made easy." }
+          {
+            "name": "Figma",
+            "desc": "UI/UX design and prototyping."
+          },
+          {
+            "name": "TablePlus",
+            "desc": "Database GUI for PostgreSQL and MongoDB."
+          },
+          {
+            "name": "Unity",
+            "desc": "For my game prototypes."
+          },
+          {
+            "name": "TablePlus",
+            "desc": "Database GUI for PostgreSQL and MongoDB."
+          },
+          {
+            "name": "Affine",
+            "desc": "Notes, docs and project management."
+          },
+          {
+            "name": "Portainer",
+            "desc": "Simplified container management."
+          }
         ]
       },
       "stack": {
         "title": "Daily Stack",
         "items": [
-          { "name": "Next.js + TypeScript", "desc": "My default stack for web apps." },
-          { "name": "Tailwind CSS", "desc": "Utility-first CSS I can't live without." },
-          { "name": "Vercel", "desc": "Deployments and hosting — zero config." },
-          { "name": "GitHub", "desc": "Version control and open source contributions." }
+          {
+            "name": "Next.js + TypeScript",
+            "desc": "My default stack for web apps."
+          },
+          {
+            "name": "Tailwind CSS",
+            "desc": "Utility-first CSS I can't live without."
+          },
+          {
+            "name": "Vercel",
+            "desc": "Deployments and hosting — zero config."
+          },
+          {
+            "name": "GitHub",
+            "desc": "Version control and open source contributions."
+          }
         ]
       }
     }

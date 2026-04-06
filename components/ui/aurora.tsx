@@ -122,7 +122,7 @@ export function AuroraBackground() {
     <div
       aria-hidden="true"
       className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none
-                 opacity-50 dark:opacity-80
+                 opacity-[0.62] dark:opacity-80
                  transition-opacity duration-500"
     >
       {blobs.map((blob) => (
