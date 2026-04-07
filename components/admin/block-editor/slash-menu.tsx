@@ -123,37 +123,42 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
           {filtered.map((cmd, i) => (
             <button
               key={cmd.id}
-              className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-all duration-100 ${
-                i === selected
-                  ? 'bg-white/[0.08]'
-                  : 'hover:bg-white/[0.04]'
+              className={`relative w-full flex items-center gap-3 px-3 py-2 text-left transition-all duration-75 ${
+                i === selected ? 'bg-primary/[0.13]' : 'hover:bg-white/[0.04]'
               }`}
               onMouseDown={(e) => { e.preventDefault(); onSelect(cmd.id); }}
               onMouseEnter={() => setSelected(i)}
             >
+              {/* Selection indicator bar */}
+              {i === selected && (
+                <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full bg-primary" />
+              )}
+
               {/* Icon */}
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono shrink-0 transition-colors ${
-                i === selected ? 'bg-primary/25 text-primary' : 'bg-white/[0.06] text-white/50'
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono shrink-0 transition-all ${
+                i === selected ? 'bg-primary/25 text-primary shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)]' : 'bg-white/[0.05] text-white/40'
               }`}>
                 {ICON_MAP[cmd.id] || cmd.icon}
               </div>
 
               {/* Label */}
               <div className="min-w-0 flex-1">
-                <div className={`text-[13px] font-medium leading-none mb-0.5 transition-colors ${
-                  i === selected ? 'text-white' : 'text-white/70'
+                <div className={`text-[13px] font-medium leading-none mb-[3px] transition-colors ${
+                  i === selected ? 'text-white' : 'text-white/60'
                 }`}>
                   {cmd.label}
                 </div>
-                <div className="text-[11px] text-white/30 leading-tight truncate">
+                <div className="text-[11px] text-white/25 leading-tight truncate">
                   {cmd.description}
                 </div>
               </div>
 
               {/* Shortcut */}
               {cmd.shortcut && (
-                <kbd className={`shrink-0 text-[10px] font-mono px-1.5 py-0.5 rounded-md transition-colors ${
-                  i === selected ? 'bg-primary/20 text-primary/70' : 'bg-white/[0.05] text-white/20'
+                <kbd className={`shrink-0 text-[10px] font-mono px-1.5 py-0.5 rounded-md transition-colors border ${
+                  i === selected
+                    ? 'bg-primary/20 border-primary/30 text-primary/80'
+                    : 'bg-white/[0.04] border-white/[0.06] text-white/18'
                 }`}>
                   /{cmd.shortcut}
                 </kbd>
