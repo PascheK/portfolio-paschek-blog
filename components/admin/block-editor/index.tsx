@@ -19,38 +19,43 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
     position: { top: number; left: number };
   } | null>(null);
 
-  // Always-current reference to blocks — avoids stale closures
-  const blocksRef = React.useRef(blocks);
-  blocksRef.current = blocks;
+  // ── Always-current refs (avoids stale closures, no re-renders) ────────────
+  const blocksRef      = React.useRef(blocks);
+  blocksRef.current    = blocks;
 
-  // Always-current reference to onChange — avoids stale closures
-  const onChangeRef = React.useRef(onChange);
-  onChangeRef.current = onChange;
+  const onChangeRef    = React.useRef(onChange);
+  onChangeRef.current  = onChange;
 
-  // Sync when initialMdx changes externally (e.g. loading saved draft)
-  const prevMdxRef = React.useRef(initialMdx);
-  const isFirstRender = React.useRef(true);
+  const slashMenuRef   = React.useRef(slashMenu);
+  slashMenuRef.current = slashMenu;
+
+  // ── Notify parent after blocks update (NEVER during render/setState) ──────
+  // Track the last MDX we sent so we can detect external vs internal changes.
+  const lastSentMdxRef = React.useRef(initialMdx);
+
   React.useEffect(() => {
-    if (isFirstRender.current) { isFirstRender.current = false; return; }
-    if (initialMdx !== prevMdxRef.current) {
-      prevMdxRef.current = initialMdx;
-      const next = mdxToBlocks(initialMdx);
-      blocksRef.current = next;
-      setBlocks(next);
-      // No onChange call here — initialMdx came FROM the parent
-    }
+    const mdx = blocksToMdx(blocks);
+    if (mdx === lastSentMdxRef.current) return; // nothing changed
+    lastSentMdxRef.current = mdx;
+    onChangeRef.current(mdx);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blocks]);
+
+  // ── Sync blocks when parent sends a genuinely different MDX ──────────────
+  // (e.g. loading a saved draft, or initial load on the edit page)
+  React.useEffect(() => {
+    if (initialMdx === lastSentMdxRef.current) return; // we sent this, skip
+    lastSentMdxRef.current = initialMdx;
+    const next = mdxToBlocks(initialMdx);
+    blocksRef.current = next;
+    setBlocks(next);
   }, [initialMdx]);
 
   const inputRefs = React.useRef<Record<string, HTMLElement | null>>({});
 
-  // ── Core helper: update blocks + notify parent ─────────────────────────
-  // NEVER call onChange inside a setState updater — that triggers
-  // "Cannot update a component while rendering a different component".
-  // Instead we compute next synchronously, update the ref, call onChange,
-  // then schedule the React state update.
+  // ── Core helper — just updates blocks; parent is notified via effect ──────
   function applyBlocks(next: Block[]) {
     blocksRef.current = next;
-    onChangeRef.current(blocksToMdx(next));
     setBlocks(next);
   }
 
@@ -102,7 +107,7 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
       const position = el ? getCaretPosition(el) : { top: 0, left: 0 };
       setSlashMenu({ query, blockId: id, position });
     } else {
-      if (slashMenu) setSlashMenu(null);
+      if (slashMenuRef.current) setSlashMenu(null);
     }
 
     const next = blocksRef.current.map((b) =>
@@ -111,10 +116,14 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
     applyBlocks(next);
   }
 
-  // ── Slash menu selection ────────────────────────────────────────────────
-  function handleSlashSelect(type: BlockType) {
-    if (!slashMenu) return;
-    const { blockId } = slashMenu;
+  // ── Slash menu selection — STABLE via useCallback + ref ────────────────
+  // handleSlashSelect is passed to SlashMenu as onSelect. Making it stable
+  // (useCallback with []) means SlashMenu's keyboard effect never
+  // unnecessarily re-subscribes. The ref gives it access to latest state.
+  const handleSlashSelect = React.useCallback((type: BlockType) => {
+    const menu = slashMenuRef.current;
+    if (!menu) return;
+    const { blockId } = menu;
 
     // Clear the typed "/query" from the DOM immediately
     const el = inputRefs.current[blockId];
@@ -128,7 +137,12 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
     applyBlocks(next);
     setSlashMenu(null);
     focusBlock(blockId);
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSlashClose = React.useCallback(() => {
+    setSlashMenu(null);
+  }, []);
 
   // ── Meta change (image url, code lang, callout type) ────────────────────
   function handleMetaChange(id: string, meta: Block['meta']) {
@@ -157,7 +171,6 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
   function deleteBlock(id: string) {
     const current = blocksRef.current;
     if (current.length <= 1) {
-      // Keep one empty paragraph
       const el = inputRefs.current[current[0].id];
       if (el?.contentEditable === 'true') el.textContent = '';
       const next = [{ ...current[0], content: '', type: 'paragraph' as BlockType }];
@@ -173,13 +186,12 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
 
   // ── Keyboard handler ────────────────────────────────────────────────────
   function handleKeyDown(e: React.KeyboardEvent, id: string) {
-    if (slashMenu) return; // slash menu owns keyboard
+    if (slashMenuRef.current) return; // slash menu owns keyboard
     const block = blocksRef.current.find((b) => b.id === id);
     if (!block) return;
 
     if (e.key === 'Enter' && !e.shiftKey && block.type !== 'code') {
       e.preventDefault();
-      // After a heading/quote, next block is paragraph
       const nextType: BlockType =
         ['heading1', 'heading2', 'heading3', 'quote', 'callout'].includes(block.type)
           ? 'paragraph'
@@ -294,7 +306,7 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
           query={slashMenu.query}
           position={slashMenu.position}
           onSelect={handleSlashSelect}
-          onClose={() => setSlashMenu(null)}
+          onClose={handleSlashClose}
         />
       )}
     </div>
