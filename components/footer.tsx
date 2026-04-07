@@ -22,7 +22,9 @@ export default function Footer({ dict }: { dict?: any }) {
     { href: `/${lang}/blog`, label: f?.links?.blog ?? "Blog" },
     { href: `/${lang}/projects`, label: f?.links?.projects ?? (isFr ? "Projets" : "Projects") },
     { href: `/${lang}/about`, label: f?.links?.about ?? (isFr ? "À propos" : "About") },
-    { href: `/${lang}/uses`, label: f?.links?.uses ?? "Uses" },
+    { href: `/${lang}/uses`,     label: f?.links?.uses     ?? "Uses" },
+    { href: `/${lang}/now`,      label: f?.links?.now      ?? "Now" },
+    { href: `/${lang}/timeline`, label: f?.links?.timeline ?? "Timeline" },
   ];
 
   return (

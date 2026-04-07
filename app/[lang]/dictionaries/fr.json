@@ -4,7 +4,9 @@
     "projects": "Projets",
     "about": "À propos",
     "uses": "Équipement",
-    "photos": "Photos"
+    "photos": "Photos",
+    "now": "Maintenant",
+    "timeline": "Parcours"
   },
   "home": {
     "title": "Bienvenue",
@@ -237,7 +239,9 @@
       "blog": "Blog",
       "projects": "Projets",
       "about": "À propos",
-      "uses": "Setup"
+      "uses": "Setup",
+      "now": "Maintenant",
+      "timeline": "Parcours"
     },
     "connect": "Me contacter",
     "rss": "Flux RSS",
@@ -335,5 +339,50 @@
     "home": "Retour à l'accueil",
     "blog": "Lire le blog",
     "projects": "Voir les projets"
+  },
+  "now": {
+    "title": "Maintenant",
+    "subtitle": "Un aperçu de ce sur quoi je travaille en ce moment.",
+    "updated": "Mis à jour en avril 2026",
+    "focus": {
+      "label": "Focus principal",
+      "items": [
+        "Construire et peaufiner ce portfolio",
+        "Approfondir mes connaissances en Next.js & React",
+        "Explorer les outils IA dans les workflows de dev"
+      ]
+    },
+    "projects": {
+      "label": "Projets annexes",
+      "items": [
+        "portfolio-paschek-blog — ce site même",
+        "Expérimentation d'un outil de code review propulsé par LLM",
+        "Contribution à quelques projets open-source"
+      ]
+    },
+    "learning": {
+      "label": "Apprentissage",
+      "items": [
+        "Rust — lentement mais sûrement",
+        "Patterns de system design",
+        "Composition photographique"
+      ]
+    },
+    "reading": {
+      "label": "Lectures",
+      "items": [
+        "A Philosophy of Software Design — John Ousterhout",
+        "The Pragmatic Programmer — Hunt & Thomas"
+      ]
+    },
+    "enjoying": {
+      "label": "En ce moment",
+      "items": [
+        "Randonnées dans les Alpes quand la météo le permet",
+        "Bidouillage homelab le week-end",
+        "Café de spécialité — toujours"
+      ]
+    },
+    "nownow": "Inspiré par le mouvement nownownow.com."
   }
 }

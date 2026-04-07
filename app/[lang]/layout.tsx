@@ -103,8 +103,10 @@ export default async function LangLayout({
     { id: 'nav-blog',     title: dict.nav.blog,                            href: `/${lang}/blog` },
     { id: 'nav-projects', title: dict.nav.projects,                        href: `/${lang}/projects` },
     { id: 'nav-about',   title: dict.nav.about,                            href: `/${lang}/about` },
-    { id: 'nav-uses',    title: dict.nav.uses   ?? 'Uses',                 href: `/${lang}/uses` },
-    { id: 'nav-photos',  title: dict.nav.photos ?? 'Photos',               href: `/${lang}/photos` },
+    { id: 'nav-uses',      title: dict.nav.uses      ?? 'Uses',      href: `/${lang}/uses` },
+    { id: 'nav-now',       title: dict.nav.now       ?? 'Now',       href: `/${lang}/now` },
+    { id: 'nav-timeline',  title: dict.nav.timeline  ?? 'Timeline',  href: `/${lang}/timeline` },
+    { id: 'nav-photos',    title: dict.nav.photos    ?? 'Photos',    href: `/${lang}/photos` },
   ];
 
   return (

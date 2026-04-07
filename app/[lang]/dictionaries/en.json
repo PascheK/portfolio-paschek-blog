@@ -4,7 +4,9 @@
     "projects": "Projects",
     "about": "About",
     "uses": "Uses",
-    "photos": "Photos"
+    "photos": "Photos",
+    "now": "Now",
+    "timeline": "Timeline"
   },
   "home": {
     "title": "Welcome",
@@ -240,7 +242,9 @@
       "blog": "Blog",
       "projects": "Projects",
       "about": "About",
-      "uses": "Uses"
+      "uses": "Uses",
+      "now": "Now",
+      "timeline": "Timeline"
     },
     "connect": "Connect",
     "rss": "RSS Feed",
@@ -342,5 +346,50 @@
     "home": "Back to home",
     "blog": "Read the blog",
     "projects": "See projects"
+  },
+  "now": {
+    "title": "Now",
+    "subtitle": "A snapshot of what I am up to at the moment.",
+    "updated": "Last updated April 2026",
+    "focus": {
+      "label": "Main focus",
+      "items": [
+        "Building and shipping this portfolio",
+        "Deepening my Next.js & React knowledge",
+        "Exploring AI tooling in dev workflows"
+      ]
+    },
+    "projects": {
+      "label": "Side projects",
+      "items": [
+        "portfolio-paschek-blog — this very site",
+        "Experimenting with an LLM-powered code review tool",
+        "Contributing to a few open-source repos"
+      ]
+    },
+    "learning": {
+      "label": "Learning",
+      "items": [
+        "Rust — slowly but surely",
+        "System design patterns",
+        "Photography composition"
+      ]
+    },
+    "reading": {
+      "label": "Reading",
+      "items": [
+        "A Philosophy of Software Design — John Ousterhout",
+        "The Pragmatic Programmer — Hunt & Thomas"
+      ]
+    },
+    "enjoying": {
+      "label": "Enjoying",
+      "items": [
+        "Hiking in the Alps when the weather allows",
+        "Homelab tinkering on weekends",
+        "Specialty coffee — always"
+      ]
+    },
+    "nownow": "Inspired by the nownownow.com movement."
   }
 }
