@@ -1,11 +1,20 @@
 'use client';
 
+<<<<<<< HEAD
 import { useState, useEffect, useTransition, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getPostGitHub, savePostGitHub, deletePostGitHub } from '@/app/actions/admin';
 import { MarkdownPreview } from '@/components/admin/markdown-preview';
 import { BlockEditor } from '@/components/admin/block-editor';
+=======
+import { useState, useEffect, useRef, useTransition, useCallback } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+import { getPostGitHub, savePostGitHub, deletePostGitHub } from '@/app/actions/admin';
+import { MarkdownToolbar } from '@/components/admin/markdown-toolbar';
+import { MarkdownPreview } from '@/components/admin/markdown-preview';
+>>>>>>> origin/main
 import { ArrowLeft, Save, Trash2, Eye, EyeOff, Clock, Maximize2, Minimize2 } from 'lucide-react';
 
 function readingTime(text: string) {
@@ -37,6 +46,10 @@ export default function EditPostPage() {
   const type    = params.type as 'blog' | 'projects';
   const lang    = params.lang as 'en' | 'fr';
   const slug    = params.slug as string;
+<<<<<<< HEAD
+=======
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+>>>>>>> origin/main
 
   const [isPending, startTransition] = useTransition();
   const [loading,   setLoading]      = useState(true);
@@ -210,9 +223,21 @@ export default function EditPostPage() {
           </div>
 
           <div className={`grid gap-4 ${showPreview ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+<<<<<<< HEAD
             {/* Block Editor */}
             <div className="rounded-2xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-3 min-h-[60vh]">
               <BlockEditor initialMdx={body} onChange={setBody} />
+=======
+            <div className="flex flex-col">
+              <MarkdownToolbar textareaRef={textareaRef} value={body} onChange={setBody} />
+              <textarea
+                ref={textareaRef}
+                value={body}
+                onChange={e => setBody(e.target.value)}
+                className="rounded-b-2xl border border-t-0 border-border bg-surface-alt/60 backdrop-blur px-4 py-3 text-sm font-mono leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[60vh]"
+                placeholder="Write your content here…"
+              />
+>>>>>>> origin/main
             </div>
 
             {showPreview && (

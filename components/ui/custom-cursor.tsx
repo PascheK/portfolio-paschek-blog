@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -43,8 +45,8 @@ export function CustomCursor() {
     };
   }, [mouseX, mouseY, isVisible]);
 
-  // Don't render on touch devices or before mount
-  if (!mounted) return null;
+  // Don't render on touch devices or before mount, or on admin pages
+  if (!mounted || !isVisible || pathname?.startsWith('/admin')) return null;
 
   return (
     <>
@@ -56,7 +58,7 @@ export function CustomCursor() {
           scale: isPointer ? 0.4 : 1,
         }}
         transition={{ duration: 0.12 }}
-        className="fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full bg-primary pointer-events-none"
+        className="fixed top-0 left-0 z-[99999] w-2 h-2 rounded-full bg-primary pointer-events-none"
       />
 
       {/* Ring — trailing spring */}
@@ -68,7 +70,7 @@ export function CustomCursor() {
           borderColor: isPointer ? 'var(--primary)' : 'var(--muted-foreground)',
         }}
         transition={{ duration: 0.18 }}
-        className="fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full border-2 border-muted-foreground pointer-events-none"
+        className="fixed top-0 left-0 z-[99998] w-8 h-8 rounded-full border-2 border-muted-foreground pointer-events-none"
       />
     </>
   );

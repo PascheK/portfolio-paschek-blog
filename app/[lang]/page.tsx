@@ -3,11 +3,12 @@ import { getDictionary } from '@/lib/dictionaries';
 import { socialLinks } from '@/lib/config';
 import { Github, Mail, Instagram, ChevronDown, Code2, Database, Server, Phone, Layers, Clock, Cpu, Coffee } from "lucide-react";
 import Link from 'next/link';
-import { Reveal, RevealStagger, RevealItem } from '@/components/ui/reveal';
+import { Reveal, RevealX, RevealClip, RevealStagger, RevealItem } from '@/components/ui/reveal';
 import { AnimatedCounter } from '@/components/ui/animated-counter';
 import { getProjectPosts } from "@/lib/posts";
 import Snowfalling from "@/components/Snowfalling";
 import { ContactForm } from "@/components/contact-form";
+import { HeroSection } from "@/components/hero-section";
 
 function parseTags(raw?: string | string[]): string[] {
   if (!raw) return [];
@@ -47,68 +48,31 @@ export default async function Page({
       <Snowfalling />
       <main className="flex-1 w-full min-w-0 flex flex-col px-6 sm:px-6 md:px-8">
 
-        {/* ── HERO ─────────────────────────────────────────────── */}
+        {/* ── HERO — client component so animate (not whileInView) always fires on mount ── */}
         <section className="w-full max-w-6xl mx-auto pt-10 md:pt-16 pb-12 md:pb-16 text-center">
-          <Reveal className="flex flex-col items-center gap-6" y={10} duration={0.45}>
-            {/* Profile glow */}
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full blur-2xl bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-emerald-500/20 scale-125" />
-              <Image
-                src="/profile.png"
-                alt="photo de profil"
-                width={160}
-                height={160}
-                className="relative rounded-full border-2 border-primary/50 shadow-2xl object-cover ring-4 ring-primary/10"
-                priority
-              />
-            </div>
-
-            <Reveal y={6} delay={0.1} duration={0.4}>
-              <p className="text-sm uppercase tracking-widest text-primary font-medium">{dict.home.hero.hello}</p>
-              <h1 className="mt-2 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight title">
-                {dict.home.hero.title_prefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">Pasche Killian</span>
-                <br className="hidden sm:block" /> {dict.home.hero.title_suffix}
-              </h1>
-              <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
-                {dict.home.hero.tagline}
-              </p>
-            </Reveal>
-
-            {/* Skill badges grouped by category */}
-            <RevealStagger className="flex flex-wrap justify-center gap-2 sm:gap-2.5">
-              {skillGroups.map(({ label, skills, color }) =>
-                skills.map(skill => (
-                  <RevealItem key={skill}>
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border ${color} backdrop-blur text-xs font-medium`}>
-                      {skill}
-                    </span>
-                  </RevealItem>
-                ))
-              )}
-            </RevealStagger>
-
-            <div className="mt-2 animate-bounce text-primary/60">
-              <a href="#stats" aria-label={dict.a11y?.goToProjects ?? 'Scroll down'}>
-                <ChevronDown className="size-6" />
-              </a>
-            </div>
-          </Reveal>
+          <HeroSection
+            hello={dict.home.hero.hello}
+            titlePrefix={dict.home.hero.title_prefix}
+            titleSuffix={dict.home.hero.title_suffix}
+            tagline={dict.home.hero.tagline}
+            scrollLabel={dict.a11y?.goToProjects ?? 'Scroll down'}
+            skillGroups={skillGroups}
+          />
         </section>
 
         {/* ── STATS ────────────────────────────────────────────── */}
         <section id="stats" className="w-full max-w-6xl mx-auto py-6 md:py-10">
-          <RevealStagger className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <RevealItem>
+          <RevealStagger className="grid grid-cols-2 sm:grid-cols-4 gap-4" stagger={0.08}>
+            <RevealItem mode="bounce">
               <AnimatedCounter to={posts.length} suffix="+" label={dict.home.stats.projects} icon={<Layers className="size-5" />} />
             </RevealItem>
-            <RevealItem>
+            <RevealItem mode="bounce">
               <AnimatedCounter to={3} suffix="+" label={dict.home.stats.years} icon={<Clock className="size-5" />} />
             </RevealItem>
-            <RevealItem>
+            <RevealItem mode="bounce">
               <AnimatedCounter to={14} label={dict.home.stats.technologies} icon={<Cpu className="size-5" />} />
             </RevealItem>
-            <RevealItem>
+            <RevealItem mode="bounce">
               <AnimatedCounter to={999} suffix="+" label={dict.home.stats.coffees} icon={<Coffee className="size-5" />} />
             </RevealItem>
           </RevealStagger>
@@ -174,17 +138,17 @@ export default async function Page({
 
         {/* ── SERVICES ─────────────────────────────────────────── */}
         <section className="w-full max-w-6xl mx-auto py-8 md:py-12">
-          <Reveal>
+          <RevealClip direction="left" duration={0.5}>
             <h2 className="text-2xl sm:text-3xl font-bold">{dict.home.services.title}</h2>
             <p className="text-muted-foreground mt-1 mb-6">{dict.home.services.subtitle}</p>
-          </Reveal>
-          <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          </RevealClip>
+          <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" stagger={0.1}>
             {[
               { title: dict.home.services.items.web.title, desc: dict.home.services.items.web.desc, Icon: Code2, color: 'text-sky-300 border-sky-400/50 bg-sky-500/10' },
               { title: dict.home.services.items.api.title, desc: dict.home.services.items.api.desc, Icon: Database, color: 'text-emerald-300 border-emerald-400/50 bg-emerald-500/10' },
               { title: dict.home.services.items.devops.title, desc: dict.home.services.items.devops.desc, Icon: Server, color: 'text-violet-300 border-violet-400/50 bg-violet-500/10' },
             ].map(({ title, desc, Icon, color }) => (
-              <RevealItem key={title}>
+              <RevealItem key={title} mode="scale">
                 <div className={`rounded-2xl bg-surface-alt/70 dark:bg-surface-alt/30 backdrop-blur border ${color} p-6 shadow-sm hover:shadow-md transition-shadow`}>
                   <div className={`inline-flex p-3 rounded-xl border ${color} mb-4`}>
                     <Icon className="size-5" />
@@ -207,15 +171,15 @@ export default async function Page({
           </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            {/* Left: form */}
-            <Reveal>
+            {/* Left: form — slide from left */}
+            <RevealX from="left" duration={0.55}>
               <div className="rounded-2xl border border-border bg-surface-alt/50 backdrop-blur p-6 shadow-sm">
                 <ContactForm dict={dict.home.contact.form} />
               </div>
-            </Reveal>
+            </RevealX>
 
-            {/* Right: social links */}
-            <Reveal delay={0.1}>
+            {/* Right: social links — slide from right */}
+            <RevealX from="right" duration={0.55} delay={0.05}>
               <div className="flex flex-col gap-4">
                 <p className="text-sm text-muted-foreground font-medium">
                   {dict.home.contact.social}
@@ -243,7 +207,7 @@ export default async function Page({
                   ))}
                 </div>
               </div>
-            </Reveal>
+            </RevealX>
           </div>
         </section>
 

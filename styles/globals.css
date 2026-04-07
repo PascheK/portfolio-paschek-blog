@@ -10,46 +10,46 @@
 }
 
 /* Dual theme system: default (root) = light, explicit dark overrides under [data-theme=dark] */
-/* Light theme (base) */
+/* Light theme (base) — premium clean-slate palette */
 :root,
 :root[data-theme="light"] {
-  /* Code highlighting (light) */
-  --sh-class: #3b82f6;
+  /* Code highlighting (light) — crisp, high contrast */
+  --sh-class: #4f46e5;
   --sh-identifier: #0f172a;
-  --sh-sign: #475569;
-  --sh-string: #0f766e;
-  --sh-keyword: #c026d3;
+  --sh-sign: #64748b;
+  --sh-string: #0d9488;
+  --sh-keyword: #9333ea;
   --sh-comment: #94a3b8;
   --sh-jsxliterals: #2563eb;
-  --sh-property: #d97706;
-  --sh-entity: #d97706;
+  --sh-property: #c2410c;
+  --sh-entity: #b45309;
   /* Core semantic tokens */
-  --background: oklch(0.98 0.02 245); /* light with a hint of blue */
-  --foreground: oklch(0.18 0.02 245);
-  --card: oklch(0.99 0.01 245);
+  --background: oklch(0.974 0.014 252);     /* cool pearl — not sterile white */
+  --foreground: oklch(0.12 0.026 258);      /* deep blue-black */
+  --card: oklch(1.0 0.0 0);                 /* pure white for elevated cards */
   --card-foreground: var(--foreground);
-  --popover: oklch(0.99 0.01 245);
+  --popover: oklch(1.0 0.0 0);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.62 0.18 250); /* bright dev blue */
-  --primary-foreground: oklch(0.98 0.02 245);
-  --secondary: oklch(0.93 0.04 220); /* soft slate */
-  --secondary-foreground: oklch(0.24 0.02 230);
-  --muted: oklch(0.94 0.02 230);
-  --muted-foreground: oklch(0.36 0.02 240);
+  --primary: oklch(0.52 0.26 265);          /* rich deep indigo */
+  --primary-foreground: oklch(0.99 0.005 255);
+  --secondary: oklch(0.92 0.038 230);
+  --secondary-foreground: oklch(0.22 0.02 250);
+  --muted: oklch(0.935 0.016 248);
+  --muted-foreground: oklch(0.44 0.022 255); /* readable, with tint */
   --body-secondary: var(--muted-foreground);
-  --accent: oklch(0.9 0.08 180); /* teal accent */
-  --accent-foreground: oklch(0.24 0.02 230);
-  --destructive: oklch(0.58 0.22 25);
-  --border: oklch(0.88 0.02 230);
-  --input: oklch(0.92 0.02 225);
-  --ring: oklch(0.62 0.18 250);
+  --accent: oklch(0.88 0.10 176);
+  --accent-foreground: oklch(0.18 0.04 190);
+  --destructive: oklch(0.56 0.22 24);
+  --border: oklch(0.84 0.028 252);           /* clearly visible borders */
+  --input: oklch(0.945 0.016 250);
+  --ring: oklch(0.52 0.26 265);
   /* Charts */
-  --chart-1: oklch(0.62 0.18 250);
-  --chart-2: oklch(0.62 0.16 180);
-  --chart-3: oklch(0.6 0.2 35);
-  --chart-4: oklch(0.64 0.2 310);
-  --chart-5: oklch(0.56 0.18 120);
-  --sidebar: oklch(0.97 0.01 240);
+  --chart-1: oklch(0.52 0.26 265);
+  --chart-2: oklch(0.58 0.18 176);
+  --chart-3: oklch(0.58 0.22 24);
+  --chart-4: oklch(0.58 0.22 315);
+  --chart-5: oklch(0.52 0.20 145);
+  --sidebar: oklch(0.97 0.012 252);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -57,14 +57,14 @@
   --sidebar-accent-foreground: var(--accent-foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
-  /* Surfaces (layering) */
-  --surface: oklch(0.985 0.01 245);
-  --surface-alt: oklch(0.96 0.02 245);
-  --surface-muted: oklch(0.94 0.02 245 / 55%);
+  /* Surfaces — clear 3-level layering */
+  --surface: oklch(1.0 0.0 0);              /* elevated (cards, modals, nav) */
+  --surface-alt: oklch(0.952 0.022 252);    /* recessed panels, inputs */
+  --surface-muted: oklch(0.925 0.016 250 / 52%);
   --surface-accent: linear-gradient(
     to bottom right,
-    oklch(0.92 0.08 250),
-    oklch(0.94 0.06 200)
+    oklch(0.92 0.09 255),
+    oklch(0.94 0.07 200)
   );
   background-color: var(--background);
   color: var(--foreground);
@@ -133,6 +133,29 @@ html {
 @media (pointer: fine) {
   *, *::before, *::after {
     cursor: none !important;
+  }
+}
+
+/* Admin uses native cursor because custom cursor is not mounted there */
+@media (pointer: fine) {
+  .admin-area,
+  .admin-area *,
+  .admin-area *::before,
+  .admin-area *::after {
+    cursor: auto !important;
+  }
+
+  .admin-area input,
+  .admin-area textarea {
+    cursor: text !important;
+  }
+
+  .admin-area button,
+  .admin-area a,
+  .admin-area label,
+  .admin-area select,
+  .admin-area [role="button"] {
+    cursor: pointer !important;
   }
 }
 
@@ -457,18 +480,13 @@ table {
   background-size: cover;
 }
 
-/* Light subtle pattern */
+/* Light mesh gradient — mirrors the dark version's multicolor radials */
 :root:not([data-theme="dark"]) .bg-code-grid {
-  background: radial-gradient(
-      circle at 25% 25%,
-      oklch(0.98 0.01 95),
-      oklch(0.96 0.01 95) 40%,
-      oklch(0.95 0.01 95) 70%
-    ),
-    repeating-linear-gradient(
-      45deg,
-      oklch(0.97 0.005 95) 0 12px,
-      oklch(0.965 0.005 95) 12px 24px
-    );
+  background:
+    radial-gradient(900px circle at 8% 12%,  rgba(99, 102, 241, 0.11), transparent 44%),
+    radial-gradient(700px circle at 88% 8%,  rgba(56, 189, 248, 0.09), transparent 40%),
+    radial-gradient(800px circle at 72% 78%, rgba(16, 185, 129, 0.08), transparent 44%),
+    radial-gradient(650px circle at 18% 82%, rgba(236, 72, 153, 0.08), transparent 42%),
+    radial-gradient(1400px circle at 50% 42%, oklch(0.974 0.014 252), transparent 80%);
   background-size: cover;
 }

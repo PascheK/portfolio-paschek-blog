@@ -1,238 +1,298 @@
-'use client'
+'use client';
+
 import Link from "next/link";
 import React from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { LanguageSelect } from "@/components/languageSelect";
 import { useTheme } from "@/components/ui/theme-provider";
-import { Sun, Moon } from "lucide-react";
 import { metaData } from "@/lib/config";
 import { usePathname } from "next/navigation";
+import { CommandPalette } from "@/components/ui/command-palette";
+import { motion, AnimatePresence } from "framer-motion";
 
+// ── Scroll progress ────────────────────────────────────────────────────────────
 function ScrollProgress() {
-  const [progress, setProgress] = React.useState(0);
-
+  const [pct, setPct] = React.useState(0);
   React.useEffect(() => {
-    const update = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+    const fn = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      setPct(h > 0 ? (window.scrollY / h) * 100 : 0);
     };
-    window.addEventListener('scroll', update, { passive: true });
-    return () => window.removeEventListener('scroll', update);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
-
   return (
-    <div
-      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-none z-50"
-      style={{ width: `${progress}%` }}
+    <motion.div
       aria-hidden
+      className="absolute bottom-0 left-0 h-[1px] origin-left bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 pointer-events-none"
+      style={{ width: `${pct}%` }}
     />
   );
 }
 
-
-
-function TimezoneDisplay() {
-  const [time, setTime] = React.useState("");
-  React.useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) +
-        " " + Intl.DateTimeFormat().resolvedOptions().timeZone
-      );
-    };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, []);
-  return <span className="text-sm text-neutral-500">{time}</span>;
+// ── Navbar props ───────────────────────────────────────────────────────────────
+interface NavbarProps {
+  dict: any;
+  lang: "en" | "fr";
+  paletteNavItems?: any[];
+  paletteContentItems?: any[];
+  paletteLabels?: any;
+  cvHref?: string;
+  contactHref?: string;
 }
-function Navbar({ dict, lang }: { dict: any; lang: 'en' | 'fr' }) {
+
+function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabels, cvHref, contactHref }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);
-
-  // Avoid hydration mismatch by deferring theme-driven UI until after mount.
-  React.useEffect(() => setMounted(true), []);
-  const navItems = {
-    [`/${lang}/blog`]: { name: dict.nav.blog },
-    [`/${lang}/projects`]: { name: dict.nav.projects },
-    [`/${lang}/about`]: { name: dict.nav.about },
-  };
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
   const panelRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Close on Escape, lock scroll, and trap focus when menu is open
+  React.useEffect(() => { setMounted(true); }, []);
+
+  React.useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 16);
+    fn();
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  // Desktop nav: all main sections
+  const navLinks = [
+    { href: `/${lang}/blog`,     label: dict.nav.blog },
+    { href: `/${lang}/projects`, label: dict.nav.projects },
+    { href: `/${lang}/about`,    label: dict.nav.about },
+    { href: `/${lang}/uses`,     label: dict.nav.uses   ?? "Uses" },
+  ];
+
+  // Mobile: lock scroll + focus trap
   React.useEffect(() => {
     if (!menuOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setMenuOpen(false);
-        return;
-      }
-      if (e.key === 'Tab' && panelRef.current) {
-        const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.dispatchEvent(new Event("lenis:stop"));
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setMenuOpen(false); return; }
+      if (e.key === "Tab" && panelRef.current) {
+        const els = panelRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
         );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
+        if (!els.length) return;
+        const [first, last] = [els[0], els[els.length - 1]];
         const active = document.activeElement as HTMLElement | null;
-        if (!active || !panelRef.current.contains(active)) {
-          first.focus();
-          e.preventDefault();
-          return;
-        }
-        if (!e.shiftKey && active === last) {
-          first.focus();
-          e.preventDefault();
-        } else if (e.shiftKey && active === first) {
-          last.focus();
-          e.preventDefault();
-        }
+        if (!active || !panelRef.current.contains(active)) { first.focus(); e.preventDefault(); return; }
+        if (!e.shiftKey && active === last)  { first.focus(); e.preventDefault(); }
+        else if (e.shiftKey && active === first) { last.focus(); e.preventDefault(); }
       }
     };
-    window.addEventListener('keydown', handleKey);
-    // focus first element on open
-    setTimeout(() => {
-      const first = panelRef.current?.querySelector<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      );
-      first?.focus();
-    }, 0);
+    window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = prev;
+      window.dispatchEvent(new Event("lenis:start"));
+      window.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
+
   return (
-    <nav className="lg:mb-16 mb-12 sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-background/65 bg-background/80 text-foreground border-b border-border after:absolute after:inset-0 after:pointer-events-none after:bg-gradient-to-b after:from-foreground/5 after:to-transparent" role="navigation" aria-label={`primary navigation`}>
-      <div className="max-w-5xl mx-auto px-3 sm:px-4">
-        <div className="py-3 sm:py-4 flex flex-wrap items-center justify-between gap-2">
-          {/* Left: Language select + Timezone */}
-          <div className="flex flex-row gap-2 items-center w-auto">
-            <LanguageSelect dict={dict} />
-            <span className="hidden sm:inline-block"><TimezoneDisplay /></span>
-          </div>
-          {/* Center: Title */}
-          <div className="flex-1 flex justify-center order-first sm:order-none mb-2 sm:mb-0">
-            <span className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-fuchsia-400 to-pink-400 bg-clip-text text-transparent drop-shadow-md select-none">
-              <Link href={`/${lang}`}>
+    <header className="sticky top-0 z-40 w-full">
+      {/* ── Glass bar ──────────────────────────────────────────── */}
+      <div
+        className={[
+          "transition-all duration-500",
+          scrolled
+            ? "bg-background/85 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_1px_0_0_rgba(255,255,255,0.04),0_4px_16px_-4px_rgba(0,0,0,0.18)]"
+            : "bg-transparent border-b border-transparent",
+        ].join(" ")}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="h-14 flex items-center gap-3">
+
+            {/* ── Logo ──────────────────────────────────────────── */}
+            <Link
+              href={`/${lang}`}
+              className="group flex items-center gap-2.5 shrink-0 mr-auto"
+              aria-label={`${metaData.name} — home`}
+            >
+              {/* Gradient square */}
+              <span className="relative flex items-center justify-center w-[26px] h-[26px] rounded-[7px] text-[11px] font-black text-white select-none overflow-hidden shrink-0">
+                <span className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-violet-500 to-pink-500" />
+                <span className="relative tracking-tighter">{metaData.name.slice(0, 2).toUpperCase()}</span>
+              </span>
+              <span className="hidden sm:block text-[13px] font-semibold text-foreground/80 group-hover:text-foreground transition-colors duration-200 tracking-tight">
                 {metaData.name}
-              </Link>
-            </span>
-          </div>
-          {/* Right: Nav links + Theme + Burger */}
-          <div className="flex flex-row gap-2 items-center w-auto">
-            <div className="hidden md:flex gap-1.5 lg:gap-2">
-              {Object.entries(navItems).map(([path, { name }]) => {
-                const active = pathname?.startsWith(path);
+              </span>
+            </Link>
+
+            {/* ── Nav links (desktop) ───────────────────────────── */}
+            <nav className="hidden md:flex items-center" aria-label="Primary">
+              {navLinks.map(({ href, label }) => {
+                const active = !!pathname?.startsWith(href);
                 return (
                   <Link
-                    key={path}
-                    href={path}
-                    className={[
-                      "group px-3 py-1.5 rounded font-medium transition-all duration-150",
-                      "text-muted-foreground hover:text-foreground",
-                      active
-                        ? "bg-surface-alt border border-border"
-                        : "hover:bg-surface-alt/70 border border-transparent",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                    ].join(" ")}
+                    key={href}
+                    href={href}
                     aria-current={active ? "page" : undefined}
+                    className={[
+                      "relative px-2.5 py-1.5 text-[12.5px] font-medium rounded-lg transition-colors duration-150",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                      active ? "text-foreground" : "text-foreground/50 hover:text-foreground/80",
+                    ].join(" ")}
                   >
-                    <span className="relative inline-flex flex-col items-stretch">
-                      <span>{name}</span>
-                      <span
-                        className={[
-                          "mt-0.5 h-[2px] rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500",
-                          "transition-all duration-200",
-                          active ? "w-full" : "w-0 group-hover:w-full",
-                        ].join(" ")}
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-lg bg-white/[0.07] dark:bg-white/[0.06] ring-1 ring-white/[0.09]"
+                        transition={{ type: "spring", stiffness: 450, damping: 38 }}
                       />
-                    </span>
+                    )}
+                    <span className="relative z-10">{label}</span>
                   </Link>
                 );
               })}
+            </nav>
+
+            {/* ── Right actions ─────────────────────────────────── */}
+            <div className="flex items-center gap-1 ml-auto md:ml-2 shrink-0">
+
+              {/* ⌘K palette */}
+              {paletteNavItems && paletteLabels && (
+                <CommandPalette
+                  navItems={paletteNavItems}
+                  contentItems={paletteContentItems ?? []}
+                  labels={paletteLabels}
+                  cvHref={cvHref ?? ""}
+                  contactHref={contactHref ?? ""}
+                  inlineTrigger
+                  triggerClassName="hidden md:inline-flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg text-[11px] font-medium text-foreground/40 border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-foreground/70 hover:border-white/[0.12] transition-all duration-150 mr-1"
+                />
+              )}
+
+              {/* Separator */}
+              <span className="hidden md:block w-px h-3.5 bg-white/[0.10] mx-1 shrink-0" />
+
+              {/* Language */}
+              <LanguageSelect dict={dict} />
+
+              {/* Separator */}
+              <span className="w-px h-3.5 bg-white/[0.10] mx-1 shrink-0" />
+
+              {/* Theme */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label="Toggle theme"
+                className="flex items-center justify-center w-[30px] h-[30px] rounded-lg text-foreground/40 hover:text-foreground/80 hover:bg-white/[0.06] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              >
+                {mounted
+                  ? (theme === "dark" ? <Sun className="size-[13px]" /> : <Moon className="size-[13px]" />)
+                  : <span className="size-[13px]" />}
+              </button>
+
+              {/* Burger */}
+              <button
+                className="md:hidden flex items-center justify-center w-[30px] h-[30px] rounded-lg text-foreground/50 hover:text-foreground hover:bg-white/[0.06] transition-all duration-150"
+                onClick={() => setMenuOpen(v => !v)}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={menuOpen ? "x" : "m"}
+                    initial={{ opacity: 0, rotate: -45, scale: 0.5 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: 45, scale: 0.5 }}
+                    transition={{ duration: 0.1 }}
+                  >
+                    {menuOpen ? <X className="size-[14px]" /> : <Menu className="size-[14px]" />}
+                  </motion.span>
+                </AnimatePresence>
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={'theme'}
-              className="p-2 rounded border border-border bg-surface-alt/60 hover:bg-surface-alt transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              {mounted ? (theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />) : <span className="size-5 inline-block" aria-hidden />}
-            </button>
-            {/* Burger menu for mobile */}
-            <button
-              className="md:hidden p-2 rounded hover:bg-surface-alt/70 border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              onClick={() => setMenuOpen(v => !v)}
-              aria-label={menuOpen ? (dict.a11y?.closeMenu ?? 'Close menu') : (dict.a11y?.openMenu ?? 'Open menu')}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
-              {menuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-            </button>
           </div>
         </div>
+        <ScrollProgress />
       </div>
-      {/* Scroll progress bar (replaces static accent underline) */}
-      <ScrollProgress />
 
-      {/* Mobile menu with overlay */}
-      {menuOpen && (
-        <div className="md:hidden relative">
-          {/* overlay */}
-          <div
-            className="fixed inset-0 bg-background/60 backdrop-blur-[2px] cursor-default"
-            aria-hidden="true"
-            role="presentation"
-            onClick={() => setMenuOpen(false)}
-          />
-          {/* panel */}
-          <div
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            className="absolute left-0 right-0 top-0 px-3 sm:px-4 pt-2 pb-4 animate-in fade-in-0 zoom-in-95"
-            ref={panelRef}
-          >
-            <div className="mx-2 rounded-xl border border-border bg-surface-alt/90 backdrop-blur shadow-lg">
-              <div className="flex items-center justify-between px-3 py-2">
-                <span className="text-sm text-muted-foreground">{metaData.name}</span>
+      {/* ── Mobile dropdown ─────────────────────────────────────── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="bd"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="fixed inset-0 top-14 z-30 bg-black/40 backdrop-blur-sm md:hidden"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden
+            />
+
+            {/* Panel */}
+            <motion.div
+              key="panel"
+              ref={panelRef}
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-x-3 top-[calc(100%+4px)] z-40 md:hidden overflow-hidden rounded-2xl border border-white/[0.09] bg-background/95 backdrop-blur-2xl shadow-2xl shadow-black/30"
+            >
+              {/* Links */}
+              <div className="p-1.5 flex flex-col">
+                {navLinks.map(({ href, label }, i) => {
+                  const active = !!pathname?.startsWith(href);
+                  return (
+                    <motion.div
+                      key={href}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.04, duration: 0.14 }}
+                    >
+                      <Link
+                        href={href}
+                        onClick={() => setMenuOpen(false)}
+                        className={[
+                          "flex items-center justify-between px-3.5 py-3 rounded-xl text-[13px] font-medium transition-colors duration-150",
+                          active
+                            ? "text-foreground bg-white/[0.07]"
+                            : "text-foreground/50 hover:text-foreground/80 hover:bg-white/[0.04]",
+                        ].join(" ")}
+                      >
+                        {label}
+                        {active && <span className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom strip */}
+              <div className="px-4 py-2.5 border-t border-white/[0.06] flex items-center justify-between">
+                <span className="text-[10px] font-mono text-foreground/25 tabular-nums">
+                  {mounted && new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                </span>
                 <button
-                  className="p-2 rounded hover:bg-surface-alt border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                  onClick={() => setMenuOpen(false)}
-                  aria-label={dict.a11y?.closeMenu ?? 'Close menu'}
+                  onClick={toggleTheme}
+                  className="flex items-center gap-1.5 text-[11px] text-foreground/35 hover:text-foreground/60 transition-colors"
                 >
-                  <X className="size-5" />
+                  {mounted && (theme === "dark"
+                    ? <><Sun className="size-3" /> Light</>
+                    : <><Moon className="size-3" /> Dark</>)}
                 </button>
               </div>
-              <div className="px-2 pb-3">
-                <div className="flex flex-col gap-2">
-                  {Object.entries(navItems).map(([path, { name }]) => (
-                    <Link
-                      key={path}
-                      href={path}
-                      className="px-3 py-2 rounded-lg border border-border bg-surface-alt/30 hover:bg-surface-alt transition-colors font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="h-[2px] w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500/90 opacity-50" />
-            </div>
-          </div>
-        </div>
-      )}
-
-    </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
+
 export { Navbar };
