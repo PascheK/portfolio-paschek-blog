@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(ls /Users/paschek7/Developer/PERSONNAL/portfolio-paschek-blog/.claude/worktrees/exciting-chandrasekhar/app/[lang]/)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(ls /Users/paschek7/Developer/PERSONNAL/portfolio-paschek-blog/.env*)",
+      "Bash(shasum -a 256)"
     ]
   }
 }
