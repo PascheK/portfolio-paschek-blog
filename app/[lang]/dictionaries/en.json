@@ -198,7 +198,10 @@
           "Next.js",
           "TypeScript",
           "JavaScript",
-          "Tailwind CSS"
+          "Tailwind CSS",
+          "React Native",
+          "C#",
+          "Unity 2D"
         ],
         "backend": [
           "Node.js",
