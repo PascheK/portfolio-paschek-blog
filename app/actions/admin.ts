@@ -368,3 +368,49 @@ export async function deletePostGitHub(
   if (!res.ok) return { ok: false, error: await res.text() };
   return { ok: true };
 }
+
+// ── Read/write arbitrary files via GitHub API ──────────────────────────────
+
+export async function getFileGitHub(filePath: string): Promise<{ content: string; sha: string }> {
+  await assertAdmin();
+  if (!REPO) throw new Error('GITHUB_REPO not configured.');
+
+  const repoInfo = await resolveRepoInfo();
+  if (!repoInfo?.fullName) throw new Error(`Repository not found for GITHUB_REPO=${REPO}`);
+  const repo = repoInfo.fullName;
+  const branch = BRANCH || repoInfo.defaultBranch || 'main';
+
+  const url = buildContentsUrlFor(repo, filePath, branch);
+  const res = await fetch(url, {
+    headers: githubHeaders(),
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error(`GitHub getFile failed: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  const content = Buffer.from(data.content, 'base64').toString('utf8');
+  return { content, sha: data.sha };
+}
+
+export async function saveFileGitHub(filePath: string, content: string, sha?: string): Promise<void> {
+  await assertAdmin();
+  if (!REPO) throw new Error('GITHUB_REPO not configured.');
+
+  const repoInfo = await resolveRepoInfo();
+  if (!repoInfo?.fullName) throw new Error(`Repository not found for GITHUB_REPO=${REPO}`);
+  const repo = repoInfo.fullName;
+  const branch = BRANCH || repoInfo.defaultBranch || 'main';
+
+  const url = `https://api.github.com/repos/${repo}/contents/${encodePath(filePath)}`;
+  const body: Record<string, unknown> = {
+    message: `chore: update ${filePath} via admin`,
+    content: Buffer.from(content, 'utf8').toString('base64'),
+    branch,
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: githubHeaders(),
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`GitHub saveFile failed: ${res.status} ${await res.text()}`);
+}

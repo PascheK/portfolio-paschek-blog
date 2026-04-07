@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -43,8 +45,8 @@ export function CustomCursor() {
     };
   }, [mouseX, mouseY, isVisible]);
 
-  // Don't render on touch devices or before mount
-  if (!mounted) return null;
+  // Don't render on touch devices or before mount, or on admin pages
+  if (!mounted || !isVisible || pathname?.startsWith('/admin')) return null;
 
   return (
     <>
