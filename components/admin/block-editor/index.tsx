@@ -50,30 +50,27 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
     });
   }
 
-  // ── Compute slash menu position using current caret ─────────────────────
+  // ── Compute slash menu position — NO DOM mutations ──────────────────────
   function getCaretPosition(el: HTMLElement): { top: number; left: number } {
-    const sel = window.getSelection();
-    if (sel && sel.rangeCount > 0) {
-      const range = sel.getRangeAt(0).cloneRange();
-      range.collapse(true);
-      // Insert a zero-width span to measure position
-      const span = document.createElement('span');
-      span.textContent = '\u200b';
-      range.insertNode(span);
-      const rect = span.getBoundingClientRect();
-      span.parentNode?.removeChild(span);
-      // Restore selection
-      sel.removeAllRanges();
-      const newRange = document.createRange();
-      try {
-        newRange.selectNodeContents(el);
-        newRange.collapse(false);
-        sel.addRange(newRange);
-      } catch { /* ignore */ }
-      return { top: rect.bottom + 8, left: rect.left };
-    }
-    const rect = el.getBoundingClientRect();
-    return { top: rect.bottom + 8, left: rect.left };
+    const fallback = () => {
+      const r = el.getBoundingClientRect();
+      return { top: r.bottom + 8, left: r.left };
+    };
+    try {
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) return fallback();
+      const range = sel.getRangeAt(0);
+      // getClientRects() is read-only — no DOM modification
+      const rects = range.getClientRects();
+      if (rects.length > 0) {
+        const r = rects[rects.length - 1];
+        if (r.top > 0) return { top: r.bottom + 8, left: r.left };
+      }
+      // Collapsed range in empty block: getBoundingClientRect may return zero rect
+      const r = range.getBoundingClientRect();
+      if (r.top > 0) return { top: r.bottom + 8, left: r.left };
+    } catch { /* ignore */ }
+    return fallback();
   }
 
   // ── Handle text changes from blocks ─────────────────────────────────────
