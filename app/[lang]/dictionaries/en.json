@@ -390,6 +390,160 @@
         "Specialty coffee — always"
       ]
     },
-    "nownow": "Inspired by the nownownow.com movement."
+    "nownow": "Inspired by the nownownow.com movement.",
+    "status": {
+      "mode": "Building",
+      "timezone": "CET / UTC+2",
+      "location": "France"
+    },
+    "spotlight": {
+      "project": {
+        "name": "portfolio-paschek-blog",
+        "desc": "Building this very site — MDX blog, custom admin panel with block editor, i18n.",
+        "tags": [
+          "Next.js 15",
+          "MDX",
+          "TypeScript",
+          "Tailwind"
+        ],
+        "url": "https://github.com/PascheK/portfolio-paschek-blog"
+      },
+      "learningSpotlight": {
+        "name": "Rust",
+        "desc": "Working through The Rust Book, one chapter at a time. Currently on ownership.",
+        "progress": 35
+      }
+    },
+    "listening": {
+      "artist": "Tame Impala",
+      "track": "Eventually",
+      "album": "Currents",
+      "progress": 63
+    },
+    "openTo": [
+      "Freelance missions",
+      "Open-source collab",
+      "Coffee chats",
+      "Side projects"
+    ],
+    "recentShips": [
+      {
+        "label": "Block editor for admin panel",
+        "date": "Apr 2026"
+      },
+      {
+        "label": "/now and /timeline pages",
+        "date": "Apr 2026"
+      },
+      {
+        "label": "Custom 404 with Konami easter egg",
+        "date": "Mar 2026"
+      }
+    ],
+    "coffeeLabel": "Coffee: active"
+  },
+  "timeline": {
+    "events": [
+      {
+        "year": "2025 – present",
+        "startYear": 2025,
+        "type": "work",
+        "current": true,
+        "title": "Full-Stack Developer",
+        "org": "Freelance",
+        "location": "",
+        "description": "Building web applications and digital products for clients. Focus on React, Next.js and modern backend stacks. Combining design sensibility with engineering rigour.",
+        "tags": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind",
+          "Node.js"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2024 – present",
+        "startYear": 2024,
+        "type": "project",
+        "current": true,
+        "title": "portfolio-paschek-blog",
+        "org": "",
+        "location": "",
+        "description": "Designed and built this portfolio from scratch — multilingual (EN/FR), MDX blog, custom admin panel with a Notion-style block editor, aurora background, custom cursor.",
+        "tags": [
+          "Next.js 15",
+          "MDX",
+          "Framer Motion",
+          "Tailwind",
+          "GitHub API"
+        ],
+        "url": "https://github.com/PascheK/portfolio-paschek-blog"
+      },
+      {
+        "year": "2023",
+        "startYear": 2023,
+        "type": "work",
+        "current": false,
+        "title": "Developer Intern",
+        "org": "Tech Company",
+        "location": "France",
+        "description": "Worked on internal tooling and customer-facing features in an agile team. Gained hands-on experience with CI/CD pipelines, code review practices and production deployments.",
+        "tags": [
+          "React",
+          "Node.js",
+          "Docker",
+          "PostgreSQL"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2022",
+        "startYear": 2022,
+        "type": "project",
+        "current": false,
+        "title": "Divin — Creative Studio",
+        "org": "",
+        "location": "",
+        "description": "Co-founded a small creative studio delivering websites and brand identities for local businesses. Handled client relations, design and front-end development.",
+        "tags": [
+          "Freelance",
+          "Branding",
+          "Webflow",
+          "Figma"
+        ],
+        "url": "https://divin.fr"
+      },
+      {
+        "year": "2021",
+        "startYear": 2021,
+        "type": "education",
+        "current": false,
+        "title": "Computer Science Degree",
+        "org": "University",
+        "location": "France",
+        "description": "Studied algorithms, software engineering, networks and databases. Built several group projects including a web app and a compiler. Graduated with honours.",
+        "tags": [
+          "Java",
+          "SQL",
+          "Linux",
+          "Algorithms",
+          "Networks"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2019",
+        "startYear": 2019,
+        "type": "milestone",
+        "current": false,
+        "title": "First line of code",
+        "org": "",
+        "location": "",
+        "description": "Built my first website with HTML & CSS just to see if I could. Got hooked immediately — never looked back. That curiosity turned into a full-blown passion.",
+        "tags": [],
+        "url": ""
+      }
+    ]
   }
 }

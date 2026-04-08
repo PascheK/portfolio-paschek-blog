@@ -383,6 +383,160 @@
         "Café de spécialité — toujours"
       ]
     },
-    "nownow": "Inspiré par le mouvement nownownow.com."
+    "nownow": "Inspiré par le mouvement nownownow.com.",
+    "status": {
+      "mode": "En création",
+      "timezone": "CET / UTC+2",
+      "location": "France"
+    },
+    "spotlight": {
+      "project": {
+        "name": "portfolio-paschek-blog",
+        "desc": "Ce site même — blog MDX, panel admin sur-mesure avec éditeur de blocs, i18n.",
+        "tags": [
+          "Next.js 15",
+          "MDX",
+          "TypeScript",
+          "Tailwind"
+        ],
+        "url": "https://github.com/PascheK/portfolio-paschek-blog"
+      },
+      "learningSpotlight": {
+        "name": "Rust",
+        "desc": "Je lis The Rust Book chapitre par chapitre. Actuellement sur l'ownership.",
+        "progress": 35
+      }
+    },
+    "listening": {
+      "artist": "Tame Impala",
+      "track": "Eventually",
+      "album": "Currents",
+      "progress": 63
+    },
+    "openTo": [
+      "Missions freelance",
+      "Collab open-source",
+      "Prendre un café",
+      "Projets annexes"
+    ],
+    "recentShips": [
+      {
+        "label": "Éditeur de blocs pour l'admin",
+        "date": "Avr 2026"
+      },
+      {
+        "label": "Pages /maintenant et /parcours",
+        "date": "Avr 2026"
+      },
+      {
+        "label": "404 custom avec easter egg Konami",
+        "date": "Mar 2026"
+      }
+    ],
+    "coffeeLabel": "Café actif"
+  },
+  "timeline": {
+    "events": [
+      {
+        "year": "2025 – auj.",
+        "startYear": 2025,
+        "type": "work",
+        "current": true,
+        "title": "Développeur Full-Stack",
+        "org": "Freelance",
+        "location": "",
+        "description": "Création d'applications web et de produits numériques pour des clients. Focus sur React, Next.js et les stacks backend modernes. Allier sens du design et rigueur technique.",
+        "tags": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind",
+          "Node.js"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2024 – auj.",
+        "startYear": 2024,
+        "type": "project",
+        "current": true,
+        "title": "portfolio-paschek-blog",
+        "org": "",
+        "location": "",
+        "description": "Conception et développement de ce portfolio from scratch — multilingue (EN/FR), blog MDX, panel admin avec éditeur de blocs style Notion, fond aurora, curseur personnalisé.",
+        "tags": [
+          "Next.js 15",
+          "MDX",
+          "Framer Motion",
+          "Tailwind",
+          "GitHub API"
+        ],
+        "url": "https://github.com/PascheK/portfolio-paschek-blog"
+      },
+      {
+        "year": "2023",
+        "startYear": 2023,
+        "type": "work",
+        "current": false,
+        "title": "Développeur Stagiaire",
+        "org": "Entreprise Tech",
+        "location": "France",
+        "description": "Travail sur des outils internes et des fonctionnalités client en équipe agile. Expérience concrète sur les pipelines CI/CD, les code reviews et les déploiements en production.",
+        "tags": [
+          "React",
+          "Node.js",
+          "Docker",
+          "PostgreSQL"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2022",
+        "startYear": 2022,
+        "type": "project",
+        "current": false,
+        "title": "Divin — Studio Créatif",
+        "org": "",
+        "location": "",
+        "description": "Co-fondateur d'un petit studio créatif livrant sites web et identités visuelles pour des entreprises locales. Gestion clients, design et développement front-end.",
+        "tags": [
+          "Freelance",
+          "Branding",
+          "Webflow",
+          "Figma"
+        ],
+        "url": "https://divin.fr"
+      },
+      {
+        "year": "2021",
+        "startYear": 2021,
+        "type": "education",
+        "current": false,
+        "title": "Licence Informatique",
+        "org": "Université",
+        "location": "France",
+        "description": "Étude des algorithmes, du génie logiciel, des réseaux et des bases de données. Plusieurs projets de groupe dont une application web et un compilateur. Diplômé avec mention.",
+        "tags": [
+          "Java",
+          "SQL",
+          "Linux",
+          "Algorithmes",
+          "Réseaux"
+        ],
+        "url": ""
+      },
+      {
+        "year": "2019",
+        "startYear": 2019,
+        "type": "milestone",
+        "current": false,
+        "title": "Première ligne de code",
+        "org": "",
+        "location": "",
+        "description": "Créé mon premier site en HTML & CSS juste pour voir si je pouvais. Accroché immédiatement — jamais regardé en arrière. Cette curiosité s'est transformée en passion.",
+        "tags": [],
+        "url": ""
+      }
+    ]
   }
 }
