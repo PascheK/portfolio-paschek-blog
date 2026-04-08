@@ -4,6 +4,8 @@ import { getFileGitHub, saveFileGitHub } from '@/app/actions/admin';
 import { Save, Check, AlertCircle, Plus, Trash2, Globe, User, Wrench, Wifi, Clock, GitBranch } from 'lucide-react';
 
 type Tab = 'general' | 'about' | 'uses' | 'availability' | 'now' | 'timeline';
+type AboutSubTab = 'cv' | 'timeline';
+
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 function Input({
@@ -330,6 +332,7 @@ function AboutTab() {
   const [status, setStatus] = React.useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [loading, setLoading] = React.useState(true);
   const [dict, setDict] = React.useState<DictAny | null>(null);
+  const [subTab, setSubTab] = React.useState<AboutSubTab>('cv');
 
   React.useEffect(() => {
     getFileGitHub('app/[lang]/dictionaries/en.json')
@@ -402,8 +405,81 @@ function AboutTab() {
     });
   }
 
+  // Timeline events in about.timeline.events
+  type TEvent = { year: string; startYear: number; type: string; current: boolean; title: string; org: string; location: string; description: string; tags: string[]; url: string; };
+  const aboutDict = dict.about as DictAny;
+  const timelineEvents: TEvent[] = ((aboutDict?.timeline as DictAny)?.events as TEvent[]) ?? [];
+  const TYPE_COLORS: Record<string, string> = { work: 'text-sky-400', education: 'text-violet-400', project: 'text-emerald-400', milestone: 'text-amber-400' };
+
+  function updateTimelineEvents(updater: (evts: TEvent[]) => TEvent[]) {
+    setDict((d) => {
+      if (!d) return d;
+      const about2 = d.about as DictAny;
+      const tl = (about2?.timeline as DictAny) ?? {};
+      return { ...d, about: { ...about2, timeline: { ...tl, events: updater((tl?.events as TEvent[]) ?? []) } } };
+    });
+  }
+
+  const newEvent = (): TEvent => ({ year: String(new Date().getFullYear()), startYear: new Date().getFullYear(), type: 'work', current: false, title: '', org: '', location: '', description: '', tags: [], url: '' });
+
   return (
     <div className="space-y-6">
+      {/* Sub-tab selector */}
+      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10 w-fit">
+        {([['cv', 'CV & Skills'], ['timeline', 'Experience Timeline']] as [AboutSubTab, string][]).map(([id, label]) => (
+          <button key={id} onClick={() => setSubTab(id)}
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${subTab === id ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {subTab === 'timeline' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">{timelineEvents.length} event{timelineEvents.length !== 1 ? 's' : ''}</p>
+            <button onClick={() => updateTimelineEvents((evts) => [newEvent(), ...evts])}
+              className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 bg-primary/10 rounded-lg px-3 py-1.5 border border-primary/20 transition-colors">
+              <Plus size={13} /> Add event
+            </button>
+          </div>
+          {timelineEvents.map((ev, i) => (
+            <div key={i} className="rounded-xl bg-white/5 border border-white/10 p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <select value={ev.type} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, type: e.target.value } : v))}
+                    className={`bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none cursor-pointer ${TYPE_COLORS[ev.type] ?? 'text-foreground'}`}>
+                    <option value="work">💼 Work</option>
+                    <option value="education">🎓 Education</option>
+                    <option value="project">🚀 Project</option>
+                    <option value="milestone">⭐ Milestone</option>
+                  </select>
+                  <label className="flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer">
+                    <input type="checkbox" checked={ev.current} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, current: e.target.checked } : v))} className="accent-primary" />
+                    Current
+                  </label>
+                </div>
+                <button onClick={() => updateTimelineEvents((evts) => evts.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Year label (e.g. 2025 – present)" value={ev.year} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, year: e.target.value } : v))} />
+                <input type="number" className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Start year" value={ev.startYear} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, startYear: Number(e.target.value) } : v))} />
+              </div>
+              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Title" value={ev.title} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, title: e.target.value } : v))} />
+              <div className="grid grid-cols-2 gap-2">
+                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Organization" value={ev.org} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, org: e.target.value } : v))} />
+                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Location" value={ev.location} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, location: e.target.value } : v))} />
+              </div>
+              <textarea className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none" placeholder="Description" rows={2} value={ev.description} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, description: e.target.value } : v))} />
+              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Tags (comma-separated)" value={ev.tags.join(', ')} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, tags: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) } : v))} />
+              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="URL (optional)" value={ev.url} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, url: e.target.value } : v))} />
+            </div>
+          ))}
+          <SaveButton onSave={save} status={status} />
+        </div>
+      )}
+
+      {subTab === 'cv' && <div className="space-y-6">
       {/* Experiences */}
       <div>
         <div className="flex items-center justify-between mb-3">
@@ -533,7 +609,7 @@ function AboutTab() {
         </div>
       </div>
       <SaveButton onSave={save} status={status} />
-    </div>
+    </div>}</div>
   );
 }
 
@@ -978,7 +1054,6 @@ export default function SettingsPage() {
     { id: 'about', label: 'About & CV', icon: <User size={15} /> },
     { id: 'uses', label: 'Uses / Setup', icon: <Wrench size={15} /> },
     { id: 'now', label: 'Now', icon: <Clock size={15} /> },
-    { id: 'timeline', label: 'Timeline', icon: <GitBranch size={15} /> },
   ];
 
   return (
@@ -1015,7 +1090,6 @@ export default function SettingsPage() {
         {tab === 'about'        && <AboutTab />}
         {tab === 'uses'         && <UsesTab />}
         {tab === 'now'          && <NowTab />}
-        {tab === 'timeline'     && <TimelineTab />}
       </div>
     </div>
   );

@@ -5,8 +5,7 @@
     "about": "À propos",
     "uses": "Équipement",
     "photos": "Photos",
-    "now": "Maintenant",
-    "timeline": "Parcours"
+    "now": "Maintenant"
   },
   "home": {
     "title": "Bienvenue",
@@ -228,7 +227,188 @@
       ]
     },
     "downloadCV": "Télécharger mon CV",
-    "cvUrl": "/documents/kp_cv.pdf"
+    "cvUrl": "/documents/kp_cv.pdf",
+    "bio": [
+      "Je suis développeur full-stack basé en Suisse, actuellement en poste chez UNOPS et Div-In. J'aime construire des choses qui vivent sur internet — des interfaces soignées aux back-ends robustes.",
+      "Je me suis accroché au code en 2019 en créant mon premier site juste pour voir si je pouvais. Depuis, j'ai livré des produits utilisés par de vraies personnes, animé une plateforme web pour une association, accompli mon service militaire comme sous-officier, et continué à construire en parallèle — toujours curieux, toujours en train d'apprendre.",
+      "En dehors du travail, je randonne, bricole mon homelab, suis obsédé par le café de spécialité et shoote parfois en photographie argentique."
+    ],
+    "values": {
+      "title": "Ce en quoi je crois",
+      "items": [
+        {
+          "icon": "⚡",
+          "label": "Livrer vite, itérer encore plus vite",
+          "desc": "Un bon logiciel se retrouve devant les utilisateurs tôt. Le parfait est l'ennemi du livré."
+        },
+        {
+          "icon": "🔍",
+          "label": "Le soin des détails",
+          "desc": "Je me soucie des détails — typographie, transitions, états d'erreur. La qualité se voit."
+        },
+        {
+          "icon": "🌱",
+          "label": "Toujours apprendre",
+          "desc": "Les meilleurs développeurs sont ceux qui n'arrêtent jamais d'être des étudiants."
+        },
+        {
+          "icon": "🤝",
+          "label": "Open by default",
+          "desc": "Open source, communication ouverte, ouvert aux retours. Les systèmes fermés se dégradent."
+        }
+      ]
+    },
+    "languages": {
+      "title": "Langues",
+      "items": [
+        {
+          "name": "Français",
+          "level": "Natif",
+          "flag": "🇫🇷",
+          "bar": 100
+        },
+        {
+          "name": "Anglais",
+          "level": "Professionnel",
+          "flag": "🇬🇧",
+          "bar": 90
+        },
+        {
+          "name": "Allemand",
+          "level": "Intermédiaire",
+          "flag": "🇩🇪",
+          "bar": 55
+        }
+      ]
+    },
+    "stats": [
+      {
+        "label": "Ans de code",
+        "value": "6+"
+      },
+      {
+        "label": "Projets livrés",
+        "value": "10+"
+      },
+      {
+        "label": "Technologies",
+        "value": "15+"
+      },
+      {
+        "label": "Cafés bus",
+        "value": "∞"
+      }
+    ],
+    "contact": {
+      "title": "Travaillons ensemble",
+      "desc": "Ouvert aux missions freelance, collaborations et conversations intéressantes.",
+      "cta": "M'envoyer un email"
+    },
+    "timeline": {
+      "title": "Expériences & Projets",
+      "events": [
+        {
+          "year": "2025 – auj.",
+          "startYear": 2025,
+          "type": "work",
+          "current": true,
+          "title": "Développeur Full-Stack",
+          "org": "Freelance",
+          "location": "",
+          "description": "Création d'applications web et de produits numériques pour des clients. Focus sur React, Next.js et les stacks backend modernes. Allier sens du design et rigueur technique.",
+          "tags": [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "Tailwind",
+            "Node.js"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2024 – auj.",
+          "startYear": 2024,
+          "type": "project",
+          "current": true,
+          "title": "portfolio-paschek-blog",
+          "org": "",
+          "location": "",
+          "description": "Conception et développement de ce portfolio from scratch — multilingue (EN/FR), blog MDX, panel admin avec éditeur de blocs style Notion, fond aurora, curseur personnalisé.",
+          "tags": [
+            "Next.js 15",
+            "MDX",
+            "Framer Motion",
+            "Tailwind",
+            "GitHub API"
+          ],
+          "url": "https://github.com/PascheK/portfolio-paschek-blog"
+        },
+        {
+          "year": "2023",
+          "startYear": 2023,
+          "type": "work",
+          "current": false,
+          "title": "Développeur Stagiaire",
+          "org": "Entreprise Tech",
+          "location": "France",
+          "description": "Travail sur des outils internes et des fonctionnalités client en équipe agile. Expérience concrète sur les pipelines CI/CD, les code reviews et les déploiements en production.",
+          "tags": [
+            "React",
+            "Node.js",
+            "Docker",
+            "PostgreSQL"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2022",
+          "startYear": 2022,
+          "type": "project",
+          "current": false,
+          "title": "Divin — Studio Créatif",
+          "org": "",
+          "location": "",
+          "description": "Co-fondateur d'un petit studio créatif livrant sites web et identités visuelles pour des entreprises locales. Gestion clients, design et développement front-end.",
+          "tags": [
+            "Freelance",
+            "Branding",
+            "Webflow",
+            "Figma"
+          ],
+          "url": "https://divin.fr"
+        },
+        {
+          "year": "2021",
+          "startYear": 2021,
+          "type": "education",
+          "current": false,
+          "title": "Licence Informatique",
+          "org": "Université",
+          "location": "France",
+          "description": "Étude des algorithmes, du génie logiciel, des réseaux et des bases de données. Plusieurs projets de groupe dont une application web et un compilateur. Diplômé avec mention.",
+          "tags": [
+            "Java",
+            "SQL",
+            "Linux",
+            "Algorithmes",
+            "Réseaux"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2019",
+          "startYear": 2019,
+          "type": "milestone",
+          "current": false,
+          "title": "Première ligne de code",
+          "org": "",
+          "location": "",
+          "description": "Créé mon premier site en HTML & CSS juste pour voir si je pouvais. Accroché immédiatement — jamais regardé en arrière. Cette curiosité s'est transformée en passion.",
+          "tags": [],
+          "url": ""
+        }
+      ]
+    }
   },
   "footer": {
     "tagline": "Développeur full-stack passionné par la création d'expériences web rapides, accessibles et élégantes.",
@@ -240,8 +420,7 @@
       "projects": "Projets",
       "about": "À propos",
       "uses": "Setup",
-      "now": "Maintenant",
-      "timeline": "Parcours"
+      "now": "Maintenant"
     },
     "connect": "Me contacter",
     "rss": "Flux RSS",
@@ -434,109 +613,5 @@
       }
     ],
     "coffeeLabel": "Café actif"
-  },
-  "timeline": {
-    "events": [
-      {
-        "year": "2025 – auj.",
-        "startYear": 2025,
-        "type": "work",
-        "current": true,
-        "title": "Développeur Full-Stack",
-        "org": "Freelance",
-        "location": "",
-        "description": "Création d'applications web et de produits numériques pour des clients. Focus sur React, Next.js et les stacks backend modernes. Allier sens du design et rigueur technique.",
-        "tags": [
-          "Next.js",
-          "React",
-          "TypeScript",
-          "Tailwind",
-          "Node.js"
-        ],
-        "url": ""
-      },
-      {
-        "year": "2024 – auj.",
-        "startYear": 2024,
-        "type": "project",
-        "current": true,
-        "title": "portfolio-paschek-blog",
-        "org": "",
-        "location": "",
-        "description": "Conception et développement de ce portfolio from scratch — multilingue (EN/FR), blog MDX, panel admin avec éditeur de blocs style Notion, fond aurora, curseur personnalisé.",
-        "tags": [
-          "Next.js 15",
-          "MDX",
-          "Framer Motion",
-          "Tailwind",
-          "GitHub API"
-        ],
-        "url": "https://github.com/PascheK/portfolio-paschek-blog"
-      },
-      {
-        "year": "2023",
-        "startYear": 2023,
-        "type": "work",
-        "current": false,
-        "title": "Développeur Stagiaire",
-        "org": "Entreprise Tech",
-        "location": "France",
-        "description": "Travail sur des outils internes et des fonctionnalités client en équipe agile. Expérience concrète sur les pipelines CI/CD, les code reviews et les déploiements en production.",
-        "tags": [
-          "React",
-          "Node.js",
-          "Docker",
-          "PostgreSQL"
-        ],
-        "url": ""
-      },
-      {
-        "year": "2022",
-        "startYear": 2022,
-        "type": "project",
-        "current": false,
-        "title": "Divin — Studio Créatif",
-        "org": "",
-        "location": "",
-        "description": "Co-fondateur d'un petit studio créatif livrant sites web et identités visuelles pour des entreprises locales. Gestion clients, design et développement front-end.",
-        "tags": [
-          "Freelance",
-          "Branding",
-          "Webflow",
-          "Figma"
-        ],
-        "url": "https://divin.fr"
-      },
-      {
-        "year": "2021",
-        "startYear": 2021,
-        "type": "education",
-        "current": false,
-        "title": "Licence Informatique",
-        "org": "Université",
-        "location": "France",
-        "description": "Étude des algorithmes, du génie logiciel, des réseaux et des bases de données. Plusieurs projets de groupe dont une application web et un compilateur. Diplômé avec mention.",
-        "tags": [
-          "Java",
-          "SQL",
-          "Linux",
-          "Algorithmes",
-          "Réseaux"
-        ],
-        "url": ""
-      },
-      {
-        "year": "2019",
-        "startYear": 2019,
-        "type": "milestone",
-        "current": false,
-        "title": "Première ligne de code",
-        "org": "",
-        "location": "",
-        "description": "Créé mon premier site en HTML & CSS juste pour voir si je pouvais. Accroché immédiatement — jamais regardé en arrière. Cette curiosité s'est transformée en passion.",
-        "tags": [],
-        "url": ""
-      }
-    ]
   }
 }
