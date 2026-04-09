@@ -26,8 +26,8 @@
     "hero": {
       "hello": "Hello World!",
       "title_prefix": "My name is",
-      "title_suffix": "and I am a Fullstack Developer",
-      "tagline": "I love building fast, accessible and beautiful web experiences. From design to deploy, I handle it all."
+      "title_suffix": "and I am a Full-Stack Developer",
+      "tagline": "Passionate builder from Bouloz, Switzerland. I love creating — from web apps to video games, from mountain treks to open-source code."
     },
     "stats": {
       "projects": "Projects",
@@ -116,7 +116,7 @@
   },
   "about": {
     "title": "About me",
-    "tagline": "Full‑stack developer passionate about web and innovation.",
+    "tagline": "Full-stack developer · Adventurer · Creator — based in Bouloz, Switzerland.",
     "profileAlt": "Profile photo of {{name}}",
     "experienceTitle": "Experience",
     "skillsCategories": {
@@ -202,62 +202,70 @@
           "Tailwind CSS",
           "React Native",
           "C#",
-          "Unity 2D"
+          "Unity"
         ],
         "backend": [
           "Node.js",
           "Express.js",
+          "PHP",
+          "Laravel",
           "Java",
-          "Spring Boot",
-          "MongoDB",
-          "PostgreSQL"
+          "PostgreSQL",
+          "MongoDB"
         ],
         "devops": [
           "Docker",
           "CI/CD",
-          "Vercel"
+          "Vercel",
+          "GitHub Actions",
+          "WordPress"
         ]
       }
     },
     "education": {
-      "title": "Education",
+      "title": "Education & Training",
       "items": [
         {
-          "degree": "Federal VET Diploma in Computer Science (CFC)",
-          "school": "Switzerland",
-          "year": "2019-2023"
+          "degree": "Technical Maturité (in progress)",
+          "school": "EMF — École de Maturité et de Formation",
+          "year": "2025 – present"
+        },
+        {
+          "degree": "Federal VET Diploma — Computer Science (CFC)",
+          "school": "EMF, Switzerland",
+          "year": "2019 – 2023"
         }
       ]
     },
     "downloadCV": "Download my CV",
     "cvUrl": "/documents/kp_cv.pdf",
     "bio": [
-      "I'm a full-stack developer based in Switzerland, currently working at UNOPS and Div-In. I love building things that live on the internet — from polished interfaces to resilient back-ends.",
-      "I got hooked on code in 2019 when I built my first site just to see if I could. Since then I've shipped products used by real people, led a web platform for an association, completed military service as a non-commissioned officer, and kept building on the side — always curious, always learning.",
-      "Outside of work I hike, tinker with my homelab, obsess over specialty coffee and occasionally shoot film photography."
+      "I'm Killian, a 22-year-old full-stack developer based in Bouloz, Switzerland. I started coding in 2017, drawn in by a simple dream: making my own video game. That dream is still alive — I'm actively building it in C# with Unity.",
+      "By day I work at UNOPS and Div-In, building tools that help people. By night I'm crafting side projects, exploring new tech and trying to push my limits — whether on a keyboard or on a mountain trail.",
+      "I'm a passionate, spontaneous person who loves discovering new things. Open source, freedom and creativity are non-negotiable for me."
     ],
     "values": {
-      "title": "What I believe in",
+      "title": "What drives me",
       "items": [
         {
+          "icon": "🦅",
+          "label": "Freedom",
+          "desc": "Non-negotiable in code and in life. I thrive with autonomy and avoid unnecessary constraints."
+        },
+        {
           "icon": "⚡",
-          "label": "Ship fast, iterate faster",
-          "desc": "Good software gets in front of users early. Perfect is the enemy of shipped."
+          "label": "Enthusiasm",
+          "desc": "I dive into everything with full energy. If something excites me, I go all in."
         },
         {
-          "icon": "🔍",
-          "label": "Craft matters",
-          "desc": "I care about details — typography, transitions, error states. Quality shows."
+          "icon": "🎨",
+          "label": "Creativity",
+          "desc": "From game design to web interfaces, I approach dev as a creative act — not just an engineering one."
         },
         {
-          "icon": "🌱",
-          "label": "Always learning",
-          "desc": "The best developers are the ones who never stop being students."
-        },
-        {
-          "icon": "🤝",
-          "label": "Open by default",
-          "desc": "Open source, open communication, open to feedback. Closed systems rot."
+          "icon": "🌿",
+          "label": "Open Source",
+          "desc": "I believe in sharing knowledge and building in the open. Closed systems hold everyone back."
         }
       ]
     },
@@ -287,126 +295,152 @@
     "stats": [
       {
         "label": "Years coding",
-        "value": "6+"
+        "value": "8+"
       },
       {
-        "label": "Projects shipped",
-        "value": "10+"
+        "label": "Projects started",
+        "value": "∞"
       },
       {
         "label": "Technologies",
-        "value": "15+"
+        "value": "10+"
       },
       {
-        "label": "Cups of coffee",
-        "value": "∞"
+        "label": "Lucky number",
+        "value": "7"
       }
     ],
     "contact": {
-      "title": "Let's work together",
-      "desc": "Open to freelance missions, collaborations and interesting conversations.",
+      "title": "Let's build something together",
+      "desc": "Open to freelance missions, exciting collaborations and interesting conversations.",
       "cta": "Send me an email"
     },
     "timeline": {
-      "title": "Experience & Projects",
+      "title": "Experience & Journey",
       "events": [
         {
           "year": "2025 – present",
           "startYear": 2025,
           "type": "work",
           "current": true,
-          "title": "Full-Stack Developer",
-          "org": "Freelance",
-          "location": "",
-          "description": "Building web applications and digital products for clients. Focus on React, Next.js and modern backend stacks. Combining design sensibility with engineering rigour.",
+          "title": "Information Management Associate (Lead)",
+          "org": "UNOPS — United Nations",
+          "location": "Switzerland",
+          "description": "Supporting information management and analytical reporting for digital decision-support solutions at the United Nations.",
           "tags": [
-            "Next.js",
-            "React",
-            "TypeScript",
-            "Tailwind",
-            "Node.js"
+            "Data",
+            "Analysis",
+            "Reporting",
+            "Digital Tools"
           ],
           "url": ""
         },
         {
-          "year": "2024 – present",
-          "startYear": 2024,
-          "type": "project",
+          "year": "2025 – present",
+          "startYear": 2025,
+          "type": "work",
           "current": true,
-          "title": "portfolio-paschek-blog",
-          "org": "",
-          "location": "",
-          "description": "Designed and built this portfolio from scratch — multilingual (EN/FR), MDX blog, custom admin panel with a Notion-style block editor, aurora background, custom cursor.",
+          "title": "Supporting Full-Stack Developer",
+          "org": "Div-In",
+          "location": "Switzerland",
+          "description": "Development of the Div-In mobile app (React Native + Laravel). Implementing features, fixing bugs, writing technical documentation to ease developer onboarding.",
           "tags": [
-            "Next.js 15",
-            "MDX",
-            "Framer Motion",
-            "Tailwind",
-            "GitHub API"
+            "React Native",
+            "Laravel",
+            "PHP",
+            "TypeScript"
           ],
-          "url": "https://github.com/PascheK/portfolio-paschek-blog"
+          "url": ""
+        },
+        {
+          "year": "2025 – present",
+          "startYear": 2025,
+          "type": "education",
+          "current": true,
+          "title": "Technical Maturité",
+          "org": "EMF — École de Maturité et de Formation",
+          "location": "Fribourg, Switzerland",
+          "description": "Higher-level technical studies alongside professional work.",
+          "tags": [
+            "Math",
+            "Physics",
+            "Computer Science"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2024",
+          "startYear": 2024,
+          "type": "milestone",
+          "current": false,
+          "title": "Military Service — Non-Commissioned Officer",
+          "org": "Swiss Army",
+          "location": "Switzerland",
+          "description": "10 months of service (Jan–Nov 2024). Strengthened discipline, teamwork, leadership and responsibility.",
+          "tags": [
+            "Leadership",
+            "Teamwork",
+            "Discipline"
+          ],
+          "url": ""
         },
         {
           "year": "2023",
           "startYear": 2023,
           "type": "work",
           "current": false,
-          "title": "Developer Intern",
-          "org": "Tech Company",
-          "location": "France",
-          "description": "Worked on internal tooling and customer-facing features in an agile team. Gained hands-on experience with CI/CD pipelines, code review practices and production deployments.",
+          "title": "Electrical Installation Assistant",
+          "org": "Groupe E",
+          "location": "Switzerland",
+          "description": "4-month contract as temporary electrical installation assistant on various construction sites.",
           "tags": [
-            "React",
-            "Node.js",
-            "Docker",
-            "PostgreSQL"
+            "Electrical",
+            "On-site work"
           ],
           "url": ""
         },
         {
-          "year": "2022",
-          "startYear": 2022,
-          "type": "project",
+          "year": "2023",
+          "startYear": 2023,
+          "type": "work",
           "current": false,
-          "title": "Divin — Creative Studio",
-          "org": "",
-          "location": "",
-          "description": "Co-founded a small creative studio delivering websites and brand identities for local businesses. Handled client relations, design and front-end development.",
+          "title": "Full-Stack Developer Intern",
+          "org": "Plurial SA",
+          "location": "Switzerland",
+          "description": "4-month internship focused on full-stack web application development.",
           "tags": [
-            "Freelance",
-            "Branding",
-            "Webflow",
-            "Figma"
+            "Full-Stack",
+            "Web Dev",
+            "Internship"
           ],
-          "url": "https://divin.fr"
+          "url": ""
         },
         {
-          "year": "2021",
-          "startYear": 2021,
+          "year": "2019 – 2023",
+          "startYear": 2019,
           "type": "education",
           "current": false,
-          "title": "Computer Science Degree",
-          "org": "University",
-          "location": "France",
-          "description": "Studied algorithms, software engineering, networks and databases. Built several group projects including a web app and a compiler. Graduated with honours.",
+          "title": "Federal VET Diploma — Computer Science (CFC)",
+          "org": "EMF",
+          "location": "Fribourg, Switzerland",
+          "description": "4-year IT apprenticeship covering full-stack development, databases, networks and software engineering.",
           "tags": [
             "Java",
+            "JavaScript",
             "SQL",
-            "Linux",
-            "Algorithms",
             "Networks"
           ],
           "url": ""
         },
         {
-          "year": "2019",
-          "startYear": 2019,
+          "year": "2017",
+          "startYear": 2017,
           "type": "milestone",
           "current": false,
-          "title": "First line of code",
+          "title": "First lines of code",
           "org": "",
           "location": "",
-          "description": "Built my first website with HTML & CSS just to see if I could. Got hooked immediately — never looked back. That curiosity turned into a full-blown passion.",
+          "description": "Discovered programming at school. Wanted to build a video game — so I started learning. I never stopped.",
           "tags": [],
           "url": ""
         }
@@ -414,7 +448,7 @@
     }
   },
   "footer": {
-    "tagline": "Full-stack developer passionate about crafting fast, accessible and beautiful web experiences.",
+    "tagline": "Full-stack developer from Bouloz, Switzerland. Passionate about building, adventure and creating things that matter.",
     "availability": "Open to work",
     "quickLinks": "Quick links",
     "links": {
@@ -528,30 +562,31 @@
   },
   "now": {
     "title": "Now",
-    "subtitle": "A snapshot of what I am up to at the moment.",
+    "subtitle": "What I'm actually up to right now.",
     "updated": "Last updated April 2026",
     "focus": {
       "label": "Main focus",
       "items": [
-        "Building and shipping this portfolio",
-        "Deepening my Next.js & React knowledge",
-        "Exploring AI tooling in dev workflows"
+        "Building my video game in C# / Unity",
+        "Maturité technique at EMF",
+        "Contributing to Div-In (React Native + Laravel)",
+        "Working at UNOPS"
       ]
     },
     "projects": {
       "label": "Side projects",
       "items": [
-        "portfolio-paschek-blog — this very site",
-        "Experimenting with an LLM-powered code review tool",
-        "Contributing to a few open-source repos"
+        "This portfolio — always iterating",
+        "RAG chatbot with Next.js + LLM",
+        "Video game with Unity (the dream project)"
       ]
     },
     "learning": {
       "label": "Learning",
       "items": [
-        "Rust — slowly but surely",
-        "System design patterns",
-        "Photography composition"
+        "C# & Unity game development",
+        "Deepening my React Native skills",
+        "Maturité technical courses"
       ]
     },
     "reading": {
@@ -564,59 +599,58 @@
     "enjoying": {
       "label": "Enjoying",
       "items": [
-        "Hiking in the Alps when the weather allows",
-        "Homelab tinkering on weekends",
-        "Specialty coffee — always"
+        "Snowboard & ski touring in the Swiss mountains",
+        "Running & hiking whenever I can",
+        "Rap français — Ninho on repeat"
       ]
     },
     "nownow": "Inspired by the nownownow.com movement.",
     "status": {
       "mode": "Building",
       "timezone": "CET / UTC+2",
-      "location": "France"
+      "location": "Bouloz, Switzerland"
     },
     "spotlight": {
       "project": {
-        "name": "portfolio-paschek-blog",
-        "desc": "Building this very site — MDX blog, custom admin panel with block editor, i18n.",
+        "name": "Video Game — Unity",
+        "desc": "The project that made me want to code. Building it in C# with Unity, one feature at a time.",
         "tags": [
-          "Next.js 15",
-          "MDX",
-          "TypeScript",
-          "Tailwind"
+          "C#",
+          "Unity",
+          "Game Dev"
         ],
-        "url": "https://github.com/PascheK/portfolio-paschek-blog"
+        "url": ""
       },
       "learningSpotlight": {
-        "name": "Rust",
-        "desc": "Working through The Rust Book, one chapter at a time. Currently on ownership.",
-        "progress": 35
+        "name": "C# / Unity",
+        "desc": "Going deep into Unity's ecosystem to build my game — physics, animations, UI, level design.",
+        "progress": 45
       }
     },
     "listening": {
-      "artist": "Tame Impala",
-      "track": "Eventually",
-      "album": "Currents",
-      "progress": 63
+      "artist": "Ninho",
+      "track": "Comme Prévu",
+      "album": "Comme Prévu",
+      "progress": 72
     },
     "openTo": [
       "Freelance missions",
       "Open-source collab",
-      "Coffee chats",
-      "Side projects"
+      "Tech conversations",
+      "Adventure"
     ],
     "recentShips": [
       {
-        "label": "Block editor for admin panel",
+        "label": "3D Brain visualization on /about",
+        "date": "Apr 2026"
+      },
+      {
+        "label": "Admin panel with block editor",
         "date": "Apr 2026"
       },
       {
         "label": "/now and /timeline pages",
         "date": "Apr 2026"
-      },
-      {
-        "label": "Custom 404 with Konami easter egg",
-        "date": "Mar 2026"
       }
     ],
     "coffeeLabel": "Coffee: active"

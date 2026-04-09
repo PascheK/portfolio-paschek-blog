@@ -3,6 +3,7 @@ import { getDictionary } from "@/lib/dictionaries";
 import { metaData, socialLinks, availability } from "@/lib/config";
 import { Reveal, RevealStagger, RevealItem } from "@/components/ui/reveal";
 import { TimelineClient, type TimelineEvent } from "@/app/[lang]/timeline/timeline-client";
+import { BrainButton } from "@/components/brain/brain-button";
 import {
   Download, Mail, MapPin, Briefcase, Code2, Shield,
   ExternalLink, Github, Star,
@@ -112,6 +113,7 @@ export default async function AboutPage({
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-surface-alt/60 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-white/20 transition-all">
                   <Download className="size-4" /> {about.downloadCV ?? "Download CV"}
                 </a>
+                <BrainButton label={isFr ? "Explorer mon cerveau" : "Explore my brain"} />
               </div>
             </div>
           </div>
@@ -145,6 +147,37 @@ export default async function AboutPage({
             </div>
           </Reveal>
         )}
+
+        {/* NEURAL SPACE TEASER */}
+        <Reveal className="mb-12">
+          <div className="relative rounded-2xl border border-violet-500/20 bg-violet-500/[0.05] overflow-hidden p-7">
+            {/* decorative gradient blobs */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-violet-500/10 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-pink-500/10 blur-3xl pointer-events-none" />
+
+            <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-5">
+              {/* icon */}
+              <div className="shrink-0 w-14 h-14 rounded-2xl bg-violet-500/[0.12] border border-violet-500/25 flex items-center justify-center text-2xl">
+                🧠
+              </div>
+              <div className="flex flex-col gap-3 text-center sm:text-left">
+                <div>
+                  <h3 className="text-base font-bold text-foreground">
+                    {isFr ? "Espace Neuronal" : "Neural Space"}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                    {isFr
+                      ? "Explore mon cerveau en 3D — un réseau de neurones interactif qui visualise mes compétences, passions, musiques et projets."
+                      : "Explore my mind in 3D — an interactive neuron network that visualises my skills, passions, music & projects."}
+                  </p>
+                </div>
+                <div className="flex justify-center sm:justify-start">
+                  <BrainButton label={isFr ? "Entrer dans mon cerveau →" : "Enter my brain →"} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
 
         {/* EXPERIENCE & PROJECTS */}
         {timelineEvents.length > 0 && (
