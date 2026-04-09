@@ -18,7 +18,7 @@ interface TimelineProps {
   items: TimelineItem[];
 }
 
-const typeConfig: Record<ExperienceType, { color: string; bg: string; icon: React.ElementType }> = {
+const typeConfig: Record<ExperienceType, { color: string; bg: string; icon: React.ComponentType<{ className?: string }> }> = {
   work: {
     color: 'text-blue-400',
     bg: 'bg-blue-500/20 border-blue-500/40',

@@ -63,7 +63,7 @@ function applyMarkdown(
   });
 }
 
-const groups: { action: MarkdownAction; icon: React.ElementType; title: string }[][] = [
+const groups: { action: MarkdownAction; icon: React.ComponentType<{ className?: string }>; title: string }[][] = [
   [
     { action: 'h1', icon: Heading1, title: 'Heading 1' },
     { action: 'h2', icon: Heading2, title: 'Heading 2' },

@@ -213,13 +213,7 @@
           "PostgreSQL",
           "MongoDB"
         ],
-        "devops": [
-          "Docker",
-          "CI/CD",
-          "Vercel",
-          "GitHub Actions",
-          "WordPress"
-        ]
+        "devops": ["Docker", "CI/CD", "Vercel", "GitHub Actions", "WordPress"]
       }
     },
     "education": {
@@ -327,12 +321,7 @@
           "org": "UNOPS — United Nations",
           "location": "Switzerland",
           "description": "Supporting information management and analytical reporting for digital decision-support solutions at the United Nations.",
-          "tags": [
-            "Data",
-            "Analysis",
-            "Reporting",
-            "Digital Tools"
-          ],
+          "tags": ["Data", "Analysis", "Reporting", "Digital Tools"],
           "url": ""
         },
         {
@@ -344,12 +333,7 @@
           "org": "Div-In",
           "location": "Switzerland",
           "description": "Development of the Div-In mobile app (React Native + Laravel). Implementing features, fixing bugs, writing technical documentation to ease developer onboarding.",
-          "tags": [
-            "React Native",
-            "Laravel",
-            "PHP",
-            "TypeScript"
-          ],
+          "tags": ["React Native", "Laravel", "PHP", "TypeScript"],
           "url": ""
         },
         {
@@ -361,11 +345,7 @@
           "org": "EMF — École de Maturité et de Formation",
           "location": "Fribourg, Switzerland",
           "description": "Higher-level technical studies alongside professional work.",
-          "tags": [
-            "Math",
-            "Physics",
-            "Computer Science"
-          ],
+          "tags": ["Math", "Physics", "Computer Science"],
           "url": ""
         },
         {
@@ -377,11 +357,7 @@
           "org": "Swiss Army",
           "location": "Switzerland",
           "description": "10 months of service (Jan–Nov 2024). Strengthened discipline, teamwork, leadership and responsibility.",
-          "tags": [
-            "Leadership",
-            "Teamwork",
-            "Discipline"
-          ],
+          "tags": ["Leadership", "Teamwork", "Discipline"],
           "url": ""
         },
         {
@@ -393,10 +369,7 @@
           "org": "Groupe E",
           "location": "Switzerland",
           "description": "4-month contract as temporary electrical installation assistant on various construction sites.",
-          "tags": [
-            "Electrical",
-            "On-site work"
-          ],
+          "tags": ["Electrical", "On-site work"],
           "url": ""
         },
         {
@@ -408,11 +381,7 @@
           "org": "Plurial SA",
           "location": "Switzerland",
           "description": "4-month internship focused on full-stack web application development.",
-          "tags": [
-            "Full-Stack",
-            "Web Dev",
-            "Internship"
-          ],
+          "tags": ["Full-Stack", "Web Dev", "Internship"],
           "url": ""
         },
         {
@@ -424,12 +393,7 @@
           "org": "EMF",
           "location": "Fribourg, Switzerland",
           "description": "4-year IT apprenticeship covering full-stack development, databases, networks and software engineering.",
-          "tags": [
-            "Java",
-            "JavaScript",
-            "SQL",
-            "Networks"
-          ],
+          "tags": ["Java", "JavaScript", "SQL", "Networks"],
           "url": ""
         },
         {
@@ -591,10 +555,7 @@
     },
     "reading": {
       "label": "Reading",
-      "items": [
-        "A Philosophy of Software Design — John Ousterhout",
-        "The Pragmatic Programmer — Hunt & Thomas"
-      ]
+      "items": ["The Dream of a Ridiculous Man — Dostoïevski"]
     },
     "enjoying": {
       "label": "Enjoying",
@@ -614,11 +575,7 @@
       "project": {
         "name": "Video Game — Unity",
         "desc": "The project that made me want to code. Building it in C# with Unity, one feature at a time.",
-        "tags": [
-          "C#",
-          "Unity",
-          "Game Dev"
-        ],
+        "tags": ["C#", "Unity", "Game Dev"],
         "url": ""
       },
       "learningSpotlight": {
@@ -649,7 +606,7 @@
         "date": "Apr 2026"
       },
       {
-        "label": "/now and /timeline pages",
+        "label": "/now and page",
         "date": "Apr 2026"
       }
     ],

@@ -213,13 +213,7 @@
           "PostgreSQL",
           "MongoDB"
         ],
-        "devops": [
-          "Docker",
-          "CI/CD",
-          "Vercel",
-          "GitHub Actions",
-          "WordPress"
-        ]
+        "devops": ["Docker", "CI/CD", "Vercel", "GitHub Actions", "WordPress"]
       }
     },
     "education": {
@@ -288,7 +282,7 @@
           "name": "Allemand",
           "level": "Intermédiaire",
           "flag": "🇩🇪",
-          "bar": 55
+          "bar": 75
         }
       ]
     },
@@ -327,12 +321,7 @@
           "org": "UNOPS — Nations Unies",
           "location": "Suisse",
           "description": "Soutien à la gestion de l'information et à la production de rapports analytiques pour des solutions digitales d'aide à la décision aux Nations Unies.",
-          "tags": [
-            "Data",
-            "Analyse",
-            "Reporting",
-            "Outils digitaux"
-          ],
+          "tags": ["Data", "Analyse", "Reporting", "Outils digitaux"],
           "url": ""
         },
         {
@@ -344,12 +333,7 @@
           "org": "Div-In",
           "location": "Suisse",
           "description": "Développement de l'application mobile Div-In (React Native + Laravel). Implémentation de fonctionnalités, correction de bugs, documentation technique.",
-          "tags": [
-            "React Native",
-            "Laravel",
-            "PHP",
-            "TypeScript"
-          ],
+          "tags": ["React Native", "Laravel", "PHP", "TypeScript"],
           "url": ""
         },
         {
@@ -361,11 +345,7 @@
           "org": "EMF — École de Maturité et de Formation",
           "location": "Fribourg, Suisse",
           "description": "Formation technique de niveau supérieur en parallèle de l'activité professionnelle.",
-          "tags": [
-            "Maths",
-            "Physique",
-            "Informatique"
-          ],
+          "tags": ["Maths", "Physique", "Informatique"],
           "url": ""
         },
         {
@@ -377,11 +357,7 @@
           "org": "Armée Suisse",
           "location": "Suisse",
           "description": "10 mois de service (jan.–nov. 2024). Développement de la discipline, du travail d'équipe, du leadership et du sens des responsabilités.",
-          "tags": [
-            "Leadership",
-            "Travail d'équipe",
-            "Discipline"
-          ],
+          "tags": ["Leadership", "Travail d'équipe", "Discipline"],
           "url": ""
         },
         {
@@ -393,10 +369,7 @@
           "org": "Groupe E",
           "location": "Suisse",
           "description": "Contrat temporaire de 4 mois en tant qu'aide monteur électricien sur divers chantiers.",
-          "tags": [
-            "Électricité",
-            "Travail de terrain"
-          ],
+          "tags": ["Électricité", "Travail de terrain"],
           "url": ""
         },
         {
@@ -408,11 +381,7 @@
           "org": "Plurial SA",
           "location": "Suisse",
           "description": "Stage de 4 mois axé sur le développement d'applications web full-stack.",
-          "tags": [
-            "Full-Stack",
-            "Développement web",
-            "Stage"
-          ],
+          "tags": ["Full-Stack", "Développement web", "Stage"],
           "url": ""
         },
         {
@@ -424,12 +393,7 @@
           "org": "EMF",
           "location": "Fribourg, Suisse",
           "description": "Apprentissage informatique de 4 ans couvrant le développement full-stack, les bases de données, les réseaux et le génie logiciel.",
-          "tags": [
-            "Java",
-            "JavaScript",
-            "SQL",
-            "Réseaux"
-          ],
+          "tags": ["Java", "JavaScript", "SQL", "Réseaux"],
           "url": ""
         },
         {
@@ -587,10 +551,7 @@
     },
     "reading": {
       "label": "Lectures",
-      "items": [
-        "A Philosophy of Software Design — John Ousterhout",
-        "The Pragmatic Programmer — Hunt & Thomas"
-      ]
+      "items": ["Le rêve d'un homme ridicule - Dostoïevski"]
     },
     "enjoying": {
       "label": "En ce moment",
@@ -610,11 +571,7 @@
       "project": {
         "name": "Jeu Vidéo — Unity",
         "desc": "Le projet qui m'a donné envie de coder. Je le construis en C# avec Unity, une fonctionnalité à la fois.",
-        "tags": [
-          "C#",
-          "Unity",
-          "Game Dev"
-        ],
+        "tags": ["C#", "Unity", "Game Dev"],
         "url": ""
       },
       "learningSpotlight": {
@@ -645,7 +602,7 @@
         "date": "avr. 2026"
       },
       {
-        "label": "Pages /now et /timeline",
+        "label": "Pages /now",
         "date": "avr. 2026"
       }
     ],

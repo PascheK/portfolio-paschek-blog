@@ -19,7 +19,7 @@ export interface TimelineEvent {
 }
 
 const TYPE_CONFIG: Record<EventType, {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   dotBg: string;
   badge: string;
@@ -102,6 +102,7 @@ export function TimelineClient({ events, lang, labels }: Props) {
           const count = countByType(f);
           const isActive = activeFilter === f;
           const cfg = f !== 'all' ? TYPE_CONFIG[f as EventType] : null;
+          const CfgIcon = cfg?.icon;
           return (
             <button
               key={f}
@@ -114,7 +115,7 @@ export function TimelineClient({ events, lang, labels }: Props) {
                   : 'text-muted-foreground border-border bg-surface-alt/30 hover:bg-surface-alt/60 hover:text-foreground'
               }`}
             >
-              {f !== 'all' && cfg && <cfg.icon className="size-3" />}
+              {f !== 'all' && cfg && CfgIcon && <CfgIcon className="size-3" />}
               {label}
               <span className={`text-[10px] font-mono px-1 py-0.5 rounded ${
                 isActive ? 'bg-white/10' : 'bg-white/[0.04] text-muted-foreground/60'

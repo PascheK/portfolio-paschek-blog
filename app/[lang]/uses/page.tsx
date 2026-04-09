@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Tools, apps and hardware I use daily.",
 };
 
-const sectionIcons: Record<string, React.ElementType> = {
+const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   editor: Terminal,
   hardware: Cpu,
   apps: AppWindow,
