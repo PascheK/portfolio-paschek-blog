@@ -4,7 +4,8 @@
     "projects": "Projects",
     "about": "About",
     "uses": "Uses",
-    "photos": "Photos"
+    "photos": "Photos",
+    "now": "Now"
   },
   "home": {
     "title": "Welcome",
@@ -25,8 +26,8 @@
     "hero": {
       "hello": "Hello World!",
       "title_prefix": "My name is",
-      "title_suffix": "and I am a Fullstack Developer",
-      "tagline": "I love building fast, accessible and beautiful web experiences. From design to deploy, I handle it all."
+      "title_suffix": "and I am a Full-Stack Developer",
+      "tagline": "Passionate builder from Bouloz, Switzerland. I love creating — from web apps to video games, from mountain treks to open-source code."
     },
     "stats": {
       "projects": "Projects",
@@ -115,7 +116,7 @@
   },
   "about": {
     "title": "About me",
-    "tagline": "Full‑stack developer passionate about web and innovation.",
+    "tagline": "Full-stack developer · Adventurer · Creator — based in Bouloz, Switzerland.",
     "profileAlt": "Profile photo of {{name}}",
     "experienceTitle": "Experience",
     "skillsCategories": {
@@ -201,38 +202,253 @@
           "Tailwind CSS",
           "React Native",
           "C#",
-          "Unity 2D"
+          "Unity"
         ],
         "backend": [
           "Node.js",
           "Express.js",
+          "PHP",
+          "Laravel",
           "Java",
-          "Spring Boot",
-          "MongoDB",
-          "PostgreSQL"
+          "PostgreSQL",
+          "MongoDB"
         ],
         "devops": [
           "Docker",
           "CI/CD",
-          "Vercel"
+          "Vercel",
+          "GitHub Actions",
+          "WordPress"
         ]
       }
     },
     "education": {
-      "title": "Education",
+      "title": "Education & Training",
       "items": [
         {
-          "degree": "Federal VET Diploma in Computer Science (CFC)",
-          "school": "Switzerland",
-          "year": "2019-2023"
+          "degree": "Technical Maturité (in progress)",
+          "school": "EMF — École de Maturité et de Formation",
+          "year": "2025 – present"
+        },
+        {
+          "degree": "Federal VET Diploma — Computer Science (CFC)",
+          "school": "EMF, Switzerland",
+          "year": "2019 – 2023"
         }
       ]
     },
     "downloadCV": "Download my CV",
-    "cvUrl": "/documents/kp_cv.pdf"
+    "cvUrl": "/documents/kp_cv.pdf",
+    "bio": [
+      "I'm Killian, a 22-year-old full-stack developer based in Bouloz, Switzerland. I started coding in 2017, drawn in by a simple dream: making my own video game. That dream is still alive — I'm actively building it in C# with Unity.",
+      "By day I work at UNOPS and Div-In, building tools that help people. By night I'm crafting side projects, exploring new tech and trying to push my limits — whether on a keyboard or on a mountain trail.",
+      "I'm a passionate, spontaneous person who loves discovering new things. Open source, freedom and creativity are non-negotiable for me."
+    ],
+    "values": {
+      "title": "What drives me",
+      "items": [
+        {
+          "icon": "🦅",
+          "label": "Freedom",
+          "desc": "Non-negotiable in code and in life. I thrive with autonomy and avoid unnecessary constraints."
+        },
+        {
+          "icon": "⚡",
+          "label": "Enthusiasm",
+          "desc": "I dive into everything with full energy. If something excites me, I go all in."
+        },
+        {
+          "icon": "🎨",
+          "label": "Creativity",
+          "desc": "From game design to web interfaces, I approach dev as a creative act — not just an engineering one."
+        },
+        {
+          "icon": "🌿",
+          "label": "Open Source",
+          "desc": "I believe in sharing knowledge and building in the open. Closed systems hold everyone back."
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "items": [
+        {
+          "name": "French",
+          "level": "Native",
+          "flag": "🇫🇷",
+          "bar": 100
+        },
+        {
+          "name": "English",
+          "level": "Professional",
+          "flag": "🇬🇧",
+          "bar": 90
+        },
+        {
+          "name": "German",
+          "level": "Intermediate",
+          "flag": "🇩🇪",
+          "bar": 55
+        }
+      ]
+    },
+    "stats": [
+      {
+        "label": "Years coding",
+        "value": "8+"
+      },
+      {
+        "label": "Projects started",
+        "value": "∞"
+      },
+      {
+        "label": "Technologies",
+        "value": "10+"
+      },
+      {
+        "label": "Lucky number",
+        "value": "7"
+      }
+    ],
+    "contact": {
+      "title": "Let's build something together",
+      "desc": "Open to freelance missions, exciting collaborations and interesting conversations.",
+      "cta": "Send me an email"
+    },
+    "timeline": {
+      "title": "Experience & Journey",
+      "events": [
+        {
+          "year": "2025 – present",
+          "startYear": 2025,
+          "type": "work",
+          "current": true,
+          "title": "Information Management Associate (Lead)",
+          "org": "UNOPS — United Nations",
+          "location": "Switzerland",
+          "description": "Supporting information management and analytical reporting for digital decision-support solutions at the United Nations.",
+          "tags": [
+            "Data",
+            "Analysis",
+            "Reporting",
+            "Digital Tools"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2025 – present",
+          "startYear": 2025,
+          "type": "work",
+          "current": true,
+          "title": "Supporting Full-Stack Developer",
+          "org": "Div-In",
+          "location": "Switzerland",
+          "description": "Development of the Div-In mobile app (React Native + Laravel). Implementing features, fixing bugs, writing technical documentation to ease developer onboarding.",
+          "tags": [
+            "React Native",
+            "Laravel",
+            "PHP",
+            "TypeScript"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2025 – present",
+          "startYear": 2025,
+          "type": "education",
+          "current": true,
+          "title": "Technical Maturité",
+          "org": "EMF — École de Maturité et de Formation",
+          "location": "Fribourg, Switzerland",
+          "description": "Higher-level technical studies alongside professional work.",
+          "tags": [
+            "Math",
+            "Physics",
+            "Computer Science"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2024",
+          "startYear": 2024,
+          "type": "milestone",
+          "current": false,
+          "title": "Military Service — Non-Commissioned Officer",
+          "org": "Swiss Army",
+          "location": "Switzerland",
+          "description": "10 months of service (Jan–Nov 2024). Strengthened discipline, teamwork, leadership and responsibility.",
+          "tags": [
+            "Leadership",
+            "Teamwork",
+            "Discipline"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2023",
+          "startYear": 2023,
+          "type": "work",
+          "current": false,
+          "title": "Electrical Installation Assistant",
+          "org": "Groupe E",
+          "location": "Switzerland",
+          "description": "4-month contract as temporary electrical installation assistant on various construction sites.",
+          "tags": [
+            "Electrical",
+            "On-site work"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2023",
+          "startYear": 2023,
+          "type": "work",
+          "current": false,
+          "title": "Full-Stack Developer Intern",
+          "org": "Plurial SA",
+          "location": "Switzerland",
+          "description": "4-month internship focused on full-stack web application development.",
+          "tags": [
+            "Full-Stack",
+            "Web Dev",
+            "Internship"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2019 – 2023",
+          "startYear": 2019,
+          "type": "education",
+          "current": false,
+          "title": "Federal VET Diploma — Computer Science (CFC)",
+          "org": "EMF",
+          "location": "Fribourg, Switzerland",
+          "description": "4-year IT apprenticeship covering full-stack development, databases, networks and software engineering.",
+          "tags": [
+            "Java",
+            "JavaScript",
+            "SQL",
+            "Networks"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2017",
+          "startYear": 2017,
+          "type": "milestone",
+          "current": false,
+          "title": "First lines of code",
+          "org": "",
+          "location": "",
+          "description": "Discovered programming at school. Wanted to build a video game — so I started learning. I never stopped.",
+          "tags": [],
+          "url": ""
+        }
+      ]
+    }
   },
   "footer": {
-    "tagline": "Full-stack developer passionate about crafting fast, accessible and beautiful web experiences.",
+    "tagline": "Full-stack developer from Bouloz, Switzerland. Passionate about building, adventure and creating things that matter.",
     "availability": "Open to work",
     "quickLinks": "Quick links",
     "links": {
@@ -240,7 +456,8 @@
       "blog": "Blog",
       "projects": "Projects",
       "about": "About",
-      "uses": "Uses"
+      "uses": "Uses",
+      "now": "Now"
     },
     "connect": "Connect",
     "rss": "RSS Feed",
@@ -342,5 +559,100 @@
     "home": "Back to home",
     "blog": "Read the blog",
     "projects": "See projects"
+  },
+  "now": {
+    "title": "Now",
+    "subtitle": "What I'm actually up to right now.",
+    "updated": "Last updated April 2026",
+    "focus": {
+      "label": "Main focus",
+      "items": [
+        "Building my video game in C# / Unity",
+        "Maturité technique at EMF",
+        "Contributing to Div-In (React Native + Laravel)",
+        "Working at UNOPS"
+      ]
+    },
+    "projects": {
+      "label": "Side projects",
+      "items": [
+        "This portfolio — always iterating",
+        "RAG chatbot with Next.js + LLM",
+        "Video game with Unity (the dream project)"
+      ]
+    },
+    "learning": {
+      "label": "Learning",
+      "items": [
+        "C# & Unity game development",
+        "Deepening my React Native skills",
+        "Maturité technical courses"
+      ]
+    },
+    "reading": {
+      "label": "Reading",
+      "items": [
+        "A Philosophy of Software Design — John Ousterhout",
+        "The Pragmatic Programmer — Hunt & Thomas"
+      ]
+    },
+    "enjoying": {
+      "label": "Enjoying",
+      "items": [
+        "Snowboard & ski touring in the Swiss mountains",
+        "Running & hiking whenever I can",
+        "Rap français — Ninho on repeat"
+      ]
+    },
+    "nownow": "Inspired by the nownownow.com movement.",
+    "status": {
+      "mode": "Building",
+      "timezone": "CET / UTC+2",
+      "location": "Bouloz, Switzerland"
+    },
+    "spotlight": {
+      "project": {
+        "name": "Video Game — Unity",
+        "desc": "The project that made me want to code. Building it in C# with Unity, one feature at a time.",
+        "tags": [
+          "C#",
+          "Unity",
+          "Game Dev"
+        ],
+        "url": ""
+      },
+      "learningSpotlight": {
+        "name": "C# / Unity",
+        "desc": "Going deep into Unity's ecosystem to build my game — physics, animations, UI, level design.",
+        "progress": 45
+      }
+    },
+    "listening": {
+      "artist": "Ninho",
+      "track": "Comme Prévu",
+      "album": "Comme Prévu",
+      "progress": 72
+    },
+    "openTo": [
+      "Freelance missions",
+      "Open-source collab",
+      "Tech conversations",
+      "Adventure"
+    ],
+    "recentShips": [
+      {
+        "label": "3D Brain visualization on /about",
+        "date": "Apr 2026"
+      },
+      {
+        "label": "Admin panel with block editor",
+        "date": "Apr 2026"
+      },
+      {
+        "label": "/now and /timeline pages",
+        "date": "Apr 2026"
+      }
+    ],
+    "coffeeLabel": "Coffee: active"
   }
 }
