@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "My journey — education, work and projects over the years.",
 };
 
+<<<<<<< HEAD
 // ── Timeline data — edit here to update your story ───────────────────────────
 const TIMELINE_EN: TimelineEvent[] = [
   {
@@ -160,15 +161,43 @@ const STATS = {
 
 const TYPE_ICONS = { work: Briefcase, education: GraduationCap, project: Rocket, milestone: Star };
 
+=======
+const STATS = {
+  en: [
+    { label: "Years coding",   value: "6+" },
+    { label: "Projects",       value: "10+" },
+    { label: "Technologies",   value: "15+" },
+    { label: "Cups of coffee", value: "∞"  },
+  ],
+  fr: [
+    { label: "Ans de code",  value: "6+"  },
+    { label: "Projets",      value: "10+" },
+    { label: "Technologies", value: "15+" },
+    { label: "Cafés bus",    value: "∞"   },
+  ],
+};
+
+>>>>>>> origin/main
 export default async function TimelinePage({
   params,
 }: {
   params: Promise<{ lang: "en" | "fr" }>;
 }) {
   const { lang } = await params;
+<<<<<<< HEAD
   const isFr    = lang === "fr";
   const events  = isFr ? TIMELINE_FR : TIMELINE_EN;
   const stats   = STATS[lang];
+=======
+  const dict    = await getDictionary(lang);
+  const isFr    = lang === "fr";
+
+  // Read events from the dictionary (editable via admin)
+  const timelineDict = (dict as any)?.timeline;
+  const events: TimelineEvent[] = timelineDict?.events ?? [];
+
+  const stats = STATS[lang];
+>>>>>>> origin/main
 
   const title    = isFr ? "Mon Parcours"    : "My Journey";
   const subtitle = isFr
@@ -176,17 +205,26 @@ export default async function TimelinePage({
     : "Education, work and projects that shaped who I am.";
 
   const labels = {
+<<<<<<< HEAD
     work:       isFr ? "Emploi"    : "Work",
     education:  isFr ? "Formation" : "Education",
     project:    isFr ? "Projet"    : "Project",
     milestone:  isFr ? "Étape"     : "Milestone",
     current:    isFr ? "En cours"  : "Current",
+=======
+    work:      isFr ? "Emploi"    : "Work",
+    education: isFr ? "Formation" : "Education",
+    project:   isFr ? "Projet"    : "Project",
+    milestone: isFr ? "Étape"     : "Milestone",
+    current:   isFr ? "En cours"  : "Current",
+>>>>>>> origin/main
   };
 
   return (
     <section className="w-full px-4 sm:px-6 md:px-8 pb-24">
       <div className="max-w-2xl mx-auto">
 
+<<<<<<< HEAD
         {/* ── Header ────────────────────────────────────────────────────── */}
         <Reveal className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold title leading-tight mb-3">
@@ -196,6 +234,15 @@ export default async function TimelinePage({
         </Reveal>
 
         {/* ── Stats row ─────────────────────────────────────────────────── */}
+=======
+        {/* Header */}
+        <Reveal className="mb-10">
+          <h1 className="text-4xl md:text-5xl font-extrabold title leading-tight mb-3">{title}</h1>
+          <p className="text-base text-muted-foreground">{subtitle}</p>
+        </Reveal>
+
+        {/* Stats */}
+>>>>>>> origin/main
         <Reveal className="mb-10">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((stat, i) => {
@@ -218,7 +265,11 @@ export default async function TimelinePage({
           </div>
         </Reveal>
 
+<<<<<<< HEAD
         {/* ── Interactive client timeline ────────────────────────────────── */}
+=======
+        {/* Interactive timeline */}
+>>>>>>> origin/main
         <TimelineClient events={events} lang={lang} labels={labels} />
 
       </div>
