@@ -340,6 +340,18 @@
       "title": "Experience & Journey",
       "events": [
         {
+          "year": "2026",
+          "startYear": 2027,
+          "type": "work",
+          "current": false,
+          "title": "Full-stack Developer",
+          "org": "HelloxLab",
+          "location": "Osaka (Japan)",
+          "description": "Designing and develloping app",
+          "tags": [],
+          "url": ""
+        },
+        {
           "year": "2025 – present",
           "startYear": 2026,
           "type": "work",
