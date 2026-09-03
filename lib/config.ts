@@ -15,7 +15,7 @@ export const socialLinks = {
 };
 
 export const availability = {
-  available: true,         // set to false to hide the badge
+  available: false,         // set to false to hide the badge
   labelEn: "Open to work",
   labelFr: "Disponible",
 };
