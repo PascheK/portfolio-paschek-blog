@@ -173,6 +173,27 @@
         "period": "Feb 15, 2023 – May 15, 2023",
         "description": "Internship focused on full‑stack application development.",
         "type": "work"
+      },
+      {
+        "period": "",
+        "title": "",
+        "org": "",
+        "description": "",
+        "type": "work"
+      },
+      {
+        "period": "",
+        "title": "",
+        "org": "",
+        "description": "",
+        "type": "work"
+      },
+      {
+        "period": "",
+        "title": "",
+        "org": "",
+        "description": "",
+        "type": "work"
       }
     ],
     "skills": {
@@ -320,9 +341,9 @@
       "events": [
         {
           "year": "2025 – present",
-          "startYear": 2025,
+          "startYear": 2026,
           "type": "work",
-          "current": true,
+          "current": false,
           "title": "Information Management Associate (Lead)",
           "org": "UNOPS — United Nations",
           "location": "Switzerland",
@@ -337,9 +358,9 @@
         },
         {
           "year": "2025 – present",
-          "startYear": 2025,
+          "startYear": 2026,
           "type": "work",
-          "current": true,
+          "current": false,
           "title": "Supporting Full-Stack Developer",
           "org": "Div-In",
           "location": "Switzerland",
@@ -354,9 +375,9 @@
         },
         {
           "year": "2025 – present",
-          "startYear": 2025,
+          "startYear": 2026,
           "type": "education",
-          "current": true,
+          "current": false,
           "title": "Technical Maturité",
           "org": "EMF — École de Maturité et de Formation",
           "location": "Fribourg, Switzerland",
