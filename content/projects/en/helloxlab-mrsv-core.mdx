@@ -1,0 +1,37 @@
+---
+title: "MRSV Core — Licensing & payments server in Rust"
+publishedAt: "2026-10-26"
+summary: "The backend behind Space Builder, written from scratch in Rust: licences, user accounts, Stripe payments, device presence, update delivery and a beta programme."
+tags: ["Rust", "Axum", "PostgreSQL", "Stripe", "Docker"]
+group: "HelloXLab"
+---
+
+## Context
+
+Once Space Builder was becoming a real product, it needed a backend: a way to sell it, to give each customer a licence, and to know which devices use it. None of that existed. I built the server from nothing, in Rust.
+
+## My role
+
+I designed and built the whole server myself, along with its deployment and its documentation. More recently, colleagues have added a few types and fixed minor bugs.
+
+## What I built
+
+- **Licences**: creation, activation, validation, and signed offline licences so the app keeps working without a connection.
+- **User accounts**: sign-up, login and sessions, with modern password hashing.
+- **Payments**: Stripe checkout and webhooks, tied to orders and licences.
+- **Devices and presence**: a heartbeat that shows which devices are active, with a limit per licence.
+- **Update delivery**: a proxy that serves the desktop app's auto-updates from private releases.
+- **Beta programme**: a waiting list with email confirmation, built to resist abuse, plus an intake for the feedback sent from the app and a small local admin console to manage both.
+- **Product telemetry** for usage counters and error reports.
+
+## Deployment
+
+I set up a complete environment on DigitalOcean and GitHub to deploy it. The server runs in Docker Compose behind a reverse proxy. A push to the release branch triggers a GitHub Actions deployment, and continuous integration builds and tests every change. A load-testing script with Locust helps check how it behaves under traffic.
+
+## Stack
+
+Rust (edition 2024), Axum, SQLx, PostgreSQL, Stripe, Docker and Docker Compose, GitHub Actions, DigitalOcean. Documentation as an mdBook: architecture, database schema, authentication, payments and licence lifecycle.
+
+## Status
+
+It powers the Space Builder beta. The code is private.

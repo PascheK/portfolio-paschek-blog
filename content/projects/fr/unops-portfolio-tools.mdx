@@ -1,0 +1,32 @@
+---
+title: "Portfolio Tools — Vitrine de projets & administration"
+publishedAt: "2025-05-19"
+summary: "Une application full-stack pour gérer et publier des projets : connexion Google, tableau de bord d'administration avec texte riche et upload d'images, et pages projets publiques avec recherche et filtres."
+tags: ["Next.js", "TypeScript", "Firebase", "Tailwind CSS"]
+group: "UNOPS"
+repoUrl: "https://github.com/PascheK/portfolio-tools"
+---
+
+## Contexte
+
+Les équipes de l'UNOPS avaient besoin d'un moyen simple de gérer leurs projets et de les présenter publiquement. J'ai construit un registre où des utilisateurs authentifiés créent et modifient des projets via une interface d'administration, et où les visiteurs parcourent le résultat publié.
+
+## Mon rôle
+
+J'ai conçu et développé toute l'application, front et back.
+
+## Ce que j'ai construit
+
+- **Authentification et rôles** : connexion Google, un rôle superadmin et des droits de propriétaire sur chaque projet.
+- **Tableau de bord d'administration** : création, modification et suppression de projets, avec un éditeur de texte riche pour la description complète et des fenêtres de confirmation pour éviter les suppressions accidentelles.
+- **Images** : upload d'une couverture et d'une galerie, avec réorganisation par glisser-déposer et aperçu en direct.
+- **Pages publiques** : une page par projet (`/project/[id]`) et une page d'accueil avec recherche, filtres, pagination et options d'affichage.
+- **Confort** : favoris pour les utilisateurs connectés, mode sombre, interface responsive et accessible.
+
+## Stack
+
+Next.js 15 (App Router), TypeScript, Firebase (Authentication, Firestore, Storage), Tailwind CSS v4, icônes Lucide, React Quill.
+
+## Liens
+
+- Code : [github.com/PascheK/portfolio-tools](https://github.com/PascheK/portfolio-tools)

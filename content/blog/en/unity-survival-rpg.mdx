@@ -1,0 +1,175 @@
+---
+title: "Building a 2D Survival RPG with Unity: My First Game Dev Journey"
+publishedAt: "2026-02-10"
+summary: "How I started building a 2D survival RPG in Unity: game design decisions, C# architecture, pixel art pipeline, and what I learned about making games as a web developer."
+image: /blogs/unity-survival-rpg.png
+tags: "unity,gamedev,csharp,2d,rpg,survival,indie"
+---
+
+> I'm primarily a web developer. I do Next.js, TypeScript, Docker, databases… So why am I now spending evenings fighting with a Unity tilemap and debugging a hunger system? This post is the honest story of that detour into game development.
+
+> **Update, October 2026:** this project is now on hold. See [section 7](#7-where-it-stopped).
+
+## 1. Why make a game?
+
+It started with a simple question: **what would it feel like to build something people actually play?**
+
+With web development, the feedback loop is clear: a user fills in a form, sees a dashboard, reads an article. But a game is different. A game has to feel good. The rules have to be fun. Every second of play is a tiny experience you designed.
+
+I wanted to understand that from the inside. Not to become a full-time game developer, but because I believe that kind of challenge teaches things that web projects don't:
+
+- thinking in **real-time systems** rather than request/response,
+- managing **state that evolves every frame**,
+- making decisions under constraints of **performance and feel**, not just correctness.
+
+So I opened Unity, and started.
+
+---
+
+## 2. Why Unity — and why 2D?
+
+I briefly considered Godot (free, lighter, Python-like syntax). But I already had some C# background from previous projects, and Unity's ecosystem is massive: tutorials, asset packs, forums, Stack Overflow answers for almost every problem you can imagine.
+
+For a first serious project, I preferred a **well-documented tool** over a technically superior but less familiar one.
+
+**Why 2D specifically?**
+
+3D is a complexity multiplier. Camera rigs, 3D physics, mesh colliders, lighting systems — all of that before I've even placed a player on screen. With 2D:
+
+- the **visual pipeline is simpler** (sprites, tilemaps, sprite atlases),
+- **physics is predictable** (Rigidbody2D, BoxCollider2D),
+- I can focus on **gameplay logic** instead of fighting with perspective and normals.
+
+A 2D survival RPG felt like the right level of ambition: real enough to be interesting, contained enough to actually finish (someday).
+
+---
+
+## 3. The concept: a survival RPG
+
+The core concept: you wake up in an unknown world. You have to **explore, gather resources, manage your survival stats, and progress** through a world that gets progressively more dangerous.
+
+### 3.1. Core survival mechanics
+
+- **Hunger & thirst**: stats that decrease over time, forcing the player to look for food and water,
+- **Health**: affected by combat, falls, lack of food,
+- **Stamina**: limits running and combat,
+- **Day/night cycle**: nights are more dangerous.
+
+### 3.2. RPG progression layer
+
+On top of survival, a light RPG system:
+
+- **Skills** that improve through use (craft more, get better at crafting),
+- **Inventory** with a weight limit,
+- **Equipment slots** (weapon, armour, tools),
+- **Crafting system** based on gathered materials.
+
+### 3.3. World & exploration
+
+- **Procedurally-influenced** map zones (not fully random, but varied),
+- Biomes (forest, plains, cave systems),
+- **Points of interest**: ruins, camps, hidden chests.
+
+The idea is that each run feels slightly different without being a pure roguelike.
+
+---
+
+## 4. C# architecture
+
+Coming from TypeScript/JavaScript, C# felt both familiar and foreign. Classes, interfaces, generics — fine. But Unity's **component-based architecture** requires a different way of thinking.
+
+### 4.1. The GameManager
+
+A persistent singleton that handles:
+
+- game state (menu, playing, paused, game over),
+- references to key systems (inventory, time, player stats),
+- save/load logic.
+
+I deliberately kept it thin — a coordinator, not a god object.
+
+### 4.2. ScriptableObjects
+
+This was my biggest discovery. **ScriptableObjects** let you define data assets in the Unity editor without tying them to a scene object. I use them for:
+
+- item definitions (name, icon, weight, stats),
+- recipe definitions (inputs + output),
+- enemy stats.
+
+It makes the game **data-driven**: a designer (or future me) can add a new item without touching any code.
+
+### 4.3. Key systems
+
+| System | Responsibility |
+|---|---|
+| `PlayerStats` | Manages hunger, thirst, health, stamina, events on change |
+| `InventorySystem` | Grid-based inventory, weight, stacking, equipping |
+| `CraftingSystem` | Reads recipes, checks ingredients, produces outputs |
+| `TimeManager` | Day/night cycle, in-game clock, events at dawn/dusk |
+| `CombatSystem` | Hitboxes, damage resolution, enemy AI states |
+
+Each system is a `MonoBehaviour` on a dedicated GameObject, communicating via **C# events** rather than direct references. This keeps coupling low and makes testing easier.
+
+---
+
+## 5. The visual pipeline
+
+I'm not a pixel artist, but I wanted a consistent visual style. I chose **pixel art** for practical reasons:
+
+- Forgiving at small canvas sizes (16×16, 32×32),
+- A lot of free/affordable assets in this style,
+- Scales cleanly with Unity's **Pixel Perfect Camera**.
+
+### 5.1. Tilemaps
+
+The world is built with Unity's **Tilemap system**: a ground layer, a decoration layer, and a collision layer. I use **Rule Tiles** to automatically pick the right tile variant based on neighbours (grass next to a wall gets the right edge tile automatically).
+
+### 5.2. Sprite animation
+
+Characters use **sprite sheets** with Unity's `Animator` component. Each state (idle, walk, attack, hurt) is a short animation clip. Transitions between states are driven by a `bool` or `trigger` parameter set from code.
+
+### 5.3. Lighting
+
+At night, I use **Unity's 2D lights** (Universal Render Pipeline) with a global ambient light that dims, plus a small point light around the player's torch. Simple, but effective.
+
+---
+
+## 6. What I struggled with (and learned)
+
+### 6.1. The mindset shift
+
+Web dev is largely **declarative and stateless** (per request). Game dev is **imperative and continuously stateful**. Nothing "requests" the player's position — it just exists and changes 60 times per second.
+
+This took time to internalise. I kept reaching for patterns that don't fit (trying to make the inventory "reactive" like a React component, for example).
+
+### 6.2. Unity physics vs expectations
+
+`Rigidbody2D` behaves in ways that surprise you. Gravity, friction, velocity — they interact in ways that feel natural in real life but weird in code. I spent more time tuning physics values than I expected.
+
+### 6.3. Scene management
+
+Transitioning between scenes (main menu → world → cave dungeon) while keeping the player's state alive requires **DontDestroyOnLoad** and careful design of which objects persist. I broke it several times before finding a clean pattern.
+
+### 6.4. The scope problem
+
+Every game developer talks about scope creep. I lived it. "Let me just add a crafting system. And a skill tree. And randomly generated dungeons. And…"
+
+I had to **cut features ruthlessly** to keep the project moving. The hunger system before procedural dungeons. A working save before polished animations. It's uncomfortable but necessary.
+
+---
+
+## 7. Where it stopped
+
+This is what exists today:
+
+- A playable world with tilemaps, a player and basic movement,
+- A basic inventory (pick up, drop, equip weapons),
+- A day/night cycle with lighting,
+- Save/load (a basic version started),
+- More biomes and world variety.
+
+The game has been put on hold. I stopped working on it, and I would rather say so than keep promising a demo. It is not deleted and it may come back one day, but for now it is paused.
+
+---
+
+This project taught me more about **systems thinking and state management** than almost anything I've done in web development. The constraints of a real-time game force a kind of architectural discipline that translates well back to other contexts. The scope lesson from section 6.4 is also the one I am carrying into my next game, which is deliberately much smaller: it starts with [Devlog #0](/en/blog/devlog-0).

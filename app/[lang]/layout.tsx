@@ -10,9 +10,9 @@ import { Suspense } from "react";
 import { Loader } from "@/components/ui/loader";
 import PageTransition from "@/components/ui/page-transition";
 import { BackToTop } from "@/components/ui/back-to-top";
-import { AuroraBackground } from "@/components/ui/aurora";
-import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { HtmlLang } from "@/components/ui/html-lang";
+import { KeyboardShortcuts } from "@/components/brand/keyboard-shortcuts";
+import { CardSpotlight } from "@/components/brand/card-spotlight";
 
 function parseTags(raw?: string) {
   if (!raw) return [] as string[];
@@ -63,7 +63,7 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
-    icons: { icon: "/favicon.ico" },
+    icons: { icon: "/brand/paschek-logo.svg" },
     alternates: {
       types: {
         "application/rss+xml": `/${lang}/feed/rss.xml`,
@@ -104,34 +104,38 @@ export default async function LangLayout({
     { id: 'nav-projects', title: dict.nav.projects,                        href: `/${lang}/projects` },
     { id: 'nav-about',   title: dict.nav.about,                            href: `/${lang}/about` },
     { id: 'nav-uses',      title: dict.nav.uses      ?? 'Uses',      href: `/${lang}/uses` },
-    { id: 'nav-now',       title: dict.nav.now    ?? 'Now',    href: `/${lang}/now` },
     { id: 'nav-photos',   title: dict.nav.photos ?? 'Photos', href: `/${lang}/photos` },
   ];
 
   return (
     <>
       <HtmlLang lang={lang} />
-      <AuroraBackground />
-      <SmoothScrollProvider>
-        <Suspense fallback={<div className="h-14 flex items-center justify-center"><Loader size={20} /></div>}>
-          <Navbar
-            dict={dict}
-            lang={lang}
-            paletteNavItems={navItems}
-            paletteContentItems={[...blogPosts, ...projectPosts]}
-            paletteLabels={dict.palette}
-            cvHref="/documents/kp_cv.pdf"
-            contactHref={socialLinks.email}
-          />
-        </Suspense>
-        <Suspense fallback={<Loader size={28} />}>
-          <PageTransition>{children}</PageTransition>
-        </Suspense>
-        <Footer dict={dict} />
-        <BackToTop />
-        <Analytics />
-        <SpeedInsights />
-      </SmoothScrollProvider>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] btn btn-primary"
+      >
+        {lang === "fr" ? "Aller au contenu" : "Skip to content"}
+      </a>
+      <Suspense fallback={<div className="h-16" />}>
+        <Navbar
+          dict={dict}
+          lang={lang}
+          paletteNavItems={navItems}
+          paletteContentItems={[...blogPosts, ...projectPosts]}
+          paletteLabels={dict.palette}
+          cvHref="/documents/kp_cv.pdf"
+          contactHref={socialLinks.email}
+        />
+      </Suspense>
+      <Suspense fallback={<Loader size={24} />}>
+        <PageTransition>{children}</PageTransition>
+      </Suspense>
+      <Footer dict={dict} />
+      <BackToTop />
+      <KeyboardShortcuts lang={lang} />
+      <CardSpotlight />
+      <Analytics />
+      <SpeedInsights />
     </>
   );
 }

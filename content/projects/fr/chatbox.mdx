@@ -1,0 +1,37 @@
+---
+title: "PascheK-ChatBox — App de bureau IA"
+publishedAt: "2025-10-28"
+summary: "Une app de chat IA personnelle avec recherche locale dans les documents (RAG), développée avec Electron et Next.js. Je voulais un assistant qui travaille avec les fichiers de mon ordinateur, pas seulement dans un onglet de navigateur."
+tags: ["Electron", "Next.js", "TypeScript", "IA", "RAG"]
+group: "Personnel"
+repoUrl: "https://github.com/PascheK/PascheK-ChatBox"
+---
+
+## Contexte
+
+J'utilise des modèles de langage tous les jours, pour le code, l'écriture et pour réfléchir à des problèmes. Les interfaces de chat existantes étaient soit trop génériques, soit me laissaient peu de contrôle sur le contexte. Je voulais la mienne : un espace de travail IA personnel capable de lire mes notes, mon code et mes documents.
+
+## Pourquoi une app de bureau
+
+Je voulais une application capable de gérer directement les fichiers du système d'exploitation, ce qu'une app web ne peut pas faire. C'est pour cela que je suis passé d'une interface web à Electron.
+
+## Ce que j'ai construit
+
+- **Application de bureau** construite avec Electron et Next.js, avec un build macOS via Electron Builder.
+- **Chat avec plusieurs contextes de conversation**, avec l'AI SDK et des modèles OpenAI.
+- **Analyse automatique de fichiers et de projets**, avec lecture de documents et embeddings.
+- **RAG local** : recherche dans mes propres documents, avec Drizzle ORM sur Neon ou SQLite.
+- **Interface** : responsive, avec de légères animations.
+
+## Stack
+
+Electron, Next.js, TypeScript, AI SDK / OpenAI, Drizzle ORM, Neon / SQLite, Tailwind CSS.
+
+## Statut
+
+C'est un projet personnel et je ne l'utilise plus au quotidien. Il reste une bonne trace de ce que je voulais explorer : l'intégration de l'IA, la recherche documentaire et le packaging d'une app de bureau.
+
+## Liens
+
+- Code : [github.com/PascheK/PascheK-ChatBox](https://github.com/PascheK/PascheK-ChatBox)
+- Article : [Construire un chatbot RAG fullstack avec Next.js](/fr/blog/paschek-chatbox)

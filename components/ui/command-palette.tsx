@@ -157,14 +157,14 @@ export function CommandPalette({
   };
 
   // Default trigger style when no triggerClassName is given
-  const defaultTriggerClass = "hidden md:inline-flex items-center gap-1.5 h-7 px-2 rounded-md border border-border/60 bg-surface-alt/50 text-xs text-muted-foreground hover:text-foreground hover:border-border hover:bg-surface-alt transition-all";
+  const defaultTriggerClass = "hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-lg border border-border text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground hover:border-border-strong";
 
   const overlay = (
     <AnimatePresence>
       {open && (
         <motion.div
           className="fixed inset-0 z-[20010] flex items-start justify-center px-4 pt-[12vh]"
-          style={{ background: "rgba(0,0,0,0.45)" }}
+          style={{ background: "color-mix(in srgb, var(--background) 70%, transparent)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -172,11 +172,11 @@ export function CommandPalette({
           onClick={() => setOpen(false)}
         >
           <motion.div
-            className="w-full max-w-xl overflow-hidden rounded-2xl border border-border/80 bg-surface/95 backdrop-blur-xl shadow-2xl shadow-black/30"
-            initial={{ opacity: 0, scale: 0.96, y: -16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
-            transition={{ type: "spring", stiffness: 340, damping: 28, mass: 0.7 }}
+            className="w-full max-w-xl overflow-hidden rounded-xl border border-border-strong bg-popover"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
             onClick={e => e.stopPropagation()}
           >
             {/* Search input */}
@@ -222,11 +222,10 @@ export function CommandPalette({
                         onClick={() => handleSelect(item)}
                         onMouseEnter={() => setActiveIdx(idx)}
                         className={[
-                          "w-full text-left px-3 py-2 rounded-xl flex items-center gap-3 transition-colors",
-                          isActive ? "bg-primary/10 text-foreground" : "text-muted-foreground hover:bg-surface-alt/60",
+                          "w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 transition-colors",
+                          isActive ? "bg-surface-alt text-foreground" : "text-muted-foreground hover:bg-surface-muted",
                         ].join(" ")}
-                        whileTap={{ scale: 0.99 }}
-                      >
+                                      >
                         <span className={[
                           "flex items-center justify-center w-6 h-6 rounded-md border shrink-0 transition-colors",
                           isActive ? "border-primary/30 bg-primary/10" : "border-border/60 bg-surface-alt/40",
@@ -269,9 +268,9 @@ export function CommandPalette({
         className={triggerClassName ?? defaultTriggerClass}
         aria-label={labels.open}
       >
-        <Command className="size-3" />
+        <Command className="size-4" aria-hidden />
         <span>{labels.open}</span>
-        <kbd className="flex items-center gap-0.5 text-[10px] border border-border/50 rounded px-1 bg-surface/50 text-muted-foreground/70">⌘K</kbd>
+        <kbd className="flex items-center gap-0.5 rounded border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">⌘K</kbd>
       </button>
       {mounted && createPortal(overlay, document.body)}
     </>

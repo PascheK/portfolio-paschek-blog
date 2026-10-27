@@ -1,0 +1,44 @@
+---
+title: "Homelab — My self-hosted server"
+publishedAt: "2025-10-15"
+summary: "A Dell PowerEdge R730 running Ubuntu and Docker for about three years: Nextcloud, WordPress, databases and the infrastructure behind several of my other projects."
+tags: ["Docker", "Linux", "Nginx", "Self-hosting"]
+group: "Personal"
+image: "/blogs/homelab.png"
+featured: "true"
+---
+
+## Context
+
+I wanted to understand how applications actually run: networking, volumes, logs, updates. I also wanted to host real services without relying on a cloud provider. So I bought a server and started. That was about three years ago. Today it runs many services that I use myself, every day. It is the project I am proudest of.
+
+## What it runs
+
+- **A reverse proxy** that serves every site over HTTPS, so I can reach my services with clean URLs instead of IPs and ports.
+- **Nextcloud** (with MariaDB and Redis) for files, documents and backups.
+- **WordPress sites**, including the one for the [Giron de Porsel 2026](/en/projects/gironporsel).
+- **Databases** (MariaDB and PostgreSQL), dedicated to individual projects.
+- **Internal tools and utility containers** for tests, scripts and jobs.
+
+## How it is organised
+
+- **One host, clear Docker stacks**, grouped by function: `reverse-proxy`, `cloud`, `web`, `db`.
+- **One Docker network per stack**, plus a shared proxy network.
+- **A small public surface**: only ports 80 and 443 are open, databases and admin tools are never exposed, and internal services are reached through a VPN or the local network.
+- **Maintenance habits**: regular updates of the system and images, and secrets kept out of the compose files.
+
+## Backups
+
+I am progressively structuring them: regular SQL dumps, snapshots of critical volumes (Nextcloud, WordPress) and synchronisation to another storage location. The goal is to be able to rebuild a stack from the docs and the backups without spending days on it.
+
+## Stack
+
+Dell PowerEdge R730, Ubuntu Server, Docker and Docker Compose, Nginx, Let's Encrypt, Nextcloud, WordPress, MariaDB, PostgreSQL.
+
+## What it gives me
+
+Running it myself makes me think like an operator and not only like a developer: DNS, proxies, certificates, ports, failures. Next on my list are monitoring, more infrastructure as code and automated restore tests.
+
+## Links
+
+- Write-up: [My Dell R730 homelab](/en/blog/homelab)

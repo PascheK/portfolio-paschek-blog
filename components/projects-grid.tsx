@@ -1,14 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CategoryFilter, type CategoryOption } from "@/components/ui/category-filter";
-import { RevealStagger } from "@/components/ui/reveal";
-import Image from "next/image";
-import { formatDate } from "@/lib/dates";
-import { AnimatePresence, motion } from "framer-motion";
-import { Search, X, Code2 } from "lucide-react";
+import { ContentCard } from "@/components/brand/content-card";
+import { Search, X } from "lucide-react";
 
 type ProjectPost = {
   slug: string;
@@ -17,6 +13,7 @@ type ProjectPost = {
     publishedAt?: string;
     summary?: string;
     tags?: string;
+    group?: string;
     image?: string;
   };
 };
@@ -54,12 +51,11 @@ export default function ProjectsGrid({
   const searchParams = useSearchParams();
   const allCategories: CategoryOption[] = useMemo(() => {
     const set = new Set<string>();
-    posts.forEach((p) => parseTags(p.metadata.tags).forEach((t) => set.add(t)));
+    posts.forEach((p) => { if (p.metadata.group) set.add(p.metadata.group); });
     const allLabel = lang === "fr" ? "Tous" : "All";
-    // Preferred ordering per language; everything else sorted alpha after
-    const preferred = lang === "fr" ? ["IA", "Open Source", "Éducation"] : ["AI", "Open Source", "Education"];
-    const tags = Array.from(set);
-    tags.sort((a, b) => {
+    // Fixed order: HelloXLab, UNOPS, Div-In, Personal (both languages); anything else after, alphabetical.
+    const preferred = ["HelloXLab", "UNOPS", "Div-In", "Personal", "Personnel"];
+    const groups = Array.from(set).sort((a, b) => {
       const ia = preferred.indexOf(a);
       const ib = preferred.indexOf(b);
       const sa = ia === -1 ? Number.POSITIVE_INFINITY : ia;
@@ -67,11 +63,10 @@ export default function ProjectsGrid({
       if (sa !== sb) return sa - sb;
       return a.localeCompare(b);
     });
-    const result = [
+    return [
       { value: "__all__", label: allLabel },
-      ...tags.map((t) => ({ value: t, label: t })),
+      ...groups.map((g) => ({ value: g, label: g })),
     ];
-    return result;
   }, [posts, lang]);
 
   const [selected, setSelected] = useState<string>(allCategories[0]?.value ?? "__all__");
@@ -83,7 +78,7 @@ export default function ProjectsGrid({
     let result = posts;
     if (selected !== allValue) {
       const sel = selected.trim();
-      result = result.filter((p) => parseTags(p.metadata.tags).some((t) => t.trim() === sel));
+      result = result.filter((p) => (p.metadata.group ?? "").trim() === sel);
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -91,6 +86,7 @@ export default function ProjectsGrid({
         (p) =>
           p.metadata.title.toLowerCase().includes(q) ||
           p.metadata.summary?.toLowerCase().includes(q) ||
+          p.metadata.group?.toLowerCase().includes(q) ||
           parseTags(p.metadata.tags).some((t) => t.toLowerCase().includes(q))
       );
     }
@@ -163,116 +159,61 @@ export default function ProjectsGrid({
   const noResultsMsg = (dict?.projectsPage?.noResults ?? 'No projects found for "{{query}}"').replace('{{query}}', searchQuery);
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Search input */}
-      <div className="relative max-w-md mx-auto w-full">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={searchPlaceholder}
-          className="w-full rounded-xl border border-border bg-surface-alt/60 backdrop-blur pl-10 pr-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Clear search"
-          >
-            <X className="size-4" />
-          </button>
-        )}
-      </div>
-
-      <div className="flex justify-center">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <CategoryFilter
           categories={allCategories}
           selected={selected}
           onSelect={handleFilterChange}
-          className="justify-center"
+          label={dict?.projectsPage?.filter ?? "Filter"}
         />
+        <div className="relative w-full md:max-w-xs">
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={searchPlaceholder}
+            aria-label={searchPlaceholder}
+            className="field pl-10 pr-10"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2 top-1/2 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="size-4" aria-hidden />
+            </button>
+          )}
+        </div>
       </div>
+
       {filteredProjects.length === 0 ? (
-        <p className="text-center text-muted-foreground py-12">{noResultsMsg}</p>
+        <p role="status" className="py-12 text-muted-foreground">{noResultsMsg}</p>
       ) : (
-        <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, idx) => {
-              const styles = [
-                { border: "border-rose-500/50", glow: "hover:shadow-rose-500/10", tag: "bg-rose-500/10 text-rose-400 border-rose-500/30" },
-                { border: "border-blue-500/50", glow: "hover:shadow-blue-500/10", tag: "bg-blue-500/10 text-blue-400 border-blue-500/30" },
-                { border: "border-yellow-400/60", glow: "hover:shadow-yellow-400/10", tag: "bg-yellow-400/10 text-yellow-400 border-yellow-400/30" },
-                { border: "border-emerald-400/60", glow: "hover:shadow-emerald-400/10", tag: "bg-emerald-400/10 text-emerald-400 border-emerald-400/30" },
-                { border: "border-purple-500/60", glow: "hover:shadow-purple-500/10", tag: "bg-purple-500/10 text-purple-400 border-purple-500/30" },
-                { border: "border-cyan-400/60", glow: "hover:shadow-cyan-400/10", tag: "bg-cyan-400/10 text-cyan-400 border-cyan-400/30" },
-              ];
-              const { border, glow, tag } = styles[idx % styles.length];
-              return (
-                <motion.div
-                  key={project.slug}
-                  layout
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                >
-                  <Link
-                    href={`/${lang}/projects/${project.slug}`}
-                    className={`group rounded-2xl overflow-hidden bg-surface-alt/70 dark:bg-surface-alt/30 backdrop-blur border ${border} shadow-lg ${glow} transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50`}
-                  >
-                    <div className="relative h-40 w-full overflow-hidden bg-surface">
-                      {project.metadata.image ? (
-                        <Image
-                          src={project.metadata.image}
-                          alt={(dict?.projectsPage?.imageAlt || "Cover image for {{title}}")
-                            .replace("{{title}}", project.metadata.title)}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-surface-alt via-muted to-surface flex items-center justify-center">
-                          <Code2 className="size-10 text-muted-foreground/25" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4 flex flex-col gap-2 flex-1">
-                      <h2 className="text-base font-semibold group-hover:text-primary transition-colors">
-                        {project.metadata.title}
-                      </h2>
-                      {project.metadata.publishedAt && (
-                        <p className="text-muted-foreground tabular-nums text-xs">
-                          {formatDate(project.metadata.publishedAt, false, lang === "fr" ? "fr-FR" : "en-US")}
-                        </p>
-                      )}
-                      {project.metadata.summary && (
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {project.metadata.summary}
-                        </p>
-                      )}
-                      {!!parseTags(project.metadata.tags).length && (
-                        <div className="mt-auto pt-2 flex flex-wrap gap-1">
-                          {parseTags(project.metadata.tags).map((t) => (
-                            <span
-                              key={t}
-                              className={`px-2 py-0.5 rounded-full text-xs border ${tag}`}
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <span className="mt-1 inline-flex items-center gap-1 text-xs text-primary group-hover:text-primary/80 underline underline-offset-4">
-                        {dict.projectsPage.details}
-                      </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </RevealStagger>
+        <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {filteredProjects.map((project) => (
+            <li key={project.slug} className="h-full">
+              <ContentCard
+                href={`/${lang}/projects/${project.slug}`}
+                title={project.metadata.title}
+                summary={project.metadata.summary}
+                image={project.metadata.image}
+                imageAlt={(dict?.projectsPage?.imageAlt || "Cover image for {{title}}").replace("{{title}}", project.metadata.title)}
+                tags={parseTags(project.metadata.tags)}
+                date={project.metadata.publishedAt}
+                locale={lang === "fr" ? "fr-FR" : "en-US"}
+                meta={project.metadata.group}
+                coverLabel={project.metadata.group}
+                fallbackLabel={project.metadata.group ?? "Project"}
+                cta={dict?.projectsPage?.details}
+                maxTags={4}
+              />
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

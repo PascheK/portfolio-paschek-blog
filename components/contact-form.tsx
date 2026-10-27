@@ -27,17 +27,20 @@ export function ContactForm({ dict }: ContactFormProps) {
 
   if (state.status === 'success') {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-8 text-center min-h-[220px]">
-        <CheckCircle2 className="size-10 text-emerald-400" />
+      <div
+        role="status"
+        className="flex min-h-[220px] flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface-alt p-8 text-center"
+      >
+        <CheckCircle2 className="size-8 text-success" aria-hidden />
         <p className="font-medium text-foreground">{dict.success}</p>
       </div>
     );
   }
 
   return (
-    <form ref={formRef} action={action} className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1.5">
+    <form ref={formRef} action={action} className="flex flex-col gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-sm font-medium text-foreground">
             {dict.name}
           </label>
@@ -46,11 +49,12 @@ export function ContactForm({ dict }: ContactFormProps) {
             name="name"
             type="text"
             required
+            autoComplete="name"
             placeholder={dict.namePlaceholder}
-            className="rounded-xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+            className="field"
           />
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm font-medium text-foreground">
             {dict.email}
           </label>
@@ -59,12 +63,13 @@ export function ContactForm({ dict }: ContactFormProps) {
             name="email"
             type="email"
             required
+            autoComplete="email"
             placeholder={dict.emailPlaceholder}
-            className="rounded-xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+            className="field"
           />
         </div>
       </div>
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label htmlFor="message" className="text-sm font-medium text-foreground">
           {dict.message}
         </label>
@@ -72,32 +77,31 @@ export function ContactForm({ dict }: ContactFormProps) {
           id="message"
           name="message"
           required
-          rows={4}
+          rows={5}
           placeholder={dict.messagePlaceholder}
-          className="rounded-xl border border-border bg-surface-alt/60 backdrop-blur px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none"
+          className="field resize-none"
         />
       </div>
 
       {state.status === 'error' && (
-        <div className="flex items-center gap-2 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-2.5 text-sm text-red-400">
-          <AlertCircle className="size-4 shrink-0" />
+        <div
+          role="alert"
+          className="flex items-center gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-2.5 text-sm text-destructive"
+        >
+          <AlertCircle className="size-4 shrink-0" aria-hidden />
           {state.message ?? dict.error}
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-110 disabled:opacity-60 transition-all focus:outline-none focus:ring-2 focus:ring-primary/50"
-      >
+      <button type="submit" disabled={pending} className="btn btn-primary self-start">
         {pending ? (
           <>
-            <span className="size-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+            <span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" aria-hidden />
             {dict.sending}
           </>
         ) : (
           <>
-            <Send className="size-4" />
+            <Send aria-hidden />
             {dict.send}
           </>
         )}

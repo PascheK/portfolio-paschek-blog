@@ -1,0 +1,41 @@
+---
+title: "Ouragan Beryl — Storytelling interactif au scroll"
+publishedAt: "2025-07-14"
+summary: "Un récit piloté par le scroll sur l'ouragan Beryl, réalisé pour l'UNOPS : vidéo synchronisée au défilement, overlays animés, contenu ArcGIS en direct et rapport téléchargeable."
+tags: ["Next.js", "TypeScript", "GSAP", "ArcGIS"]
+group: "UNOPS"
+image: "/projects/beryl.png"
+demoUrl: "https://beryl-impact-mockup.vercel.app"
+repoUrl: "https://github.com/PascheK/beryl-impact-mockup"
+ctaLabel: "Voir la démo"
+featured: "true"
+---
+
+## Contexte
+
+À l'UNOPS, mon objectif est de construire des outils qui permettent aux équipes de présenter le travail qu'elles ont réalisé. Beryl en fait partie : une expérience web qui fonctionne comme un PowerPoint interactif, où l'on fait défiler au lieu de passer de diapo en diapo. Elle raconte l'ouragan Beryl en trois phases : avant, pendant et après.
+
+## Mon rôle
+
+J'ai conçu le fil narratif et développé tout le front-end.
+
+## Ce que j'ai construit
+
+- **Récit en trois phases** : les overlays sont déclenchés depuis un fichier de configuration central, ce qui permet de modifier le récit sans toucher aux composants.
+- **Vidéo synchronisée au scroll** : un hook `useScrollVideo` lie la lecture à la position de défilement, et un composant `FullScrollSection` orchestre chaque phase. Les vidéos sont préchargées pour garder l'animation stable.
+- **Mouvement fluide** : Lenis pour le défilement doux, GSAP ScrollTrigger et Framer Motion pour les transitions et les overlays.
+- **Données en direct** : StoryMaps et dashboards ArcGIS intégrés directement dans le récit.
+- **Rapport** : le parcours se termine par un rapport PDF téléchargeable pour les parties prenantes.
+
+## Stack
+
+Next.js (App Router), TypeScript, React 19, Tailwind CSS 4, GSAP ScrollTrigger, Framer Motion, Lenis, ArcGIS StoryMaps et Dashboards.
+
+## Résultat
+
+Les équipes ont adoré ces outils et les ont présentés lors d'une conférence à Genève.
+
+## Liens
+
+- Démo : [beryl-impact-mockup.vercel.app](https://beryl-impact-mockup.vercel.app)
+- Code : [github.com/PascheK/beryl-impact-mockup](https://github.com/PascheK/beryl-impact-mockup)

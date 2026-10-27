@@ -6,6 +6,8 @@ type Metadata = {
   publishedAt?: string;
   summary?: string;
   tags?: string;
+  group?: string;
+  featured?: string;
   image?: string;
   url?: string;
   ctaLabel?: string;

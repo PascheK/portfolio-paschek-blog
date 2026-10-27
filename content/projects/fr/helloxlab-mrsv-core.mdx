@@ -1,0 +1,37 @@
+---
+title: "MRSV Core — Serveur de licences et de paiements en Rust"
+publishedAt: "2026-10-26"
+summary: "Le backend de Space Builder, écrit de zéro en Rust : licences, comptes utilisateurs, paiements Stripe, présence des appareils, distribution des mises à jour et programme bêta."
+tags: ["Rust", "Axum", "PostgreSQL", "Stripe", "Docker"]
+group: "HelloXLab"
+---
+
+## Contexte
+
+Quand Space Builder est devenu un vrai produit, il lui fallait un backend : un moyen de le vendre, de donner une licence à chaque client et de savoir quels appareils l'utilisent. Rien de tout cela n'existait. J'ai construit le serveur de zéro, en Rust.
+
+## Mon rôle
+
+J'ai conçu et développé seul tout le serveur, ainsi que son déploiement et sa documentation. Plus récemment, des collègues ont ajouté quelques types et corrigé de petits bugs.
+
+## Ce que j'ai construit
+
+- **Licences** : création, activation, validation, et licences hors ligne signées pour que l'app continue de fonctionner sans connexion.
+- **Comptes utilisateurs** : inscription, connexion et sessions, avec un hachage moderne des mots de passe.
+- **Paiements** : checkout et webhooks Stripe, reliés aux commandes et aux licences.
+- **Appareils et présence** : un signal de présence qui montre quels appareils sont actifs, avec une limite par licence.
+- **Distribution des mises à jour** : un proxy qui sert les mises à jour automatiques de l'app de bureau depuis des releases privées.
+- **Programme bêta** : une liste d'attente avec confirmation par e-mail, conçue pour résister aux abus, ainsi qu'une réception des retours envoyés depuis l'app et une petite console d'administration locale pour gérer les deux.
+- **Télémétrie produit** pour les compteurs d'usage et les rapports d'erreurs.
+
+## Déploiement
+
+J'ai mis en place un environnement complet sur DigitalOcean et GitHub pour le déployer. Le serveur tourne avec Docker Compose derrière un reverse proxy. Un push sur la branche release déclenche un déploiement GitHub Actions, et l'intégration continue compile et teste chaque modification. Un script de test de charge avec Locust permet de vérifier son comportement sous trafic.
+
+## Stack
+
+Rust (édition 2024), Axum, SQLx, PostgreSQL, Stripe, Docker et Docker Compose, GitHub Actions, DigitalOcean. Documentation sous forme de mdBook : architecture, schéma de base de données, authentification, paiements et cycle de vie des licences.
+
+## Statut
+
+Il alimente la bêta de Space Builder. Le code est privé.

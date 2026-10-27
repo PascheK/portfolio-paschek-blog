@@ -1,111 +1,124 @@
-'use client';
-
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Download } from "lucide-react";
+import { LiveStatus } from "@/components/brand/live-status";
+import { ScrollCue } from "@/components/brand/scroll-cue";
+import { RotatingWords } from "@/components/brand/rotating-words";
+import { SkillMarquee } from "@/components/brand/skill-marquee";
 
 type SkillGroup = {
   label: string;
   skills: string[];
-  color: string;
 };
 
 interface HeroSectionProps {
+  lang: "en" | "fr";
+  name: string;
   hello: string;
   titlePrefix: string;
   titleSuffix: string;
   tagline: string;
-  scrollLabel: string;
   skillGroups: SkillGroup[];
+  projectsLabel: string;
+  blogLabel: string;
+  cvLabel: string;
+  cvHref: string;
+  photoAlt: string;
+  doing?: string;
+  place?: string;
+  timeZone?: string;
+  scrollLabel: string;
+  scrollNext: string;
+  scrollHref: string;
+  buildPrefix: string;
+  buildWords: string[];
+  skillsLabel: string;
 }
 
+/**
+ * Home hero. One primary CTA, two quiet ones. No animation of its own —
+ * the page already fades in (see /brand.md → Motion).
+ */
 export function HeroSection({
+  lang,
+  name,
   hello,
   titlePrefix,
   titleSuffix,
   tagline,
-  scrollLabel,
   skillGroups,
+  projectsLabel,
+  blogLabel,
+  cvLabel,
+  cvHref,
+  photoAlt,
+  doing,
+  place,
+  timeZone,
+  scrollLabel,
+  scrollNext,
+  scrollHref,
+  buildPrefix,
+  buildWords,
+  skillsLabel,
 }: HeroSectionProps) {
   return (
-    <div className="flex flex-col items-center gap-6">
-      {/* Profile glow */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.82 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="relative">
-          <div className="absolute inset-0 rounded-full blur-2xl bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-emerald-500/20 scale-125" />
+    <section
+      id="intro"
+      aria-labelledby="hero-title"
+      className="flex min-h-[calc(100svh-4rem)] flex-col pb-10 pt-12 md:pb-12 md:pt-16"
+    >
+      <div className="my-auto grid gap-10 py-8 md:grid-cols-[1fr_auto] md:items-center md:gap-16">
+        <div>
+          <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <p className="eyebrow">{hello}</p>
+            <span className="hidden h-3 w-px bg-border-strong sm:block" aria-hidden />
+            <LiveStatus lang={lang} doing={doing} place={place} timeZone={timeZone} />
+          </div>
+          <h1 id="hero-title" className="t-display">
+            {titlePrefix} <span className="mark">{name}</span>
+            <br className="hidden sm:block" />{" "}
+            <span className="text-muted-foreground">{titleSuffix}</span>
+          </h1>
+          <p className="mt-6 font-mono text-sm text-muted-foreground md:text-base">
+            {buildPrefix} <RotatingWords words={buildWords} />
+          </p>
+          <p className="t-lead mt-4 max-w-xl">{tagline}</p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link href={`/${lang}/projects`} className="btn btn-primary">
+              {projectsLabel}
+              <ArrowRight aria-hidden />
+            </Link>
+            <Link href={`/${lang}/blog`} className="btn btn-secondary">
+              {blogLabel}
+            </Link>
+            <a href={cvHref} download className="btn btn-ghost">
+              <Download aria-hidden />
+              {cvLabel}
+            </a>
+          </div>
+        </div>
+
+        <figure className="order-first md:order-none">
           <Image
             src="/profile.png"
-            alt="photo de profil"
-            width={160}
-            height={160}
-            className="relative rounded-full border-2 border-primary/50 shadow-2xl object-cover ring-4 ring-primary/10"
+            alt={photoAlt}
+            width={176}
+            height={176}
             priority
+            className="size-28 rounded-xl border border-border object-cover md:size-44"
           />
-        </div>
-      </motion.div>
+        </figure>
+      </div>
 
-      {/* Title — clip-path wipe on mount */}
-      <motion.div
-        initial={{ clipPath: "inset(100% 0% 0% 0%)", opacity: 0 }}
-        animate={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
-        transition={{ duration: 0.65, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center"
-      >
-        <p className="text-sm uppercase tracking-widest text-primary font-medium">{hello}</p>
-        <h1 className="mt-2 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight title">
-          {titlePrefix}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
-            Pasche Killian
-          </span>
-          <br className="hidden sm:block" /> {titleSuffix}
-        </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">{tagline}</p>
-      </motion.div>
+      <div className="border-t border-border pt-8">
+        <SkillMarquee skills={skillGroups.flatMap((g) => g.skills)} label={skillsLabel} />
+      </div>
 
-      {/* Skill badges — staggered spring on mount */}
-      <motion.div
-        className="flex flex-wrap justify-center gap-2 sm:gap-2.5"
-        initial="hidden"
-        animate="show"
-        variants={{
-          hidden: {},
-          show: { transition: { staggerChildren: 0.04, delayChildren: 0.5 } },
-        }}
-      >
-        {skillGroups.map(({ label, skills, color }) =>
-          skills.map((skill) => (
-            <motion.span
-              key={skill}
-              variants={{
-                hidden: { opacity: 0, scale: 0.6 },
-                show: {
-                  opacity: 1,
-                  scale: 1,
-                  transition: { type: "spring", stiffness: 420, damping: 22 },
-                },
-              }}
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border ${color} backdrop-blur text-xs font-medium`}
-            >
-              {skill}
-            </motion.span>
-          ))
-        )}
-      </motion.div>
-
-      <motion.div
-        className="mt-2 text-primary/60"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.0, duration: 0.5 }}
-      >
-        <a href="#stats" aria-label={scrollLabel} className="animate-bounce block">
-          <ChevronDown className="size-6" />
-        </a>
-      </motion.div>
-    </div>
+      <div className="mt-10">
+        <ScrollCue href={scrollHref} label={scrollLabel} next={scrollNext} />
+      </div>
+    </section>
   );
 }

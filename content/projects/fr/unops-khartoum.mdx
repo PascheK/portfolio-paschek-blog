@@ -1,0 +1,39 @@
+---
+title: "Khartoum Damage Assessment — Rapport interactif"
+publishedAt: "2026-01-29"
+summary: "Une maquette de rapport interactif sur les dégâts subis par les bâtiments de Khartoum : un récit avant/après avec comparaisons satellite et une carte filtrable, construit sur le starter UNOPS."
+tags: ["Next.js", "TypeScript", "Mapbox", "GSAP"]
+group: "UNOPS"
+demoUrl: "https://khartoum-damage-assessment-mockup.vercel.app"
+repoUrl: "https://github.com/PascheK/khartoum-damage-assessment-mockup"
+ctaLabel: "Voir le rapport"
+---
+
+## Contexte
+
+Les équipes de l'UNOPS ont mené une analyse géospatiale de l'impact des conflits armés sur les bâtiments de Khartoum, au Soudan, entre 2023 et 2025. Elles avaient besoin de présenter ce travail clairement à des partenaires et à des décideurs. Ma part était de construire le rapport interactif qui raconte cette histoire, à partir du starter que j'ai réalisé pour l'UNOPS.
+
+## Mon rôle
+
+J'ai conçu et développé le rapport : la structure du récit, la carte et les comparaisons avant/après. L'analyse et les données viennent des équipes de l'UNOPS.
+
+## Ce que j'ai construit
+
+- **Un récit en deux phases** : avant le conflit (établir la situation de référence) et après le conflit (évaluer les dégâts, puis planifier la reconstruction). Un menu change de phase et charge le récit correspondant dans la carte.
+- **Des chiffres clés en tête** : 256 123 bâtiments analysés et 4 687 infrastructures critiques identifiées, dont 389 repérées comme endommagées par analyse à distance. Ces chiffres proviennent de l'analyse de l'UNOPS.
+- **Comparaison satellite avant/après** : un curseur pour comparer un même hôpital ou une même école en 2023 et en 2025.
+- **Une carte interactive** construite avec Mapbox GL, où les bâtiments sont colorés par catégorie (éducation, santé, énergie, déchets, eau) et par statut (endommagé, intact, inconnu), avec une légende, un mode récit guidé et un affichage plein écran.
+- **Une section partenaires** qui cite les organisations ayant collaboré à l'analyse.
+
+## Stack
+
+Next.js (App Router), TypeScript, Mapbox GL, GSAP, Recharts, Radix UI, Tailwind CSS, Vercel. Le projet part de [create-unops-starter](/fr/projects/unops-registry).
+
+## Résultat
+
+Comme les autres rapports interactifs réalisés pour l'UNOPS, il fonctionne comme un PowerPoint interactif. Les équipes ont adoré ces outils et les ont présentés lors d'une conférence à Genève.
+
+## Liens
+
+- Rapport en ligne : [khartoum-damage-assessment-mockup.vercel.app](https://khartoum-damage-assessment-mockup.vercel.app)
+- Code : [github.com/PascheK/khartoum-damage-assessment-mockup](https://github.com/PascheK/khartoum-damage-assessment-mockup)

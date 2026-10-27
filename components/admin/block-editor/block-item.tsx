@@ -139,9 +139,9 @@ export function BlockItem({
       <div className="py-3 group/div" tabIndex={0}
         ref={(el) => inputRef(el)} onFocus={() => onFocus(block.id)}>
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-          <span className="text-[10px] text-white/15 font-mono uppercase tracking-widest select-none group-hover/div:text-white/30 transition-colors">divider</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
+          <span className="text-[10px] text-foreground/42 font-mono uppercase tracking-widest select-none group-hover/div:text-foreground/52 transition-colors">divider</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
         </div>
       </div>
     );
@@ -152,19 +152,19 @@ export function BlockItem({
     return (
       <div className="space-y-3 py-1" onFocus={() => onFocus(block.id)}>
         <div className="flex gap-2">
-          <input className="flex-1 bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white/80 placeholder-white/20 focus:outline-none focus:border-primary/40 transition-all"
+          <input className="flex-1 bg-foreground/[0.05] border border-foreground/[0.08] rounded-xl px-4 py-2.5 text-sm text-foreground/85 placeholder-foreground/45 focus:outline-none focus:border-primary/40 transition-all"
             placeholder="Paste image URL…"
             value={block.meta?.url || ''}
             onChange={(e) => onMetaChange(block.id, { ...block.meta, url: e.target.value })} />
-          <input className="w-44 bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white/60 placeholder-white/20 focus:outline-none focus:border-primary/40 transition-all"
+          <input className="w-44 bg-foreground/[0.05] border border-foreground/[0.08] rounded-xl px-4 py-2.5 text-sm text-foreground/75 placeholder-foreground/45 focus:outline-none focus:border-primary/40 transition-all"
             placeholder="Alt text"
             value={block.meta?.alt || ''}
             onChange={(e) => onMetaChange(block.id, { ...block.meta, alt: e.target.value })} />
         </div>
         {block.meta?.url
           // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={block.meta.url} alt={block.meta.alt || ''} className="max-h-72 rounded-xl object-contain border border-white/[0.06]" />
-          : <div className="h-32 rounded-xl border-2 border-dashed border-white/[0.07] flex items-center justify-center text-white/20 text-sm">Image will appear here</div>
+          ? <img src={block.meta.url} alt={block.meta.alt || ''} className="max-h-72 rounded-xl object-contain border border-foreground/[0.06]" />
+          : <div className="h-32 rounded-xl border-2 border-dashed border-foreground/[0.07] flex items-center justify-center text-foreground/45 text-sm">Image will appear here</div>
         }
       </div>
     );
@@ -173,23 +173,23 @@ export function BlockItem({
   // ── Code ─────────────────────────────────────────────────────────────────
   if (block.type === 'code') {
     return (
-      <div className="rounded-xl overflow-hidden border border-white/[0.08] bg-[#0d1117] my-1" onFocus={() => onFocus(block.id)}>
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border-b border-white/[0.06]">
+      <div className="rounded-xl overflow-hidden border border-foreground/[0.08] bg-surface-alt my-1" onFocus={() => onFocus(block.id)}>
+        <div className="flex items-center gap-2 px-4 py-2 bg-foreground/[0.03] border-b border-foreground/[0.06]">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/40" />
             <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
             <div className="w-3 h-3 rounded-full bg-green-500/40" />
           </div>
-          <input className="ml-2 bg-transparent text-xs font-mono text-white/40 focus:outline-none focus:text-white/70 w-28 transition-colors"
+          <input className="ml-2 bg-transparent text-xs font-mono text-foreground/58 focus:outline-none focus:text-foreground/80 w-28 transition-colors"
             placeholder="language…"
             value={block.meta?.language || ''}
             onChange={(e) => onMetaChange(block.id, { ...block.meta, language: e.target.value })} />
-          <span className="ml-auto text-[10px] text-white/15 font-mono">code block</span>
+          <span className="ml-auto text-[10px] text-foreground/42 font-mono">code block</span>
         </div>
         {/* textarea is controlled — React manages it fine */}
         <textarea
           ref={(el) => inputRef(el)}
-          className="w-full bg-transparent text-[#e6edf3] font-mono text-[13px] leading-relaxed p-4 focus:outline-none resize-none min-h-[100px]"
+          className="w-full bg-transparent text-foreground font-mono text-[13px] leading-relaxed p-4 focus:outline-none resize-none min-h-[100px]"
           value={block.content}
           onChange={(e) => onChange(block.id, e.target.value)}
           onKeyDown={(e) => {
@@ -232,7 +232,7 @@ export function BlockItem({
           blockId={block.id}
           content={block.content}
           placeholder="Callout text…"
-          className="flex-1 focus:outline-none text-sm text-white/75 leading-relaxed min-h-[1.5rem] empty:before:content-[attr(data-placeholder)] empty:before:pointer-events-none empty:before:text-white/25"
+          className="flex-1 focus:outline-none text-sm text-foreground/75 leading-relaxed min-h-[1.5rem] empty:before:content-[attr(data-placeholder)] empty:before:pointer-events-none empty:before:text-foreground/48"
           onInput={stableOnInput}
           onKeyDown={stableOnKeyDown}
           onFocus={stableOnFocus}
@@ -244,13 +244,13 @@ export function BlockItem({
 
   // ── Text-based blocks ──────────────────────────────────────────────────
   const textStyles: Record<BlockType, string> = {
-    paragraph:    'text-[15px] leading-[1.8] text-white/75',
-    heading1:     'text-[2rem] font-bold text-white leading-tight tracking-tight',
-    heading2:     'text-[1.5rem] font-bold text-white/95 leading-tight',
-    heading3:     'text-[1.2rem] font-semibold text-white/90 leading-snug',
-    bulletList:   'text-[15px] leading-[1.8] text-white/75',
-    numberedList: 'text-[15px] leading-[1.8] text-white/75',
-    quote:        'text-[15px] leading-[1.8] text-white/50 italic',
+    paragraph:    'text-[15px] leading-[1.8] text-foreground/75',
+    heading1:     'text-[2rem] font-bold text-foreground leading-tight tracking-tight',
+    heading2:     'text-[1.5rem] font-bold text-foreground/95 leading-tight',
+    heading3:     'text-[1.2rem] font-semibold text-foreground/90 leading-snug',
+    bulletList:   'text-[15px] leading-[1.8] text-foreground/75',
+    numberedList: 'text-[15px] leading-[1.8] text-foreground/75',
+    quote:        'text-[15px] leading-[1.8] text-foreground/65 italic',
     code: '', image: '', divider: '', callout: '',
   };
 
@@ -266,7 +266,7 @@ export function BlockItem({
     'flex-1 focus:outline-none min-h-[1.5rem] break-words',
     'empty:before:content-[attr(data-placeholder)]',
     'empty:before:pointer-events-none empty:before:select-none',
-    isFocused ? 'empty:before:text-white/20' : 'empty:before:text-transparent',
+    isFocused ? 'empty:before:text-foreground/45' : 'empty:before:text-transparent',
     textStyles[block.type] || textStyles.paragraph,
   ].join(' ');
 
@@ -277,7 +277,7 @@ export function BlockItem({
         <button
           className={`mt-[3px] w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-mono font-bold transition-all select-none opacity-0 group-hover:opacity-100 ${
             isFocused ? 'opacity-60' : ''
-          } ${showTypeMenu ? 'opacity-100 bg-primary/20 text-primary' : 'bg-white/[0.05] text-white/30 hover:bg-white/[0.09] hover:text-white/60'}`}
+          } ${showTypeMenu ? 'opacity-100 bg-primary/20 text-primary' : 'bg-foreground/[0.05] text-foreground/52 hover:bg-foreground/[0.09] hover:text-foreground/75'}`}
           onMouseDown={(e) => { e.preventDefault(); setShowTypeMenu((s) => !s); }}
           tabIndex={-1}
           title="Change block type"
@@ -291,14 +291,14 @@ export function BlockItem({
         </button>
 
         {showTypeMenu && (
-          <div className="absolute left-0 top-9 z-50 bg-[#13161f] border border-white/[0.09] rounded-xl shadow-2xl py-1.5 w-44 overflow-hidden">
+          <div className="absolute left-0 top-9 z-50 bg-popover text-popover-foreground border border-border rounded-xl shadow-2xl py-1.5 w-44 overflow-hidden">
             {(Object.keys(TYPE_LABELS) as BlockType[]).filter(t => !['image', 'divider'].includes(t)).map((t) => (
               <button key={t}
                 className={`w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] transition-colors ${
-                  block.type === t ? 'text-primary bg-primary/10' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  block.type === t ? 'text-primary bg-primary/10' : 'text-foreground/75 hover:text-foreground hover:bg-foreground/[0.04]'
                 }`}
                 onMouseDown={(e) => { e.preventDefault(); onTypeChange(block.id, t); setShowTypeMenu(false); }}>
-                <span className="w-5 text-center font-mono text-[11px] text-white/40">{TYPE_LABELS[t].icon}</span>
+                <span className="w-5 text-center font-mono text-[11px] text-foreground/58">{TYPE_LABELS[t].icon}</span>
                 {TYPE_LABELS[t].label}
               </button>
             ))}

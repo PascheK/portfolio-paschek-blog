@@ -1,5 +1,4 @@
 import React from "react";
-import { buttonVariants } from "./button";
 import { cn } from "@/lib/utils";
 
 export type CategoryOption = { value: string; label: string };
@@ -8,27 +7,26 @@ interface CategoryFilterProps {
   selected: string; // selected value
   onSelect: (value: string) => void;
   className?: string;
+  label?: string;
 }
 
-export function CategoryFilter({ categories, selected, onSelect, className = "" }: CategoryFilterProps) {
+/** Segmented filter. Active = foreground-on-surface-alt with a primary underline; no fills, no scale. */
+export function CategoryFilter({ categories, selected, onSelect, className = "", label = "Categories" }: CategoryFilterProps) {
   return (
-    <div className={cn("flex flex-wrap gap-2", className)} role="tablist" aria-label="Project categories">
+    <div className={cn("flex flex-wrap gap-2", className)} role="group" aria-label={label}>
       {categories.map((cat) => {
         const isActive = selected === cat.value;
         return (
           <button
             key={cat.value}
             type="button"
-            role="tab"
-            aria-selected={isActive}
             aria-pressed={isActive}
             onClick={() => onSelect(cat.value)}
             className={cn(
-              buttonVariants({ variant: isActive ? "default" : "outline", size: "sm" }),
-              "rounded-full transition-transform duration-150 focus-visible:scale-[1.03] hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "h-9 rounded-lg border px-3 text-sm transition-colors duration-150",
               isActive
-                ? "bg-gradient-to-r from-primary to-accent text-primary-foreground border-transparent shadow-md"
-                : "bg-surface-alt/70 dark:bg-surface-alt/30 text-muted-foreground border-border hover:text-foreground"
+                ? "border-border-strong bg-surface-alt font-medium text-foreground"
+                : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground"
             )}
           >
             {cat.label}

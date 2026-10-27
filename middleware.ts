@@ -31,6 +31,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // ── Brand reference page: unlisted, not localized ──────────────────
+  if (pathname === '/brand' || pathname.startsWith('/brand/')) {
+    return NextResponse.next();
+  }
+
   // ── i18n routing ─────────────────────────────────────────────────────
   // Ignore Next internals, API & static files
   if (

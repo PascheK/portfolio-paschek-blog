@@ -1,16 +1,13 @@
-
-import Link from "next/link";
 import type { Metadata } from "next";
 import { getProjectPosts } from "@/lib/posts";
 import { getDictionary } from "@/lib/dictionaries";
 import ProjectsGrid from "@/components/projects-grid";
-
+import { PageHeader } from "@/components/brand/page-header";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Nextfolio Projects"
+  description: "Selected projects: web apps, infrastructure and tools.",
 };
-
 
 export default async function Projects({ params }: { params: Promise<{ lang: 'en' | 'fr' }> }) {
   const { lang } = await params;
@@ -22,14 +19,17 @@ export default async function Projects({ params }: { params: Promise<{ lang: 'en
   });
 
   return (
-    <section className="w-full px-4 sm:px-6 md:px-8">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="mb-6 md:mb-8 text-3xl md:text-4xl font-extrabold title text-center">
-          {dict.nav.projects}
-        </h1>
-
-        <ProjectsGrid posts={posts as any} dict={dict} lang={lang} />
-      </div>
-    </section>
+    <div className="container-page pb-8">
+      <PageHeader
+        eyebrow={`${posts.length} ${lang === 'fr' ? 'projets' : 'projects'}`}
+        title={dict.nav.projects}
+        description={
+          lang === 'fr'
+            ? "Applications web, infrastructure et outils développés pour des clients, des associations et moi-même."
+            : 'Web apps, infrastructure and tools built for clients, associations and myself.'
+        }
+      />
+      <ProjectsGrid posts={posts as any} dict={dict} lang={lang} />
+    </div>
   );
 }

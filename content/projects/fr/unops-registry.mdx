@@ -1,0 +1,45 @@
+---
+title: "UNOPS — Registry de composants & starter"
+publishedAt: "2025-12-20"
+summary: "Un registry de 19 blocs réutilisables et un starter Next.js pour assembler rapidement des rapports d'impact et des dashboards interactifs, dans l'identité visuelle de l'ONU."
+tags: ["Next.js", "TypeScript", "shadcn/ui", "Zod"]
+group: "UNOPS"
+image: "/projects/unops.png"
+demoUrl: "https://registry-unops.vercel.app"
+repoUrl: "https://github.com/PSC-IMAT/registry-unops"
+ctaLabel: "Ouvrir le registry"
+---
+
+## Contexte
+
+Après avoir construit des rapports interactifs uniques comme Beryl, l'étape suivante était de les rendre réutilisables. Chaque nouveau rapport suivait le même schéma : un hero, une vue d'ensemble de la situation, les constats clés, des chiffres, des cartes et une méthodologie. J'ai transformé ces schémas en blocs, pour qu'une équipe puisse assembler un rapport au lieu de repartir de zéro.
+
+## Mon rôle
+
+J'ai conçu et développé le registry et le starter.
+
+## Ce que j'ai construit
+
+- **Un registry de 19 blocs**, installables avec la CLI shadcn :
+  - 8 blocs de base : hero, vue d'ensemble de la situation, constats clés, chiffres d'impact, méthodologie, recommandations, sources de données, pied de page.
+  - 5 blocs de data-storytelling : cartes, graphiques, comparaisons avant/après, chronologies, répartitions régionales.
+  - 2 blocs de navigation : sommaire collant, onglets de sections.
+  - 4 blocs de communication et de confiance : FAQ, centre de téléchargement, alertes, crédits.
+- **Du contenu typé** : chaque bloc est livré avec un schéma Zod, des types TypeScript et des exemples de configuration, si bien qu'un rapport est surtout des données.
+- **Un starter** : `npx create-unops-starter@latest mon-projet` donne un projet Next.js (App Router) propre, avec un thème aux couleurs de l'ONU, une coquille de mise en page globale et le registry déjà branché. C'est une base sur laquelle construire, pas un framework.
+- **Un exemple construit dessus** : le [rapport d'évaluation des dégâts à Khartoum](/fr/projects/unops-khartoum).
+
+## Stack
+
+Next.js (App Router), TypeScript, Tailwind CSS, registry shadcn/ui, Zod, Vercel.
+
+## Résultat
+
+Comme pour Beryl, les équipes ont adoré ces outils et les ont présentés lors d'une conférence à Genève.
+
+## Liens
+
+- Registry : [registry-unops.vercel.app](https://registry-unops.vercel.app)
+- Code du registry : [github.com/PSC-IMAT/registry-unops](https://github.com/PSC-IMAT/registry-unops)
+- Starter : [github.com/PSC-IMAT/create-unops-starter](https://github.com/PSC-IMAT/create-unops-starter)
+- Exemple construit dessus : [Khartoum Damage Assessment](/fr/projects/unops-khartoum)

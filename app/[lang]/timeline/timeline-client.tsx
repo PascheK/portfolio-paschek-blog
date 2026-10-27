@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Briefcase, GraduationCap, Rocket, Star, ArrowUpRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 export type EventType = 'work' | 'education' | 'project' | 'milestone';
 
@@ -17,43 +17,6 @@ export interface TimelineEvent {
   current?: boolean;
   url?: string;
 }
-
-const TYPE_CONFIG: Record<EventType, {
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  dotBg: string;
-  badge: string;
-  bar: string;
-}> = {
-  work: {
-    icon:  Briefcase,
-    color: 'text-sky-400',
-    dotBg: 'bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.5)]',
-    badge: 'text-sky-400 border-sky-500/30 bg-sky-500/[0.08]',
-    bar:   'from-sky-500 to-sky-300',
-  },
-  education: {
-    icon:  GraduationCap,
-    color: 'text-violet-400',
-    dotBg: 'bg-violet-400 shadow-[0_0_10px_rgba(167,139,250,0.5)]',
-    badge: 'text-violet-400 border-violet-500/30 bg-violet-500/[0.08]',
-    bar:   'from-violet-500 to-violet-300',
-  },
-  project: {
-    icon:  Rocket,
-    color: 'text-emerald-400',
-    dotBg: 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]',
-    badge: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/[0.08]',
-    bar:   'from-emerald-500 to-emerald-300',
-  },
-  milestone: {
-    icon:  Star,
-    color: 'text-amber-400',
-    dotBg: 'bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]',
-    badge: 'text-amber-400 border-amber-500/30 bg-amber-500/[0.08]',
-    bar:   'from-amber-500 to-amber-300',
-  },
-};
 
 const FILTER_LABELS: Record<EventType | 'all', { en: string; fr: string }> = {
   all:       { en: 'All',        fr: 'Tout' },
@@ -72,14 +35,27 @@ interface Props {
   };
 }
 
+/**
+ * Experience timeline that reacts to the scroll:
+ * - a hairline rail fills with `primary` as you read down the list;
+ * - each entry's node lights up once you reach it, and the entry being read is highlighted
+ *   while the ones still ahead are softened;
+ * - year labels stay pinned while their entries scroll past;
+ * - clicking a node or the rail jumps to the entry.
+ * Type is a text label, never a color.
+ */
 export function TimelineClient({ events, lang, labels }: Props) {
   const [activeFilter, setActiveFilter] = useState<EventType | 'all'>('all');
+  const [reached, setReached] = useState(0); // number of entries whose top is above the reading line
+  const listRef = useRef<HTMLOListElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const totalRef = useRef(0);
 
   const filtered = activeFilter === 'all'
     ? events
     : events.filter((e) => e.type === activeFilter);
 
-  // Group by year section
   const yearGroups = filtered.reduce<Record<string, TimelineEvent[]>>((acc, e) => {
     const y = String(e.startYear);
     if (!acc[y]) acc[y] = [];
@@ -88,155 +64,185 @@ export function TimelineClient({ events, lang, labels }: Props) {
   }, {});
   const sortedYears = Object.keys(yearGroups).sort((a, b) => Number(b) - Number(a));
 
+  totalRef.current = filtered.length;
+
   const filters: (EventType | 'all')[] = ['all', 'work', 'education', 'project', 'milestone'];
 
   const countByType = (type: EventType | 'all') =>
     type === 'all' ? events.length : events.filter((e) => e.type === type).length;
 
+  // Scroll-linked state: progress of the rail + which entries have been reached.
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const list = listRef.current;
+      if (!list) return;
+      const line = window.innerHeight * 0.55; // reading line
+      const rect = list.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (line - rect.top) / rect.height));
+      if (fillRef.current) fillRef.current.style.transform = `scaleY(${progress})`;
+
+      let count = 0;
+      for (let i = 0; i < totalRef.current; i++) {
+        const el = itemRefs.current[i];
+        if (el && el.getBoundingClientRect().top + 24 <= line) count++;
+      }
+      setReached((prev) => (prev === count ? prev : count));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [activeFilter, events]);
+
+  const jumpTo = (i: number) => {
+    const el = itemRefs.current[i];
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
+  let flatIndex = -1;
+
   return (
     <>
-      {/* ── Filter bar ─────────────────────────────────────────────────── */}
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label={lang === 'fr' ? 'Filtrer la chronologie' : 'Filter timeline'}>
         {filters.map((f) => {
-          const label = FILTER_LABELS[f][lang];
           const count = countByType(f);
+          if (f !== 'all' && count === 0) return null;
           const isActive = activeFilter === f;
-          const cfg = f !== 'all' ? TYPE_CONFIG[f as EventType] : null;
-          const CfgIcon = cfg?.icon;
           return (
             <button
               key={f}
+              type="button"
+              aria-pressed={isActive}
               onClick={() => setActiveFilter(f)}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-200 ${
+              className={[
+                'inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-sm transition-colors duration-150',
                 isActive
-                  ? f === 'all'
-                    ? 'bg-primary/15 text-primary border-primary/30'
-                    : `${cfg?.badge} border-opacity-60`
-                  : 'text-muted-foreground border-border bg-surface-alt/30 hover:bg-surface-alt/60 hover:text-foreground'
-              }`}
+                  ? 'border-border-strong bg-surface-alt font-medium text-foreground'
+                  : 'border-border text-muted-foreground hover:border-border-strong hover:text-foreground',
+              ].join(' ')}
             >
-              {f !== 'all' && cfg && CfgIcon && <CfgIcon className="size-3" />}
-              {label}
-              <span className={`text-[10px] font-mono px-1 py-0.5 rounded ${
-                isActive ? 'bg-white/10' : 'bg-white/[0.04] text-muted-foreground/60'
-              }`}>
-                {count}
-              </span>
+              {FILTER_LABELS[f][lang]}
+              <span className="font-mono text-[11px] text-muted-foreground">{count}</span>
             </button>
           );
         })}
       </div>
 
-      {/* ── Timeline ─────────────────────────────────────────────────────── */}
-      <div className="relative">
-        {/* Vertical gradient line */}
-        <div className="absolute left-[18px] top-2 bottom-0 w-px bg-gradient-to-b from-primary/50 via-border/60 to-transparent pointer-events-none" />
+      <ol ref={listRef} className="relative flex flex-col gap-12">
+        {/* Rail: hairline + primary fill driven by the scroll */}
+        <div
+          aria-hidden
+          className="absolute bottom-0 top-0 left-[6px] w-px bg-border md:left-[calc(6.5rem+6px)]"
+        >
+          <div
+            ref={fillRef}
+            className="h-full origin-top bg-primary"
+            style={{ transform: 'scaleY(0)' }}
+          />
+        </div>
 
-        <div className="flex flex-col gap-0">
-          {sortedYears.map((year) => (
-            <React.Fragment key={year}>
-              {/* Year separator */}
-              <div className="relative flex items-center gap-3 pl-12 mb-3 mt-2 first:mt-0">
-                <div className="absolute left-0 w-9 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full border-2 border-border bg-background z-10" />
-                </div>
-                <span className="text-[11px] font-mono font-bold text-muted-foreground/50 uppercase tracking-widest">
-                  — {year} —
-                </span>
-              </div>
-
-              {/* Events for this year */}
+        {sortedYears.map((year) => (
+          <li key={year} className="grid gap-4 md:grid-cols-[5.5rem_1fr] md:gap-12">
+            <h3 className="pl-8 font-mono text-sm text-muted-foreground md:sticky md:top-24 md:self-start md:pl-0 md:pt-5">
+              {year}
+            </h3>
+            <ul className="flex flex-col gap-4 pl-8 md:pl-0">
               {yearGroups[year].map((event, idx) => {
-                const config = TYPE_CONFIG[event.type];
-                const Icon = config.icon;
+                flatIndex += 1;
+                const i = flatIndex;
+                const passed = i < reached;
+                const active = i === reached - 1;
                 const typeLabel = labels[event.type as keyof typeof labels];
-
                 return (
-                  <div
+                  <li
                     key={idx}
-                    className="relative pl-12 pb-4 group"
+                    ref={(el) => { itemRefs.current[i] = el; }}
+                    aria-current={active ? 'true' : undefined}
+                    className="relative"
                   >
-                    {/* Timeline dot */}
-                    <div className={`absolute left-[10px] top-[14px] w-[17px] h-[17px] rounded-full border-2 border-background z-10 ${config.dotBg} flex items-center justify-center`}>
-                      {event.current && (
-                        <span className="absolute inset-[-3px] rounded-full animate-ping opacity-30 bg-current" />
-                      )}
-                    </div>
-
-                    {/* Card */}
-                    <div className={`rounded-2xl border border-border bg-surface-alt/40 backdrop-blur-sm overflow-hidden transition-all duration-300 group-hover:border-white/[0.12] group-hover:bg-surface-alt/70 group-hover:shadow-lg group-hover:shadow-black/20 group-hover:-translate-y-0.5`}>
-
-                      {/* Top accent bar */}
-                      <div className={`h-[2px] w-full bg-gradient-to-r ${config.bar} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-
-                      <div className="px-5 pt-4 pb-4">
-                        {/* Header row */}
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <div className="flex-1 min-w-0">
-                            {/* Year + type badge */}
-                            <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                              <span className="text-[11px] font-mono text-primary/60 font-semibold">{event.year}</span>
-                              <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border ${config.badge}`}>
-                                <Icon className="size-2.5" />
-                                {typeLabel}
-                                {event.current && (
-                                  <span className="ml-0.5 w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                                )}
+                    {/* Node on the rail */}
+                    <button
+                      type="button"
+                      onClick={() => jumpTo(i)}
+                      aria-label={`${event.title} — ${event.year}`}
+                      tabIndex={-1}
+                      className={[
+                        'absolute -left-8 top-6 size-3.5 rounded-full border-2 transition-all duration-300',
+                        passed ? 'border-primary bg-primary' : 'border-border-strong bg-background',
+                        active ? 'ring-4 ring-primary/25' : '',
+                      ].join(' ')}
+                    />
+                    <div
+                      className={[
+                        'card p-5 transition-all duration-300',
+                        active
+                          ? 'border-border-strong bg-surface-alt'
+                          : passed
+                            ? ''
+                            : 'opacity-60',
+                      ].join(' ')}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <p className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
+                            <span>{event.year}</span>
+                            <span aria-hidden>·</span>
+                            <span>{typeLabel}</span>
+                            {event.current && (
+                              <span className="inline-flex items-center gap-1.5 text-foreground">
+                                <span className="size-1.5 rounded-full bg-success" aria-hidden />
+                                {labels.current}
                               </span>
-                              {event.current && (
-                                <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                                  {labels.current}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Title */}
-                            <h3 className="text-base font-bold text-foreground leading-snug">
-                              {event.title}
-                            </h3>
-
-                            {/* Org · Location */}
-                            {(event.org || event.location) && (
-                              <p className="text-xs text-muted-foreground mt-0.5">
-                                {[event.org, event.location].filter(Boolean).join(' · ')}
-                              </p>
                             )}
-                          </div>
-
-                          {/* External link */}
-                          {event.url && (
-                            <a href={event.url} target="_blank" rel="noopener noreferrer"
-                              className="shrink-0 text-muted-foreground/30 hover:text-foreground transition-colors mt-1">
-                              <ArrowUpRight className="size-4" />
-                            </a>
+                          </p>
+                          <h4 className="t-h3">{event.title}</h4>
+                          {(event.org || event.location) && (
+                            <p className="mt-1 text-sm text-muted-foreground">
+                              {[event.org, event.location].filter(Boolean).join(' · ')}
+                            </p>
                           )}
                         </div>
-
-                        {/* Description */}
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {event.description}
-                        </p>
-
-                        {/* Tags */}
-                        {event.tags && event.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-3">
-                            {event.tags.map((tag) => (
-                              <span key={tag}
-                                className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border border-border/80 bg-surface/50 text-muted-foreground/70">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
+                        {event.url && (
+                          <a
+                            href={event.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${event.title} — ${lang === 'fr' ? 'ouvrir le lien' : 'open link'}`}
+                            className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                          >
+                            <ArrowUpRight className="size-4" aria-hidden />
+                          </a>
                         )}
                       </div>
+
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {event.description}
+                      </p>
+
+                      {event.tags && event.tags.length > 0 && (
+                        <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tags">
+                          {event.tags.map((tag) => (
+                            <li key={tag} className="tag">{tag}</li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
+            </ul>
+          </li>
+        ))}
+      </ol>
     </>
   );
 }

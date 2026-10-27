@@ -1,0 +1,49 @@
+---
+title: "Jeunesse de Porsel — Site web & système de réservation"
+publishedAt: "2024-12-11"
+summary: "Le site public et le système de réservation de la jeunesse du village : un front Next.js et une API Spring Boot, utilisés et mis à jour chaque année depuis 4 à 5 ans."
+tags: ["Next.js", "TypeScript", "Spring Boot", "Java", "MariaDB"]
+group: "Personnel"
+image: "/projects/jeunesse.png"
+demoUrl: "https://jeunessedeporsel.ch"
+repoUrl: "https://github.com/PascheK/jeunesseporsel"
+ctaLabel: "Visiter le site"
+---
+
+## Contexte
+
+La Jeunesse de Porsel est la société de jeunesse du village. Chaque année, elle organise des événements ouverts à tout le village, dont une pièce de théâtre et une soirée fondue. Il lui fallait un site public et un moyen fiable de prendre des réservations. Je suis le responsable web de l'association depuis 2021.
+
+## Mon rôle
+
+Je conçois, développe et fais tourner l'ensemble : l'interface, l'API, l'hébergement et les mises à jour annuelles. J'ai écrit la première version alors que j'étais encore à l'école, et je la mets à jour chaque année depuis.
+
+## Ce que j'ai construit
+
+- **Site public** : page d'accueil, section théâtre (carrousel, portraits des acteurs, infos pratiques), annuaire du comité et des membres, formulaire de contact.
+- **Réservations fondue** : un parcours en plusieurs étapes (date, nombre de personnes, coordonnées) validé avec Zod et React Hook Form.
+- **API de réservation** : événements, quotas de places mis à jour de façon atomique, détection des doublons sur le nom, l'e-mail et l'événement.
+- **Codes à usage unique** : un code à six chiffres, valable cinq minutes, confirme une réservation et permet de la modifier plus tard sans créer de compte.
+- **E-mails transactionnels** : confirmation, modification et notification interne, générés avec des templates FreeMarker et envoyés via JavaMail.
+- **Documentation et supervision** : documentation OpenAPI / Swagger et endpoints Spring Actuator.
+
+![Interface Swagger de l'API de réservation](/projects/swagger.png)
+
+## Stack
+
+- **Front** : Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Radix UI, Embla Carousel, React Hook Form, Zod, Nodemailer.
+- **Back** : Spring Boot, Java 17, JPA, MariaDB, Spring Mail, FreeMarker, OpenAPI.
+
+## Résultat
+
+Le site est utilisé depuis quatre à cinq ans et mis à jour chaque année pour la nouvelle édition.
+
+## Pourquoi Spring Boot
+
+J'ai réalisé ce site pendant mes études, juste après un projet d'école en Spring Boot. J'aimais ce framework et je le connaissais déjà, alors je l'ai réutilisé. Cela m'a permis de me concentrer sur les règles de réservation plutôt que d'apprendre une nouvelle stack.
+
+## Liens
+
+- Site : [jeunessedeporsel.ch](https://jeunessedeporsel.ch)
+- Front : [github.com/PascheK/jeunesseporsel](https://github.com/PascheK/jeunesseporsel)
+- Back : [github.com/PascheK/jeunesseporselbackend](https://github.com/PascheK/jeunesseporselbackend)

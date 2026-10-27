@@ -131,41 +131,41 @@ export default function EditPostPage() {
     <div className="flex flex-col" style={{ minHeight: 'calc(100vh - 0px)' }}>
 
       {/* ── Top bar ──────────────────────────────────────────────────────── */}
-      <div className="flex items-center gap-2 px-4 py-2 border-b border-white/[0.06] bg-[#0d1117] sticky top-0 z-20 shrink-0">
-        <Link href="/admin" className="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-white/70 hover:bg-white/[0.06] transition-all">
+      <div className="flex items-center gap-2 px-4 py-2 border-b border-foreground/[0.06] bg-surface-alt sticky top-0 z-20 shrink-0">
+        <Link href="/admin" className="w-7 h-7 flex items-center justify-center rounded-lg text-foreground/52 hover:text-foreground/80 hover:bg-foreground/[0.06] transition-all">
           <ArrowLeft size={16} />
         </Link>
 
         {/* File path */}
-        <div className="flex items-center gap-1 text-[11px] font-mono text-white/25 min-w-0">
+        <div className="flex items-center gap-1 text-[11px] font-mono text-foreground/48 min-w-0">
           <span className="truncate">{type}/{lang}/</span>
-          <span className="text-white/45 font-semibold truncate">{slug}.mdx</span>
+          <span className="text-foreground/62 font-semibold truncate">{slug}.mdx</span>
         </div>
 
         <div className="ml-auto flex items-center gap-1.5">
           <button onClick={() => setShowPreview((p) => !p)}
             className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-              showPreview ? 'bg-primary/15 text-primary border-primary/25' : 'text-white/35 hover:text-white/60 border-white/[0.07] hover:bg-white/[0.05]'
+              showPreview ? 'bg-primary/15 text-primary border-primary/25' : 'text-foreground/55 hover:text-foreground/75 border-foreground/[0.07] hover:bg-foreground/[0.05]'
             }`}>
             {showPreview ? <EyeOff size={12} /> : <Eye size={12} />} Preview
           </button>
           <button onClick={() => setShowMeta((m) => !m)}
             className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-              showMeta ? 'bg-primary/15 text-primary border-primary/25' : 'text-white/35 hover:text-white/60 border-white/[0.07] hover:bg-white/[0.05]'
+              showMeta ? 'bg-primary/15 text-primary border-primary/25' : 'text-foreground/55 hover:text-foreground/75 border-foreground/[0.07] hover:bg-foreground/[0.05]'
             }`}>
             <SlidersHorizontal size={12} /> Details
           </button>
           <button onClick={() => setShowDelete(true)}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-400/60 hover:text-red-400 hover:bg-red-500/10 border border-white/[0.06] hover:border-red-500/20 transition-all">
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-400/60 hover:text-red-400 hover:bg-red-500/10 border border-foreground/[0.06] hover:border-red-500/20 transition-all">
             <Trash2 size={12} /> Delete
           </button>
           <button onClick={handleSave} disabled={isPending || saveStatus === 'saving'}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-60 ${
               saveStatus === 'saved'
                 ? 'bg-green-500/20 text-green-400 border border-green-500/25'
-                : 'bg-primary text-white hover:brightness-110'
+                : 'bg-primary text-primary-foreground hover:brightness-110'
             }`}>
-            {saveStatus === 'saving' ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" /> :
+            {saveStatus === 'saving' ? <span className="w-3 h-3 border-2 border-primary-foreground/40 border-t-primary-foreground rounded-full animate-spin" /> :
              saveStatus === 'saved'  ? <Check size={12} /> : <Save size={12} />}
             {saveStatus === 'saving' ? 'Saving…' : saveStatus === 'saved' ? 'Saved!' : 'Save'}
             <kbd className="hidden lg:inline text-[9px] opacity-40">⌘S</kbd>
@@ -185,17 +185,17 @@ export default function EditPostPage() {
       {/* Delete confirmation modal */}
       {showDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="bg-[#13161f] border border-white/[0.09] rounded-2xl shadow-2xl p-6 w-80">
+          <div className="bg-surface border border-foreground/[0.09] rounded-2xl shadow-2xl p-6 w-80">
             <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center mb-4">
               <Trash2 size={20} className="text-red-400" />
             </div>
-            <h2 className="font-bold text-white mb-1">Delete this post?</h2>
-            <p className="text-sm text-white/40 mb-6">
-              <span className="font-mono text-white/60">{slug}.mdx</span> will be permanently deleted. This cannot be undone.
+            <h2 className="font-bold text-foreground mb-1">Delete this post?</h2>
+            <p className="text-sm text-foreground/58 mb-6">
+              <span className="font-mono text-foreground/75">{slug}.mdx</span> will be permanently deleted. This cannot be undone.
             </p>
             <div className="flex gap-2">
               <button onClick={() => setShowDelete(false)}
-                className="flex-1 px-4 py-2 rounded-xl text-sm font-medium text-white/50 bg-white/[0.05] hover:bg-white/[0.09] transition-colors">
+                className="flex-1 px-4 py-2 rounded-xl text-sm font-medium text-foreground/65 bg-foreground/[0.05] hover:bg-foreground/[0.09] transition-colors">
                 Cancel
               </button>
               <button onClick={() => { setShowDelete(false); handleDelete(); }}
@@ -222,37 +222,37 @@ export default function EditPostPage() {
               placeholder="Untitled"
               rows={1}
               spellCheck
-              className="w-full bg-transparent text-[2.5rem] font-bold text-white/90 placeholder-white/10 focus:outline-none resize-none leading-[1.2] mb-3 overflow-hidden"
+              className="w-full bg-transparent text-[2.5rem] font-bold text-foreground/90 placeholder-foreground/38 focus:outline-none resize-none leading-[1.2] mb-3 overflow-hidden"
             />
 
             {/* Summary */}
             <input value={summary} onChange={(e) => setSummary(e.target.value)}
               placeholder="Add a short description…"
-              className="w-full bg-transparent text-[1.05rem] text-white/30 placeholder-white/12 focus:outline-none mb-8 leading-relaxed focus:text-white/50 transition-colors" />
+              className="w-full bg-transparent text-[1.05rem] text-foreground/52 placeholder-foreground/40 focus:outline-none mb-8 leading-relaxed focus:text-foreground/65 transition-colors" />
 
             {/* Metadata chips */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pb-8 border-b border-white/[0.05] mb-8">
-              <label className="flex items-center gap-1.5 text-white/25 hover:text-white/50 transition-colors cursor-pointer">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pb-8 border-b border-foreground/[0.05] mb-8">
+              <label className="flex items-center gap-1.5 text-foreground/48 hover:text-foreground/65 transition-colors cursor-pointer">
                 <Calendar size={12} />
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
-                  className="bg-transparent text-sm focus:outline-none cursor-pointer text-white/25 hover:text-white/50 transition-colors" />
+                  className="bg-transparent text-sm focus:outline-none cursor-pointer text-foreground/48 hover:text-foreground/65 transition-colors" />
               </label>
-              <label className="flex items-center gap-1.5 text-white/25 hover:text-white/50 transition-colors">
+              <label className="flex items-center gap-1.5 text-foreground/48 hover:text-foreground/65 transition-colors">
                 <Tag size={12} />
                 <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="Tags…"
-                  className="bg-transparent text-sm text-white/25 placeholder-white/12 focus:outline-none focus:text-white/50 transition-colors" />
+                  className="bg-transparent text-sm text-foreground/48 placeholder-foreground/40 focus:outline-none focus:text-foreground/65 transition-colors" />
               </label>
-              <label className="flex items-center gap-1.5 text-white/25 hover:text-white/50 transition-colors">
+              <label className="flex items-center gap-1.5 text-foreground/48 hover:text-foreground/65 transition-colors">
                 <ImageIcon size={12} />
                 <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Cover image…"
-                  className="bg-transparent text-sm text-white/25 placeholder-white/12 focus:outline-none focus:text-white/50 transition-colors" />
+                  className="bg-transparent text-sm text-foreground/48 placeholder-foreground/40 focus:outline-none focus:text-foreground/65 transition-colors" />
               </label>
             </div>
 
             {/* Hint */}
-            <p className="text-xs text-white/12 mb-6 select-none">
+            <p className="text-xs text-foreground/40 mb-6 select-none">
               Press{' '}
-              <kbd className="font-mono bg-white/[0.05] px-1.5 py-0.5 rounded text-white/20 text-[11px]">/</kbd>
+              <kbd className="font-mono bg-foreground/[0.05] px-1.5 py-0.5 rounded text-foreground/45 text-[11px]">/</kbd>
               {' '}in an empty block to insert headings, code, images and more
             </p>
 
@@ -263,13 +263,13 @@ export default function EditPostPage() {
 
         {/* Preview panel */}
         {showPreview && (
-          <div className="hidden lg:flex flex-col w-[42%] border-l border-white/[0.05] overflow-y-auto">
-            <div className="px-4 py-2 border-b border-white/[0.05] bg-[#0d1117] sticky top-0 z-10">
-              <span className="text-[10px] font-semibold text-white/20 uppercase tracking-widest">Preview</span>
+          <div className="hidden lg:flex flex-col w-[42%] border-l border-foreground/[0.05] overflow-y-auto">
+            <div className="px-4 py-2 border-b border-foreground/[0.05] bg-surface-alt sticky top-0 z-10">
+              <span className="text-[10px] font-semibold text-foreground/45 uppercase tracking-widest">Preview</span>
             </div>
             <div className="flex-1 px-10 py-12">
-              <h1 className="text-3xl font-bold text-white/80 mb-4">{title || 'Untitled'}</h1>
-              {summary && <p className="text-white/40 mb-8">{summary}</p>}
+              <h1 className="text-3xl font-bold text-foreground/85 mb-4">{title || 'Untitled'}</h1>
+              {summary && <p className="text-foreground/58 mb-8">{summary}</p>}
               <MarkdownPreview value={body} />
             </div>
           </div>
@@ -277,10 +277,10 @@ export default function EditPostPage() {
 
         {/* Details panel */}
         {showMeta && (
-          <aside className="hidden lg:flex flex-col w-[260px] border-l border-white/[0.05] bg-[#0b0e16] shrink-0">
-            <div className="px-4 py-2.5 border-b border-white/[0.05] sticky top-0 bg-[#0b0e16] z-10 flex items-center justify-between">
-              <span className="text-[10px] font-semibold text-white/20 uppercase tracking-widest">Details</span>
-              <button onClick={() => setShowMeta(false)} className="text-white/20 hover:text-white/50 transition-colors"><X size={13} /></button>
+          <aside className="hidden lg:flex flex-col w-[260px] border-l border-foreground/[0.05] bg-surface-alt shrink-0">
+            <div className="px-4 py-2.5 border-b border-foreground/[0.05] sticky top-0 bg-surface-alt z-10 flex items-center justify-between">
+              <span className="text-[10px] font-semibold text-foreground/45 uppercase tracking-widest">Details</span>
+              <button onClick={() => setShowMeta(false)} className="text-foreground/45 hover:text-foreground/65 transition-colors"><X size={13} /></button>
             </div>
             <div className="flex-1 overflow-y-auto p-4 space-y-5">
               {/* Stats */}
@@ -291,9 +291,9 @@ export default function EditPostPage() {
                   { label: 'Type', value: type },
                   { label: 'Lang', value: lang.toUpperCase() },
                 ].map((s) => (
-                  <div key={s.label} className="bg-white/[0.03] rounded-lg px-3 py-2 border border-white/[0.05]">
-                    <div className="text-[10px] text-white/20 uppercase tracking-wider">{s.label}</div>
-                    <div className="text-sm font-semibold text-white/60 mt-0.5">{s.value}</div>
+                  <div key={s.label} className="bg-foreground/[0.03] rounded-lg px-3 py-2 border border-foreground/[0.05]">
+                    <div className="text-[10px] text-foreground/45 uppercase tracking-wider">{s.label}</div>
+                    <div className="text-sm font-semibold text-foreground/75 mt-0.5">{s.value}</div>
                   </div>
                 ))}
               </div>
@@ -306,18 +306,18 @@ export default function EditPostPage() {
                   { icon: <Tag size={12} />, label: 'Tags', value: tags, set: setTags, placeholder: 'React, Next.js…' },
                 ].map(({ icon, label, value, set, placeholder }) => (
                   <div key={label}>
-                    <label className="text-[10px] text-white/20 uppercase tracking-wider font-semibold block mb-1">{label}</label>
-                    <div className="flex items-center gap-2 bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 focus-within:border-primary/30 transition-colors">
-                      <span className="text-white/20 shrink-0">{icon}</span>
+                    <label className="text-[10px] text-foreground/45 uppercase tracking-wider font-semibold block mb-1">{label}</label>
+                    <div className="flex items-center gap-2 bg-foreground/[0.03] border border-foreground/[0.06] rounded-lg px-2.5 py-1.5 focus-within:border-primary/30 transition-colors">
+                      <span className="text-foreground/45 shrink-0">{icon}</span>
                       <input value={value} onChange={(e) => set(e.target.value)} placeholder={placeholder}
-                        className="bg-transparent text-xs text-white/55 placeholder-white/15 focus:outline-none flex-1" />
+                        className="bg-transparent text-xs text-foreground/70 placeholder-foreground/42 focus:outline-none flex-1" />
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Danger zone */}
-              <div className="border-t border-white/[0.05] pt-4">
+              <div className="border-t border-foreground/[0.05] pt-4">
                 <label className="text-[10px] text-red-400/40 uppercase tracking-wider font-semibold block mb-2">Danger zone</label>
                 <button onClick={() => setShowDelete(true)}
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-red-400/70 hover:text-red-400 bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/20 transition-all">
@@ -330,14 +330,14 @@ export default function EditPostPage() {
       </div>
 
       {/* ── Status bar ───────────────────────────────────────────────────── */}
-      <div className="hidden md:flex items-center gap-3 px-6 py-1 border-t border-white/[0.04] bg-[#0d1117] text-[11px] text-white/15 shrink-0">
+      <div className="hidden md:flex items-center gap-3 px-6 py-1 border-t border-foreground/[0.04] bg-surface-alt text-[11px] text-foreground/42 shrink-0">
         <span className="flex items-center gap-1"><Clock size={10} /> {minutes} min read</span>
         <span>·</span>
         <span>{wordCount} words</span>
         <span>·</span>
         <span>{type} / {lang.toUpperCase()}</span>
         <span>·</span>
-        <span className="font-mono text-white/20">{slug}.mdx</span>
+        <span className="font-mono text-foreground/45">{slug}.mdx</span>
       </div>
     </div>
   );

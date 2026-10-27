@@ -53,14 +53,14 @@ export function AdminShell({ children, logoutAction }: Props) {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className={`flex items-center gap-3 border-b border-white/[0.06] overflow-hidden ${collapsed ? 'justify-center px-0 py-5' : 'px-4 py-5'}`}>
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center text-white font-bold text-sm shrink-0">
+      <div className={`flex items-center gap-3 border-b border-sidebar-border overflow-hidden ${collapsed ? 'justify-center px-0 py-5' : 'px-4 py-5'}`}>
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
           A
         </div>
         {!collapsed && (
           <div className="min-w-0">
-            <div className="font-semibold text-sm text-foreground truncate">Admin</div>
-            <div className="text-[10px] text-muted-foreground truncate">Portfolio CMS</div>
+            <div className="font-semibold text-sm text-sidebar-foreground truncate">Admin</div>
+            <div className="text-[10px] text-sidebar-foreground/60 truncate">Portfolio CMS</div>
           </div>
         )}
       </div>
@@ -80,7 +80,7 @@ export function AdminShell({ children, logoutAction }: Props) {
               } ${
                 active
                   ? 'bg-primary/15 text-primary'
-                  : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-foreground/5 hover:text-sidebar-foreground'
               }`}
             >
               <span className="shrink-0">{item.icon}</span>
@@ -90,7 +90,7 @@ export function AdminShell({ children, logoutAction }: Props) {
               )}
               {/* Tooltip when collapsed */}
               {collapsed && (
-                <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-[#1e2433] text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-white/10 transition-opacity">
+                <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-border transition-opacity">
                   {item.label}
                 </span>
               )}
@@ -100,20 +100,20 @@ export function AdminShell({ children, logoutAction }: Props) {
       </nav>
 
       {/* Bottom actions */}
-      <div className="px-2 py-3 border-t border-white/[0.06] space-y-0.5">
+      <div className="px-2 py-3 border-t border-sidebar-border space-y-0.5">
         {/* View site */}
         <a
           href="/en"
           target="_blank"
           title={collapsed ? 'View site' : undefined}
-          className={`flex items-center gap-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all group relative ${
+          className={`flex items-center gap-3 rounded-lg text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-foreground/5 transition-all group relative ${
             collapsed ? 'justify-center px-0 py-2.5 mx-1' : 'px-3 py-2'
           }`}
         >
           <ExternalLink size={18} className="shrink-0" />
           {!collapsed && <span className="text-sm font-medium">View site</span>}
           {collapsed && (
-            <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-[#1e2433] text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-white/10 transition-opacity">
+            <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-border transition-opacity">
               View site
             </span>
           )}
@@ -123,14 +123,14 @@ export function AdminShell({ children, logoutAction }: Props) {
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           title={collapsed ? (theme === 'dark' ? 'Light mode' : 'Dark mode') : undefined}
-          className={`w-full flex items-center gap-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all group relative ${
+          className={`w-full flex items-center gap-3 rounded-lg text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-foreground/5 transition-all group relative ${
             collapsed ? 'justify-center px-0 py-2.5 mx-1' : 'px-3 py-2'
           }`}
         >
           {theme === 'dark' ? <Sun size={18} className="shrink-0" /> : <Moon size={18} className="shrink-0" />}
           {!collapsed && <span className="text-sm font-medium">{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>}
           {collapsed && (
-            <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-[#1e2433] text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-white/10 transition-opacity">
+            <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-border transition-opacity">
               {theme === 'dark' ? 'Light mode' : 'Dark mode'}
             </span>
           )}
@@ -141,14 +141,14 @@ export function AdminShell({ children, logoutAction }: Props) {
           <button
             type="submit"
             title={collapsed ? 'Logout' : undefined}
-            className={`w-full flex items-center gap-3 rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-all group relative ${
+            className={`w-full flex items-center gap-3 rounded-lg text-sidebar-foreground/70 hover:text-red-400 hover:bg-red-500/10 transition-all group relative ${
               collapsed ? 'justify-center px-0 py-2.5 mx-1' : 'px-3 py-2'
             }`}
           >
             <LogOut size={18} className="shrink-0" />
             {!collapsed && <span className="text-sm font-medium">Logout</span>}
             {collapsed && (
-              <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-[#1e2433] text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-white/10 transition-opacity">
+              <span className="absolute left-full ml-2 px-2 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-border transition-opacity">
                 Logout
               </span>
             )}
@@ -158,13 +158,13 @@ export function AdminShell({ children, logoutAction }: Props) {
         {/* Collapse toggle - desktop only */}
         <button
           onClick={toggleCollapse}
-          className={`hidden lg:flex w-full items-center gap-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all mt-1 ${
+          className={`hidden lg:flex w-full items-center gap-3 rounded-lg text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-foreground/5 transition-all mt-1 ${
             collapsed ? 'justify-center px-0 py-2.5 mx-1' : 'px-3 py-2'
           }`}
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          {!collapsed && <span className="text-sm font-medium text-muted-foreground/60">Collapse</span>}
+          {!collapsed && <span className="text-sm font-medium text-sidebar-foreground/50">Collapse</span>}
         </button>
       </div>
     </div>
@@ -174,7 +174,7 @@ export function AdminShell({ children, logoutAction }: Props) {
     <div className="admin-area flex min-h-screen bg-background">
       {/* Desktop sidebar */}
       <aside
-        className={`hidden lg:flex flex-col border-r border-border bg-[#0d1117] fixed inset-y-0 left-0 z-30 transition-all duration-300 ease-in-out ${
+        className={`hidden lg:flex flex-col border-r border-sidebar-border bg-sidebar fixed inset-y-0 left-0 z-30 transition-all duration-300 ease-in-out ${
           collapsed ? 'w-[56px]' : 'w-[240px]'
         }`}
       >
@@ -188,12 +188,12 @@ export function AdminShell({ children, logoutAction }: Props) {
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-[240px] border-r border-border bg-[#0d1117] flex flex-col lg:hidden transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 z-50 w-[240px] border-r border-sidebar-border bg-sidebar flex flex-col lg:hidden transition-transform duration-300 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <button
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-muted-foreground hover:text-foreground"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg bg-sidebar-foreground/5 text-sidebar-foreground/70 hover:text-sidebar-foreground"
           onClick={() => setMobileOpen(false)}
         >
           <X size={16} />
@@ -208,14 +208,14 @@ export function AdminShell({ children, logoutAction }: Props) {
         }`}
       >
         {/* Mobile topbar */}
-        <header className="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-[#0d1117]">
+        <header className="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-sidebar-border bg-sidebar">
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-muted-foreground hover:text-foreground"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-sidebar-foreground/5 text-sidebar-foreground/70 hover:text-sidebar-foreground"
             onClick={() => setMobileOpen(true)}
           >
             <Menu size={18} />
           </button>
-          <span className="font-semibold text-sm">Admin</span>
+          <span className="font-semibold text-sm text-sidebar-foreground">Admin</span>
         </header>
 
         <main className="flex-1 p-6 lg:p-8">

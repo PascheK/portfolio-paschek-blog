@@ -1,0 +1,238 @@
+---
+title: "PascheK-ChatBox: Building a Fullstack RAG Chatbot with Next.js"
+publishedAt: "2026-03-05"
+summary: "A deep dive into PascheK-ChatBox: a fullstack RAG chatbot built with Next.js, featuring custom authentication, document indexing, streaming responses, and an LLM backend."
+image: /blogs/paschek-chatbox.png
+tags: "nextjs,ai,rag,chatbot,fullstack,typescript,llm"
+---
+
+> I use LLMs a lot — for code, for writing, for thinking through problems. But I was always frustrated with the existing interfaces: either too generic, or locked behind a subscription with no control over the context. So I built my own: PascheK-ChatBox.
+
+## 1. Why build your own chatbot interface?
+
+The existing options are fine for most people. ChatGPT, Claude.ai, Gemini — they're polished and capable. But they come with trade-offs that started to bother me:
+
+- **No control over the context**: I can't feed my own documents and have the model reason over them cleanly,
+- **No memory of my projects**: every session starts from zero,
+- **No customisation**: I can't shape the UX around how I actually think and work.
+
+What I wanted was a **personal AI workspace**: a place where I can chat with a model *and* give it access to my notes, code, documents — and get answers grounded in that context. That's essentially what **RAG** (Retrieval-Augmented Generation) enables.
+
+Building it also felt like a great technical challenge: auth, file handling, vector search, streaming — all in one project.
+
+---
+
+## 2. What is RAG?
+
+Before diving into the implementation, a quick explanation of **Retrieval-Augmented Generation**.
+
+A standard LLM has no knowledge of your personal documents. When you ask it something, it answers from its training data — which ends at a cutoff date and contains nothing about your specific files.
+
+RAG solves this by adding a retrieval step:
+
+1. **Index your documents**: split them into chunks, convert each chunk into a **vector embedding** (a numerical representation of its meaning),
+2. **Store those embeddings** in a vector database,
+3. **At query time**: convert the user's question into an embedding, find the most semantically similar chunks, and **inject them into the prompt** as context.
+
+The LLM then answers with access to the relevant parts of your documents, not just its training data. It **cites reality** rather than guessing.
+
+---
+
+## 3. Stack & architecture
+
+PascheK-ChatBox is built entirely on **Next.js** (App Router), using it as a true fullstack framework.
+
+### 3.1. Project structure
+
+```
+app/
+  api/
+    auth/          → Authentication endpoints
+    chat/          → Streaming chat endpoint
+    documents/     → Upload, index, list, delete
+  (app)/
+    chat/          → Main chat UI
+    documents/     → Document management UI
+    settings/      → User settings
+lib/
+  auth/            → Auth logic (session, tokens)
+  rag/             → Chunking, embedding, retrieval
+  db/              → Database client & queries
+```
+
+### 3.2. Key technology choices
+
+| Concern | Choice | Why |
+|---|---|---|
+| Framework | Next.js (App Router) | Fullstack in one repo, streaming support |
+| Database | PostgreSQL + pgvector | Vector search without a separate service |
+| Auth | Custom (JWT + httpOnly cookies) | Full control, no external auth dependency |
+| LLM | Configurable (OpenAI / Anthropic) | Swap models without touching the app |
+| Streaming | Vercel AI SDK | Clean streaming abstraction |
+| Embeddings | OpenAI `text-embedding-3-small` | Good quality/cost ratio |
+
+---
+
+## 4. Authentication
+
+I built a **custom auth system** rather than relying on NextAuth or a third-party service. The goal was to understand what auth actually involves — and to keep the app self-contained.
+
+### 4.1. Registration & login
+
+- Passwords hashed with **bcrypt** (no plain text, ever),
+- On login, a **JWT** is generated and stored in an **httpOnly cookie** (invisible to JavaScript, not stealable via XSS),
+- Sessions have an expiry with **silent refresh** via a short-lived access token and a longer-lived refresh token.
+
+### 4.2. Route protection
+
+- **Server-side**: API routes check the JWT on every request via a middleware-like `withAuth` wrapper,
+- **Client-side**: a `useAuth` hook reads session state and redirects unauthenticated users,
+- The Next.js `middleware.ts` file handles route-level redirects before the page even renders.
+
+### 4.3. Multi-user ready
+
+The data model is scoped per user from day one:
+
+- Documents belong to a user,
+- Chat sessions belong to a user,
+- Vector embeddings are tagged with a `user_id` — retrieval only searches within the requesting user's documents.
+
+---
+
+## 5. Document indexing & RAG pipeline
+
+This is the core of what makes PascheK-ChatBox more than a chat wrapper.
+
+### 5.1. Upload & parsing
+
+Files are uploaded via a `multipart/form-data` endpoint. Currently supported formats:
+
+- **PDF**: text extracted page by page,
+- **Markdown / plain text**: read directly,
+- **Code files**: treated as text with language metadata.
+
+### 5.2. Chunking strategy
+
+Raw document text is split into **overlapping chunks**:
+
+- Target chunk size: **512 tokens**,
+- Overlap: **64 tokens** between adjacent chunks (so context isn't cut abruptly).
+
+This balance matters: chunks that are too small lose context; chunks that are too large are noisy and cost more to embed.
+
+### 5.3. Embedding & storage
+
+Each chunk is embedded using OpenAI's `text-embedding-3-small` model. The resulting **1536-dimensional vector** is stored in PostgreSQL via the **pgvector** extension:
+
+```sql
+CREATE TABLE document_chunks (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID NOT NULL REFERENCES users(id),
+  document_id UUID NOT NULL REFERENCES documents(id),
+  content     TEXT NOT NULL,
+  embedding   vector(1536),
+  metadata    JSONB
+);
+```
+
+Using `pgvector` means I don't need a separate vector database. PostgreSQL handles both relational data and vector similarity search — **one fewer service to manage**.
+
+### 5.4. Retrieval
+
+At query time:
+
+1. The user's message is embedded (same model as indexing),
+2. A cosine similarity search finds the top-K most relevant chunks:
+
+```sql
+SELECT content, metadata,
+       1 - (embedding <=> $1) AS similarity
+FROM document_chunks
+WHERE user_id = $2
+ORDER BY embedding <=> $1
+LIMIT 5;
+```
+
+3. Retrieved chunks are formatted and injected into the system prompt as context.
+
+---
+
+## 6. Chat interface & streaming
+
+### 6.1. Streaming responses
+
+No one wants to stare at a blank screen waiting for a complete response. PascheK-ChatBox streams tokens as they're generated, using the **Vercel AI SDK** on the backend and a `useChat` hook on the frontend.
+
+The API route streams a `ReadableStream` response:
+
+```ts
+return new StreamingTextResponse(stream);
+```
+
+The client renders tokens incrementally — the UX feels fast and alive.
+
+### 6.2. Chat UI
+
+The main chat interface features:
+
+- **Conversation history**: messages persist per session (stored in the database),
+- **Source attribution**: each response shows which document chunks were used as context (with their relevance score),
+- **Model selector**: switch between configured LLMs without reloading,
+- **Document context panel**: see which documents are active in the current session.
+
+### 6.3. Prompt construction
+
+The final prompt sent to the LLM is assembled as:
+
+```
+[System]: You are a helpful assistant. Answer based on the following context.
+          If the context doesn't contain the answer, say so honestly.
+
+[Context]:
+--- Document: "project-notes.md", chunk 3 ---
+{retrieved chunk content}
+
+--- Document: "api-spec.pdf", chunk 7 ---
+{retrieved chunk content}
+
+[User]: {user's question}
+```
+
+Keeping the system prompt explicit about honesty prevents the model from hallucinating answers when the context doesn't cover the question.
+
+---
+
+## 7. What this project taught me
+
+### 7.1. Vector search is more accessible than it looks
+
+I expected vector databases to be complex. With `pgvector`, adding semantic search to an existing Postgres database is surprisingly straightforward. The hard part is **chunking strategy** — getting splits right matters more than the search algorithm itself.
+
+### 7.2. Streaming changes the UX entirely
+
+The difference between a 3-second wait and a streaming response that starts in 300ms is enormous. Users tolerate latency much better when they see progress. This is worth the additional implementation complexity.
+
+### 7.3. Auth is not a solved problem
+
+Even with a "simple" JWT + cookie approach, there are subtleties everywhere: token rotation, refresh token invalidation, CSRF considerations, httpOnly vs. accessible cookies. I now understand why people reach for managed auth services — but I'm glad I built it once myself.
+
+### 7.4. Prompt engineering is half the work
+
+The quality of RAG responses depends heavily on how you frame the retrieved context in the prompt. I iterated on the system prompt probably 20 times before settling on the current version.
+
+---
+
+## 8. What's next
+
+The current version is functional but still rough in places. Planned improvements:
+
+- **Better chunking**: semantic chunking that respects paragraph boundaries rather than fixed token counts,
+- **Reranking**: a second-pass relevance check on retrieved chunks before injecting them (reduces noise),
+- **Web search fallback**: when no document is relevant, optionally search the web,
+- **Conversation memory**: summarise older messages to keep the context window efficient,
+- **Export / sharing**: export a conversation as Markdown or share a session with a link,
+- **Self-hosted LLM option**: connect to a local Ollama instance for fully private usage.
+
+---
+
+PascheK-ChatBox started as a frustration with existing tools and became a project that taught me more about fullstack architecture, AI integration, and database design than almost anything else. It's not finished — but it's useful today, and that's the bar I care about.

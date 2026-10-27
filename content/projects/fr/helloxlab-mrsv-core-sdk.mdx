@@ -1,0 +1,34 @@
+---
+title: "MRSV Core SDK — Un SDK Rust et plugin Tauri"
+publishedAt: "2026-10-06"
+summary: "Une crate Rust qui dialogue avec MRSV Core, utilisable depuis un backend Rust classique ou comme plugin Tauri. Elle a supprimé les types dupliqués entre le serveur et les apps."
+tags: ["Rust", "Tauri", "TypeScript", "SDK"]
+group: "HelloXLab"
+---
+
+## Contexte
+
+Space Builder et le serveur MRSV Core redéfinissaient chacun les mêmes types, et un collègue avait besoin de parler au serveur depuis un autre projet. Copier du code d'un dépôt à l'autre aurait obligé à le synchroniser à la main. J'ai donc construit un SDK.
+
+## Mon rôle
+
+J'ai conçu et développé moi-même le SDK et son processus de release, et je le maintiens comme la brique partagée entre le serveur et les apps. Plus récemment, des collègues ont ajouté quelques types et corrigé de petits bugs.
+
+## Ce que j'ai construit
+
+- **Une crate, deux modes** :
+  - un backend Rust classique n'utilise que le client HTTP, la cryptographie et les types, sans aucune dépendance à Tauri ;
+  - une app Tauri active la fonctionnalité `tauri` et obtient le plugin complet.
+- **Connexion au serveur** : activation de licence, essais, checkout Stripe et signal de présence en arrière-plan.
+- **Types partagés** : les types importants sont définis une seule fois et utilisés par le serveur, le SDK et les apps.
+- **Plugin Tauri** : commandes, cache de jeton, empreinte de l'appareil, gestion du retour de paiement par deep link, et bindings JavaScript prêts à l'emploi.
+- **Commande de feedback** : permet à un utilisateur sous licence d'envoyer un retour au serveur, avec des cas d'erreur explicites et documentés.
+- **Processus de release** : les versions sont taguées automatiquement depuis la branche release, si bien que les consommateurs figent une version et migrent volontairement. Un changelog signale chaque changement incompatible de l'API publique.
+
+## Stack
+
+Rust, API de plugin Tauri v2, TypeScript (bindings côté interface), GitHub Actions.
+
+## Statut
+
+Il est utilisé dans Space Builder et dans le serveur MRSV Core, et distribué pour l'instant comme dépendance Git. Le code est privé.

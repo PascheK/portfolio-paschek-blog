@@ -1,0 +1,39 @@
+---
+title: "Space Builder — From Electron prototype to production desktop app"
+publishedAt: "2026-10-12"
+summary: "A desktop editor that designs spatial mapping setups and exports Unreal Engine nDisplay files. I took it from an Electron prototype to a production-ready Tauri app, now in beta."
+tags: ["Tauri", "Rust", "React", "TypeScript", "Three.js"]
+group: "HelloXLab"
+featured: "true"
+---
+
+## Context
+
+Space Builder is a desktop editor made by HelloXLab. You draw rooms, walls and windows, place view anchors, and export the result as configuration files for Unreal Engine's nDisplay, the system that renders one scene across several screens. The product existed as an Electron app. My mission, from early July 2026, was to make it production ready.
+
+## My role
+
+My job was to turn the app into a production-ready product. I built the Tauri version myself, from the foundation up: the technology, the interface, native desktop behaviour, licensing and the deployment pipeline. More recently, colleagues have added a few types and fixed minor bugs.
+
+## What I did
+
+- **Migrated from Electron to Tauri v2** for better performance and a much lighter application.
+- **Redesigned the whole UI and UX**: layout, panels, home screen, dialogs and settings now share one consistent visual language.
+- **Added native menus**, so the app behaves like a real desktop application on each platform.
+- **Integrated licensing**: a first-run setup wizard activates a licence key against the MRSV Core server, through the SDK I wrote (see [MRSV Core](/en/projects/helloxlab-mrsv-core) and [MRSV Core SDK](/en/projects/helloxlab-mrsv-core-sdk)).
+- **Set up the release pipeline**: GitHub Actions builds signed releases for macOS (Apple Silicon and Intel), Windows and Linux, and publishes them to the in-app auto-updater.
+
+## The app today
+
+- Multi-zone export: each zone produces its own nDisplay file.
+- A real 3D preview with a test card per screen, so a wrong orientation is visible before opening Unreal.
+- An onboarding checklist that walks new users through the whole pipeline, from a room to an export.
+- Feedback sent from inside the app, usage telemetry and automatic updates.
+
+## Stack
+
+Tauri v2, Rust, React, TypeScript, Vite, Three.js (react-three-fiber), Tailwind CSS with DaisyUI, i18next. GitHub Actions for builds and releases.
+
+## Status
+
+The application is currently delivered to beta testers. I also use Unreal Engine regularly to open the exported nDisplay files and check them in context. This is a private, commercial product: the code is not public.

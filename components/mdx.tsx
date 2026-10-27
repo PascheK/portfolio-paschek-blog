@@ -29,7 +29,7 @@ function CustomLink(props) {
 }
 
 function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+  return <Image alt={props.alt} className="rounded-xl border border-border" {...props} />;
 }
 
 function Code({ children, ...props }) {
@@ -61,7 +61,7 @@ function Table({ data }) {
 
 function Callout(props) {
   return (
-    <div className="px-4 py-3 rounded-lg text-sm flex gap-3 mb-8 bg-surface-muted border border-border">
+    <div className="mb-8 flex gap-3 rounded-xl border border-border bg-surface-alt px-4 py-3 text-sm">
       {props.emoji && <div className="flex items-center w-5 shrink-0 select-none">{props.emoji}</div>}
       <div className="w-full leading-relaxed text-foreground/90">{props.children}</div>
     </div>

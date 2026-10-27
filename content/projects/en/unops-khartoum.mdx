@@ -1,0 +1,39 @@
+---
+title: "Khartoum Damage Assessment — Interactive report"
+publishedAt: "2026-01-29"
+summary: "An interactive report mockup on building damage in Khartoum: a before/after story with satellite comparisons and a filterable map, built on the UNOPS starter."
+tags: ["Next.js", "TypeScript", "Mapbox", "GSAP"]
+group: "UNOPS"
+demoUrl: "https://khartoum-damage-assessment-mockup.vercel.app"
+repoUrl: "https://github.com/PascheK/khartoum-damage-assessment-mockup"
+ctaLabel: "View the live report"
+---
+
+## Context
+
+The UNOPS teams carried out a geospatial analysis of how armed conflict has affected buildings in Khartoum, Sudan, between 2023 and 2025. They needed a way to present that work clearly to partners and decision-makers. My part was to build the interactive report that tells the story, using the starter I made for UNOPS.
+
+## My role
+
+I designed and built the report: the structure of the story, the map and the before/after comparisons. The analysis and the data come from the UNOPS teams.
+
+## What I built
+
+- **A two-phase story**: pre-conflict (establishing the baseline) and post-conflict (assessing the damage, then planning recovery). A menu switches the phase and loads the matching story in the map.
+- **Key figures up front**: 256,123 buildings analysed and 4,687 critical infrastructures identified, of which 389 were identified as damaged through remote analysis. These figures come from the UNOPS analysis.
+- **Before/after satellite comparison**: a slider to compare the same hospital or school in 2023 and in 2025.
+- **An interactive map** built with Mapbox GL, where buildings are coloured by category (education, health, power, waste, water) and by status (damaged, undamaged, unknown), with a legend, a guided story mode and a fullscreen view.
+- **A partners section** crediting the organisations that collaborated on the analysis.
+
+## Stack
+
+Next.js (App Router), TypeScript, Mapbox GL, GSAP, Recharts, Radix UI, Tailwind CSS, Vercel. It starts from [create-unops-starter](/en/projects/unops-registry).
+
+## Result
+
+Like the other interactive reports I built for UNOPS, it works as an interactive PowerPoint. The teams loved these tools and presented them at a conference in Geneva.
+
+## Links
+
+- Live report: [khartoum-damage-assessment-mockup.vercel.app](https://khartoum-damage-assessment-mockup.vercel.app)
+- Code: [github.com/PascheK/khartoum-damage-assessment-mockup](https://github.com/PascheK/khartoum-damage-assessment-mockup)

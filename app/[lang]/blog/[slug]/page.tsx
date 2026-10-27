@@ -7,9 +7,11 @@ import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
-import { extractHeadings } from "@/lib/toc";
-import { TableOfContents } from "@/components/ui/table-of-contents";
-import { ArrowRight } from "lucide-react";
+import { ReadingProgress } from "@/components/brand/reading-progress";
+import { extractHeadings, railItemsFromHeadings } from "@/lib/toc";
+import { SectionRail } from "@/components/brand/section-rail";
+import { ArrowLeft } from "lucide-react";
+import { CoverPlaceholder, ContentCard } from "@/components/brand/content-card";
 
 function parseTags(raw?: string): string[] {
   if (!raw) return [];
@@ -72,15 +74,23 @@ export default async function Blog({ params }) {
   const dict = await getDictionary(resolvedLang);
   const allPosts = getBlogPosts(resolvedLang);
   const post = allPosts.find((p) => p.slug === slug);
-  const headings = post?.content ? extractHeadings(post.content) : [];
 
-  // Related posts: same tags or fallback to 2 most recent
-  const postTags = parseTags(post?.metadata.tags);
+  if (!post) {
+    notFound();
+  }
+
+  const headings = post.content ? extractHeadings(post.content) : [];
+  const isFr = resolvedLang === "fr";
+  const locale = isFr ? "fr-FR" : "en-US";
+  const minutes = Math.max(1, Math.round(post.content.trim().split(/\s+/).length / 200));
+
+  // Related posts: same tags or fallback to the 2 most recent
+  const postTags = parseTags(post.metadata.tags);
   const related = allPosts
-    .filter(p => p.slug !== slug)
-    .map(p => ({
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
       ...p,
-      score: parseTags(p.metadata.tags).filter(t => postTags.includes(t)).length,
+      score: parseTags(p.metadata.tags).filter((t) => postTags.includes(t)).length,
     }))
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
@@ -89,26 +99,9 @@ export default async function Blog({ params }) {
       return db - da;
     })
     .slice(0, 2);
-  const locale = resolvedLang === 'fr' ? 'fr-FR' : 'en-US';
-
-  if (!post) {
-    notFound();
-  }
 
   return (
-    <section className="max-w-5xl mx-auto px-4 py-8">
-      {post.metadata.image && (
-        <div className="relative w-full h-56 mb-6 overflow-hidden rounded-xl border border-neutral-800">
-          <Image
-            src={post.metadata.image}
-            alt={(dict?.blogPage?.imageAlt || "Cover image for {{title}}")
-              .replace("{{title}}", post.metadata.title)}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 768px"
-          />
-        </div>
-      )}
+    <div className="container-page pb-8">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -123,7 +116,7 @@ export default async function Blog({ params }) {
             image: post.metadata.image
               ? `${metaData.baseUrl}${post.metadata.image}`
               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${metaData.baseUrl}/${(lang ?? "en")}/blog/${post.slug}`,
+            url: `${metaData.baseUrl}/${resolvedLang}/blog/${post.slug}`,
             author: {
               "@type": "Person",
               name: metaData.name,
@@ -131,70 +124,91 @@ export default async function Blog({ params }) {
           }),
         }}
       />
-      <div className="flex flex-col items-center mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-          {post.metadata.title}
-        </h1>
-        {post.metadata.publishedAt && (
-          <span className="text-xs text-muted-foreground mb-2">
-            {formatDate(post.metadata.publishedAt, false, (lang ?? "en") === "fr" ? "fr-FR" : "en-US")}
-          </span>
-        )}
-        {post.metadata.summary && (
-          <p className="text-foreground text-center mb-2 max-w-xl">
-            {post.metadata.summary}
+
+      <ReadingProgress />
+      <SectionRail
+        variant="article"
+        items={railItemsFromHeadings(headings)}
+        label={isFr ? "Dans cet article" : "In this article"}
+      />
+      <article>
+        <header className="pt-10 pb-10 md:pt-14">
+          <Link
+            href={`/${resolvedLang}/blog`}
+            className="link-quiet mb-8 inline-flex items-center gap-1.5 rounded-md text-sm"
+          >
+            <ArrowLeft className="size-4" aria-hidden />
+            {isFr ? "Blog" : "Blog"}
+          </Link>
+
+          <p className="eyebrow mb-4 flex items-center gap-2">
+            {post.metadata.publishedAt && (
+              <time dateTime={post.metadata.publishedAt}>
+                {formatDate(post.metadata.publishedAt, false, locale)}
+              </time>
+            )}
+            <span aria-hidden>·</span>
+            <span>{minutes} {dict?.blogPage?.readingTime ?? "min read"}</span>
           </p>
-        )}
-      </div>
+          <h1 className="t-h1 max-w-3xl">{post.metadata.title}</h1>
+          {post.metadata.summary && (
+            <p className="t-lead mt-4 max-w-2xl">{post.metadata.summary}</p>
+          )}
+          {postTags.length > 0 && (
+            <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="Tags">
+              {postTags.map((t) => (
+                <li key={t} className="tag">{t}</li>
+              ))}
+            </ul>
+          )}
+        </header>
 
-      <div className="mt-8 flex gap-8 lg:gap-12 items-start">
-        <TableOfContents
-          headings={headings}
-          title={(lang ?? "en") === "fr" ? "Sommaire" : "On this page"}
-        />
-        <article className="prose prose-invert mx-auto max-w-3xl flex-1">
+        <figure className="relative mb-12 aspect-[21/9] overflow-hidden rounded-xl border border-border bg-surface-alt">
+          {post.metadata.image ? (
+            <Image
+              src={post.metadata.image}
+              alt={(dict?.blogPage?.imageAlt || "Cover image for {{title}}")
+                .replace("{{title}}", post.metadata.title)}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+            />
+          ) : (
+            <CoverPlaceholder seed={post.slug} label={(postTags[0] ?? "Article").toUpperCase()} />
+          )}
+        </figure>
+
+        <div className="prose max-w-3xl">
           <CustomMDX source={post.content} />
-        </article>
-      </div>
-
-      <div className="mt-10 flex justify-center">
-        <Link
-          href={`/${resolvedLang}/blog`}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow-sm"
-        >
-          ← {resolvedLang === "fr" ? "Retour au blog" : "Back to blog"}
-        </Link>
-      </div>
-
-      {/* Related articles */}
-      {related.length > 0 && (
-        <div className="mt-14 border-t border-border pt-10">
-          <h2 className="text-lg font-semibold mb-5">
-            {resolvedLang === 'fr' ? 'Articles similaires' : 'Related articles'}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {related.map((r) => (
-              <Link
-                key={r.slug}
-                href={`/${resolvedLang}/blog/${r.slug}`}
-                className="group flex flex-col gap-1 rounded-xl border border-border bg-surface-alt/60 backdrop-blur p-4 hover:border-primary/40 hover:bg-primary/5 transition-all"
-              >
-                <span className="font-medium text-sm group-hover:text-primary transition-colors line-clamp-2">
-                  {r.metadata.title}
-                </span>
-                {r.metadata.publishedAt && (
-                  <span className="text-xs text-muted-foreground">
-                    {formatDate(r.metadata.publishedAt, false, locale)}
-                  </span>
-                )}
-                <span className="mt-1 inline-flex items-center gap-1 text-xs text-primary">
-                  {resolvedLang === 'fr' ? 'Lire' : 'Read'} <ArrowRight className="size-3" />
-                </span>
-              </Link>
-            ))}
-          </div>
         </div>
+      </article>
+
+      {related.length > 0 && (
+        <section aria-labelledby="related-title" className="mt-20 border-t border-border pt-12">
+          <h2 id="related-title" className="t-h2 mb-8">
+            {isFr ? "Articles similaires" : "Related articles"}
+          </h2>
+          <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {related.map((r) => (
+              <li key={r.slug} className="h-full">
+                <ContentCard
+                  href={`/${resolvedLang}/blog/${r.slug}`}
+                  title={r.metadata.title}
+                  summary={r.metadata.summary}
+                  image={r.metadata.image}
+                  imageAlt={(dict?.blogPage?.imageAlt || "Cover image for {{title}}").replace("{{title}}", r.metadata.title)}
+                  tags={parseTags(r.metadata.tags)}
+                  date={r.metadata.publishedAt}
+                  locale={locale}
+                  fallbackLabel="Article"
+                  cta={dict?.home?.blog?.read}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
-    </section>
+    </div>
   );
 }

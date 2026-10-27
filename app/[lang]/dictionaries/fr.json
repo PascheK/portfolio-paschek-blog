@@ -27,7 +27,7 @@
       "hello": "Bonjour !",
       "title_prefix": "Je m'appelle",
       "title_suffix": "et je suis Développeur Full-Stack",
-      "tagline": "Passionné par la création, basé à Bouloz, Suisse. Du web aux jeux vidéo, de la montagne au code open source."
+      "tagline": "Passionné par la création, actuellement basé à Osaka, au Japon. Du web aux jeux vidéo, de la montagne au code open source."
     },
     "stats": {
       "projects": "Projets",
@@ -116,7 +116,7 @@
   },
   "about": {
     "title": "À propos de moi",
-    "tagline": "Développeur full-stack · Aventurier · Créateur — basé à Bouloz, Suisse.",
+    "tagline": "Développeur full-stack · Aventurier · Créateur — actuellement basé à Osaka, au Japon.",
     "profileAlt": "Photo de profil de {{name}}",
     "experienceTitle": "Parcours / Expérience",
     "skillsCategories": {
@@ -126,16 +126,23 @@
     },
     "experiences": [
       {
+        "period": "Juillet 2026 — Aujourd'hui",
+        "title": "Développeur full-stack",
+        "org": "HelloXLab",
+        "description": "Développeur full-stack à Osaka depuis juillet 2026. J'ai transformé Space Builder, un éditeur de bureau pour nDisplay d'Unreal Engine, d'un prototype Electron en une app Tauri prête pour la production (aujourd'hui en bêta), construit en Rust le serveur de licences et de paiements MRSV Core, écrit le SDK MRSV Core et mis en place l'environnement DigitalOcean et GitHub pour les déployer.",
+        "type": "work"
+      },
+      {
         "title": "Développeur full-stack en appui",
         "org": "Div-In",
-        "period": "25.08.2025 — Aujourd'hui",
+        "period": "25.08.2025 — 01.04.2026",
         "description": "Participation au développement de l'application mobile Div-In (React Native + Laravel) : implémentation de fonctionnalités ciblées, corrections de bugs et rédaction de documentation technique pour faciliter l'onboarding des développeurs.",
         "type": "work"
       },
       {
         "title": "Assistant principal en gestion de l'information et analyse",
         "org": "UNOPS",
-        "period": "21.04.2025 — Aujourd'hui",
+        "period": "21.04.2025 — 20.04.2026",
         "description": "Appui à la gestion et à l'analyse de l'information pour le développement de solutions numériques et de rapports décisionnels.",
         "type": "work"
       },
@@ -202,7 +209,8 @@
           "Tailwind CSS",
           "React Native",
           "C#",
-          "Unity"
+          "Unity",
+          "Unreal Engine"
         ],
         "backend": [
           "Node.js",
@@ -213,16 +221,23 @@
           "PostgreSQL",
           "MongoDB"
         ],
-        "devops": ["Docker", "CI/CD", "Vercel", "GitHub Actions", "WordPress"]
+        "devops": [
+          "Docker",
+          "CI/CD",
+          "Vercel",
+          "GitHub Actions",
+          "WordPress",
+          "DigitalOcean"
+        ]
       }
     },
     "education": {
       "title": "Formation",
       "items": [
         {
-          "degree": "Maturité technique (en cours)",
+          "degree": "Maturité technique",
           "school": "EMF — École de Maturité et de Formation",
-          "year": "2025 – présent"
+          "year": "2025 – 2026"
         },
         {
           "degree": "CFC Informaticien",
@@ -234,8 +249,8 @@
     "downloadCV": "Télécharger mon CV",
     "cvUrl": "/documents/kp_cv.pdf",
     "bio": [
-      "Je suis Killian, développeur full-stack de 22 ans basé à Bouloz, en Suisse. J'ai commencé à coder en 2017, attiré par un rêve simple : créer mon propre jeu vidéo. Ce rêve est toujours vivant — je le construis activement en C# avec Unity.",
-      "Le jour, je travaille chez UNOPS et Div-In, en construisant des outils utiles. La nuit, je façonne des projets perso, explore de nouvelles technologies et repousse mes limites — que ce soit sur un clavier ou sur un sentier de montagne.",
+      "Je suis Killian, développeur full-stack de 22 ans, originaire de Suisse et actuellement installé à Osaka, au Japon, jusqu'au 10 janvier 2027. J'ai commencé à coder en 2017, attiré par un rêve simple : créer mon propre jeu vidéo. Ce rêve est toujours vivant — je le construis activement en C# avec Unity.",
+      "Je travaille chez HelloXLab comme développeur full-stack, à Osaka. Ma mission a été de transformer Space Builder — un éditeur de bureau pour nDisplay d'Unreal Engine — d'un prototype Electron en une application prête pour la production : je l'ai migré vers Tauri, j'ai refait son UI et son UX, construit en Rust le serveur de licences et de paiements MRSV Core, et écrit un SDK Rust partagé par le serveur et les apps. J'ai aussi mis en place l'environnement DigitalOcean et GitHub qui les déploie, et j'utilise beaucoup Unreal Engine pour ouvrir des fichiers nDisplay. En dehors du travail, je façonne des projets perso, explore de nouvelles technologies et repousse mes limites — que ce soit sur un clavier ou sur un sentier de montagne.",
       "Je suis quelqu'un de passionné, spontané, qui aime découvrir de nouvelles choses. L'open source, la liberté et la créativité sont non-négociables pour moi."
     ],
     "values": {
@@ -313,10 +328,29 @@
       "title": "Expériences & Parcours",
       "events": [
         {
-          "year": "2025 – présent",
-          "startYear": 2025,
+          "year": "juil. 2026 – présent",
+          "startYear": 2026,
           "type": "work",
           "current": true,
+          "title": "Développeur Full-Stack",
+          "org": "HelloXLab",
+          "location": "Osaka, Japon",
+          "description": "Développeur full-stack à Osaka depuis juillet 2026. J'ai transformé Space Builder, un éditeur de bureau pour nDisplay d'Unreal Engine, d'un prototype Electron en une app Tauri prête pour la production (aujourd'hui en bêta), construit en Rust le serveur de licences et de paiements MRSV Core, écrit le SDK MRSV Core et mis en place l'environnement DigitalOcean et GitHub pour les déployer.",
+          "tags": [
+            "Tauri",
+            "Rust",
+            "React",
+            "DigitalOcean",
+            "Unreal Engine",
+            "nDisplay"
+          ],
+          "url": ""
+        },
+        {
+          "year": "2025 – 2026",
+          "startYear": 2025,
+          "type": "work",
+          "current": false,
           "title": "Information Management Associate (Lead)",
           "org": "UNOPS — Nations Unies",
           "location": "Suisse",
@@ -325,10 +359,10 @@
           "url": ""
         },
         {
-          "year": "2025 – présent",
+          "year": "2025 – 2026",
           "startYear": 2025,
           "type": "work",
-          "current": true,
+          "current": false,
           "title": "Développeur Full-Stack (support)",
           "org": "Div-In",
           "location": "Suisse",
@@ -337,14 +371,14 @@
           "url": ""
         },
         {
-          "year": "2025 – présent",
+          "year": "2025 – 2026",
           "startYear": 2025,
           "type": "education",
-          "current": true,
+          "current": false,
           "title": "Maturité technique",
           "org": "EMF — École de Maturité et de Formation",
           "location": "Fribourg, Suisse",
-          "description": "Formation technique de niveau supérieur en parallèle de l'activité professionnelle.",
+          "description": "Études techniques de niveau supérieur en parallèle d'une activité professionnelle. Terminée en juin 2026.",
           "tags": ["Maths", "Physique", "Informatique"],
           "url": ""
         },
@@ -412,7 +446,7 @@
     }
   },
   "footer": {
-    "tagline": "Développeur full-stack basé à Bouloz, Suisse. Passionné par la création, l'aventure et les projets qui ont du sens.",
+    "tagline": "Développeur full-stack actuellement à Osaka, au Japon. Passionné par la création, l'aventure et les projets qui ont du sens.",
     "availability": "Disponible",
     "quickLinks": "Liens rapides",
     "links": {
@@ -469,16 +503,16 @@
         "title": "Apps & Outils",
         "items": [
           {
-            "name": "Unity",
-            "desc": "Pour mes prototype de jeux vidéos."
-          },
-          {
             "name": "Figma",
             "desc": "Design UI/UX et prototypage."
           },
           {
-            "name": "TablePlus",
-            "desc": "Interface graphique pour PostgreSQL et MongoDB."
+            "name": "Blender",
+            "desc": "Modélisation 3D et assets."
+          },
+          {
+            "name": "Unreal Engine 5",
+            "desc": "Ouvrir et vérifier les exports nDisplay."
           },
           {
             "name": "Affine",
@@ -494,20 +528,8 @@
         "title": "Stack quotidienne",
         "items": [
           {
-            "name": "Next.js + TypeScript",
-            "desc": "Mon stack par défaut pour les apps web."
-          },
-          {
-            "name": "Tailwind CSS",
-            "desc": "CSS utilitaire dont je ne peux plus me passer."
-          },
-          {
-            "name": "Vercel",
-            "desc": "Déploiements et hébergement — zéro config."
-          },
-          {
-            "name": "GitHub",
-            "desc": "Contrôle de version et contributions open source."
+            "name": "Tauri + React",
+            "desc": "Des apps de bureau avec un cœur Rust et une interface React."
           }
         ]
       }
@@ -523,14 +545,14 @@
   "now": {
     "title": "Maintenant",
     "subtitle": "Ce sur quoi je travaille en ce moment.",
-    "updated": "Dernière mise à jour : avril 2026",
+    "updated": "Dernière mise à jour : octobre 2026",
     "focus": {
       "label": "Focus principal",
       "items": [
-        "Développer mon jeu vidéo en C# / Unity",
-        "Maturité technique à l'EMF",
-        "Contribuer à Div-In (React Native + Laravel)",
-        "Travail à l'UNOPS"
+        "Mener Space Builder du prototype à la bêta chez HelloXLab",
+        "Maintenir MRSV Core et son SDK Rust",
+        "Environnement de déploiement sur DigitalOcean et GitHub",
+        "Développer mon jeu vidéo en C# / Unity"
       ]
     },
     "projects": {
@@ -544,9 +566,10 @@
     "learning": {
       "label": "En apprentissage",
       "items": [
+        "Unreal Engine et nDisplay",
+        "Rust, en production",
         "C# & développement de jeux Unity",
-        "React Native en profondeur",
-        "Cours techniques de maturité"
+        "Déployer sur DigitalOcean avec GitHub"
       ]
     },
     "reading": {
@@ -564,8 +587,10 @@
     "nownow": "Inspiré par le mouvement nownownow.com.",
     "status": {
       "mode": "En construction",
-      "timezone": "CET / UTC+2",
-      "location": "Bouloz, Suisse"
+      "timezone": "JST / UTC+9",
+      "location": "Osaka, Japon",
+      "city": "Osaka",
+      "timeZone": "Asia/Tokyo"
     },
     "spotlight": {
       "project": {
@@ -594,8 +619,20 @@
     ],
     "recentShips": [
       {
-        "label": "Visualisation 3D du cerveau sur /about",
-        "date": "avr. 2026"
+        "label": "Space Builder : d'Electron à Tauri, nouvelle UI/UX, menus natifs, maintenant en bêta",
+        "date": "oct. 2026"
+      },
+      {
+        "label": "MRSV Core : serveur de licences et de paiements Stripe en Rust",
+        "date": "oct. 2026"
+      },
+      {
+        "label": "MRSV Core SDK : crate Rust partagée et plugin Tauri",
+        "date": "oct. 2026"
+      },
+      {
+        "label": "Space-builder, Mrsv-Core et Mrsv-Core-SDK chez HelloXLab",
+        "date": "2026"
       },
       {
         "label": "Panneau admin avec éditeur de blocs",
