@@ -109,13 +109,13 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
       className="overflow-hidden rounded-2xl shadow-2xl"
     >
       {/* Backdrop blur + border */}
-      <div className="bg-[#13161f]/95 backdrop-blur-xl border border-white/[0.09] rounded-2xl overflow-hidden">
+      <div className="bg-popover/95 backdrop-blur-xl border border-popover-foreground/[0.09] rounded-2xl overflow-hidden">
         {/* Header */}
         <div className="px-3 pt-2.5 pb-1.5 flex items-center gap-2">
-          <span className="text-[10px] font-semibold text-white/25 uppercase tracking-widest">
+          <span className="text-[10px] font-semibold text-popover-foreground/48 uppercase tracking-widest">
             {query ? `"${query}"` : 'Blocks'}
           </span>
-          <span className="ml-auto text-[10px] text-white/15 font-mono">↑↓ Enter</span>
+          <span className="ml-auto text-[10px] text-popover-foreground/42 font-mono">↑↓ Enter</span>
         </div>
 
         {/* Items */}
@@ -124,7 +124,7 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
             <button
               key={cmd.id}
               className={`relative w-full flex items-center gap-3 px-3 py-2 text-left transition-all duration-75 ${
-                i === selected ? 'bg-primary/[0.13]' : 'hover:bg-white/[0.04]'
+                i === selected ? 'bg-primary/[0.13]' : 'hover:bg-popover-foreground/[0.04]'
               }`}
               onMouseDown={(e) => { e.preventDefault(); onSelect(cmd.id); }}
               onMouseEnter={() => setSelected(i)}
@@ -136,7 +136,7 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
 
               {/* Icon */}
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono shrink-0 transition-all ${
-                i === selected ? 'bg-primary/25 text-primary shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)]' : 'bg-white/[0.05] text-white/40'
+                i === selected ? 'bg-primary/25 text-primary shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)]' : 'bg-popover-foreground/[0.05] text-popover-foreground/58'
               }`}>
                 {ICON_MAP[cmd.id] || cmd.icon}
               </div>
@@ -144,11 +144,11 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
               {/* Label */}
               <div className="min-w-0 flex-1">
                 <div className={`text-[13px] font-medium leading-none mb-[3px] transition-colors ${
-                  i === selected ? 'text-white' : 'text-white/60'
+                  i === selected ? 'text-popover-foreground' : 'text-popover-foreground/75'
                 }`}>
                   {cmd.label}
                 </div>
-                <div className="text-[11px] text-white/25 leading-tight truncate">
+                <div className="text-[11px] text-popover-foreground/48 leading-tight truncate">
                   {cmd.description}
                 </div>
               </div>
@@ -158,7 +158,7 @@ export function SlashMenu({ query, position, onSelect, onClose }: Props) {
                 <kbd className={`shrink-0 text-[10px] font-mono px-1.5 py-0.5 rounded-md transition-colors border ${
                   i === selected
                     ? 'bg-primary/20 border-primary/30 text-primary/80'
-                    : 'bg-white/[0.04] border-white/[0.06] text-white/18'
+                    : 'bg-popover-foreground/[0.04] border-popover-foreground/[0.06] text-popover-foreground/44'
                 }`}>
                   /{cmd.shortcut}
                 </kbd>

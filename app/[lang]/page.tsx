@@ -1,14 +1,16 @@
-import Image from "next/image";
 import { getDictionary } from '@/lib/dictionaries';
-import { socialLinks } from '@/lib/config';
-import { Github, Mail, Instagram, ChevronDown, Code2, Database, Server, Phone, Layers, Clock, Cpu, Coffee } from "lucide-react";
-import Link from 'next/link';
-import { Reveal, RevealX, RevealClip, RevealStagger, RevealItem } from '@/components/ui/reveal';
-import { AnimatedCounter } from '@/components/ui/animated-counter';
-import { getProjectPosts } from "@/lib/posts";
-import Snowfalling from "@/components/Snowfalling";
+import { metaData, socialLinks } from '@/lib/config';
+import { Github, Mail, Instagram, Phone, ArrowUpRight, Code2, Database, Server } from "lucide-react";
+import { Reveal, RevealStagger, RevealItem } from '@/components/ui/reveal';
+import { getBlogPosts, getProjectPosts } from "@/lib/posts";
 import { ContactForm } from "@/components/contact-form";
 import { HeroSection } from "@/components/hero-section";
+import { SectionHeader } from "@/components/brand/section-header";
+import { ContentCard } from "@/components/brand/content-card";
+import { StatGrid } from "@/components/brand/stat-grid";
+import { CopyButton } from "@/components/brand/copy-button";
+import { SectionRail } from "@/components/brand/section-rail";
+import { ReadingProgress } from "@/components/brand/reading-progress";
 
 function parseTags(raw?: string | string[]): string[] {
   if (!raw) return [];
@@ -23,6 +25,12 @@ function parseTags(raw?: string | string[]): string[] {
   return t.split(',').map((s) => s.trim()).filter(Boolean);
 }
 
+const byDateDesc = (a: { metadata: { publishedAt?: string } }, b: { metadata: { publishedAt?: string } }) => {
+  const da = a.metadata.publishedAt ? new Date(a.metadata.publishedAt).getTime() : 0;
+  const db = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
+  return db - da;
+};
+
 export default async function Page({
   params,
 }: {
@@ -30,188 +38,220 @@ export default async function Page({
 }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-  const posts = getProjectPosts(lang).sort((a, b) => {
-    const da = a.metadata.publishedAt ? new Date(a.metadata.publishedAt).getTime() : 0;
-    const db = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
-    return db - da;
-  });
-  const featuredProjects = posts.slice(0, 3);
+  const isFr = lang === 'fr';
+  const locale = isFr ? 'fr-FR' : 'en-US';
+
+  const projects = getProjectPosts(lang).sort(byDateDesc);
+  const isFeatured = (p: { metadata: { featured?: string } }) => p.metadata.featured === 'true';
+  // Featured case studies first (newest first), then the rest by date.
+  const featuredProjects = [...projects.filter(isFeatured), ...projects.filter((p) => !isFeatured(p))].slice(0, 3);
+  const latestPosts = getBlogPosts(lang).sort(byDateDesc).slice(0, 3);
 
   const skillGroups = [
-    { label: 'Frontend', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'], color: 'text-sky-400 border-sky-500/40 bg-sky-500/10' },
-    { label: 'Backend', skills: ['Node.js', 'Express.js', 'Java', 'Spring Boot'], color: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10' },
-    { label: 'DevOps', skills: ['Docker', 'CI/CD', 'Vercel', 'PostgreSQL'], color: 'text-violet-400 border-violet-500/40 bg-violet-500/10' },
+    { label: 'Frontend', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
+    { label: 'Backend', skills: ['Node.js', 'Express.js', 'Java', 'Spring Boot'] },
+    { label: 'DevOps', skills: ['Docker', 'CI/CD', 'DigitalOcean', 'Vercel', 'PostgreSQL'] },
+  ];
+
+  const stats = [
+    { value: `${projects.length}+`, label: dict.home.stats.projects },
+    { value: '3+', label: dict.home.stats.years },
+    { value: '14', label: dict.home.stats.technologies },
+    { value: '999+', label: dict.home.stats.coffees },
+  ];
+
+  const services = [
+    { ...dict.home.services.items.web, Icon: Code2 },
+    { ...dict.home.services.items.api, Icon: Database },
+    { ...dict.home.services.items.devops, Icon: Server },
+  ];
+
+  const contactLinks = [
+    { name: dict.home.contact.email, href: socialLinks.email, Icon: Mail, hint: socialLinks.email.replace('mailto:', ''), copy: socialLinks.email.replace('mailto:', '') },
+    { name: 'GitHub', href: socialLinks.github, Icon: Github, hint: 'github.com', copy: undefined as string | undefined },
+    { name: 'Instagram', href: socialLinks.instagram, Icon: Instagram, hint: 'instagram.com', copy: undefined as string | undefined },
+    { name: isFr ? 'Téléphone' : 'Phone', href: socialLinks.telephone, Icon: Phone, hint: socialLinks.telephone.replace('tel:', ''), copy: socialLinks.telephone.replace('tel:', '') },
   ];
 
   return (
-    <>
-      <Snowfalling />
-      <main className="flex-1 w-full min-w-0 flex flex-col px-6 sm:px-6 md:px-8">
+    <div className="relative isolate overflow-x-clip">
+      <div className="hero-glow" aria-hidden />
+    <div className="container-page">
+      <ReadingProgress />
+      <SectionRail
+        label={isFr ? 'Sections de la page' : 'Page sections'}
+        items={[
+          { id: 'intro', label: isFr ? 'Intro' : 'Intro' },
+          { id: 'projects', label: isFr ? 'Projets' : 'Projects' },
+          ...(latestPosts.length > 0 ? [{ id: 'blog', label: 'Articles' }] : []),
+          { id: 'services', label: 'Services' },
+          { id: 'contact', label: 'Contact' },
+        ]}
+      />
 
-        {/* ── HERO — client component so animate (not whileInView) always fires on mount ── */}
-        <section className="w-full max-w-6xl mx-auto pt-10 md:pt-16 pb-12 md:pb-16 text-center">
-          <HeroSection
-            hello={dict.home.hero.hello}
-            titlePrefix={dict.home.hero.title_prefix}
-            titleSuffix={dict.home.hero.title_suffix}
-            tagline={dict.home.hero.tagline}
-            scrollLabel={dict.a11y?.goToProjects ?? 'Scroll down'}
-            skillGroups={skillGroups}
+      <HeroSection
+        lang={lang}
+        name={metaData.name}
+        hello={dict.home.hero.hello}
+        titlePrefix={dict.home.hero.title_prefix}
+        titleSuffix={dict.home.hero.title_suffix}
+        tagline={dict.home.hero.tagline}
+        skillGroups={skillGroups}
+        projectsLabel={dict.home.buttons.projects}
+        blogLabel={dict.home.buttons.blog}
+        cvLabel={dict.about?.downloadCV ?? (isFr ? 'Télécharger mon CV' : 'Download CV')}
+        cvHref="/documents/kp_cv.pdf"
+        doing={dict.now?.focus?.items?.[0]}
+        place={(dict.now?.status as any)?.city}
+        timeZone={(dict.now?.status as any)?.timeZone}
+        scrollLabel={isFr ? 'Défiler' : 'Scroll'}
+        scrollNext={isFr ? 'Projets' : 'Projects'}
+        scrollHref="#projects"
+        buildPrefix={isFr ? 'Je construis' : 'I build'}
+        buildWords={isFr ? ['des applications web', 'des apps de bureau en Rust & Tauri', 'des APIs & bases de données', "de l'infrastructure auto-hébergée", 'un jeu vidéo'] : ['web apps', 'desktop apps in Rust & Tauri', 'APIs & databases', 'self-hosted infrastructure', 'a video game']}
+        skillsLabel={isFr ? 'Compétences' : 'Skills'}
+        photoAlt={(dict.about?.profileAlt ?? 'Profile photo of {{name}}').replace('{{name}}', metaData.name)}
+      />
+
+      {/* ── Stats ────────────────────────────────────────────── */}
+      <StatGrid stats={stats} label={isFr ? 'Chiffres clés' : 'Key figures'} />
+
+      {/* ── Featured projects ────────────────────────────────── */}
+      <section id="projects" aria-labelledby="projects-title" className="section scroll-mt-16">
+        <SectionHeader
+          id="projects-title"
+          eyebrow={`01 / ${isFr ? 'Projets' : 'Projects'}`}
+          title={dict.home.sections.projects_featured}
+          href={`/${lang}/projects`}
+          linkLabel={dict.home.sections.projects_all}
+        />
+        <RevealStagger className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {featuredProjects.map((project) => {
+            const p = project.metadata;
+            return (
+              <RevealItem key={project.slug} className="h-full">
+                <ContentCard
+                  href={`/${lang}/projects/${project.slug}`}
+                  meta={p.group}
+                  coverLabel={p.group}
+                  title={p.title}
+                  summary={p.summary}
+                  image={p.image}
+                  imageAlt={(dict.projectsPage?.imageAlt ?? 'Cover image for {{title}}').replace('{{title}}', p.title)}
+                  tags={parseTags(p.tags)}
+                  fallbackLabel={p.group ?? 'Project'}
+                  cta={dict.projectsPage?.details}
+                />
+              </RevealItem>
+            );
+          })}
+        </RevealStagger>
+      </section>
+
+      {/* ── Latest articles ──────────────────────────────────── */}
+      {latestPosts.length > 0 && (
+        <section id="blog" aria-labelledby="blog-title" className="section scroll-mt-16 pt-0 md:pt-0">
+          <SectionHeader
+            id="blog-title"
+            eyebrow={`02 / Articles`}
+            title={dict.home.sections.blog}
+            href={`/${lang}/blog`}
+            linkLabel={dict.home.sections.blog_all}
           />
-        </section>
-
-        {/* ── STATS ────────────────────────────────────────────── */}
-        <section id="stats" className="w-full max-w-6xl mx-auto py-6 md:py-10">
-          <RevealStagger className="grid grid-cols-2 sm:grid-cols-4 gap-4" stagger={0.08}>
-            <RevealItem mode="bounce">
-              <AnimatedCounter to={posts.length} suffix="+" label={dict.home.stats.projects} icon={<Layers className="size-5" />} />
-            </RevealItem>
-            <RevealItem mode="bounce">
-              <AnimatedCounter to={3} suffix="+" label={dict.home.stats.years} icon={<Clock className="size-5" />} />
-            </RevealItem>
-            <RevealItem mode="bounce">
-              <AnimatedCounter to={14} label={dict.home.stats.technologies} icon={<Cpu className="size-5" />} />
-            </RevealItem>
-            <RevealItem mode="bounce">
-              <AnimatedCounter to={999} suffix="+" label={dict.home.stats.coffees} icon={<Coffee className="size-5" />} />
-            </RevealItem>
-          </RevealStagger>
-        </section>
-
-        {/* ── FEATURED PROJECTS ────────────────────────────────── */}
-        <section id="projects" className="w-full max-w-6xl mx-auto py-8 md:py-12">
-          <div className="flex items-end justify-between mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold">{dict.home.sections.projects_featured}</h2>
-            <Link href={`/${lang}/projects`} className="text-sm underline text-primary hover:text-primary/80 transition-colors">{dict.home.sections.projects_all}</Link>
-          </div>
-          <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featuredProjects.map((project, idx) => {
-              const borders = [
-                { border: 'border-rose-500/50', glow: 'hover:shadow-rose-500/10' },
-                { border: 'border-blue-500/50', glow: 'hover:shadow-blue-500/10' },
-                { border: 'border-yellow-400/60', glow: 'hover:shadow-yellow-400/10' },
-                { border: 'border-emerald-400/60', glow: 'hover:shadow-emerald-400/10' },
-                { border: 'border-purple-500/60', glow: 'hover:shadow-purple-500/10' },
-                { border: 'border-cyan-400/60', glow: 'hover:shadow-cyan-400/10' },
-              ];
-              const { border, glow } = borders[idx % borders.length];
-              const p = project.metadata;
-              const imageSrc = p.image ?? '/opengraph-image.png';
-              const href = p.url || `/${lang}/projects/${project.slug}`;
-              const isExternal = Boolean(p.url);
+          <RevealStagger className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+            {latestPosts.map((post) => {
+              const p = post.metadata;
+              const minutes = Math.max(1, Math.round(post.content.trim().split(/\s+/).length / 200));
               return (
-                <RevealItem key={project.slug}>
-                  <a
-                    href={href}
-                    target={isExternal ? '_blank' : undefined}
-                    rel={isExternal ? 'noreferrer noopener' : undefined}
-                    className={`group rounded-2xl overflow-hidden bg-surface-alt/70 dark:bg-surface-alt/40 backdrop-blur border ${border} shadow-lg ${glow} transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col`}
-                  >
-                    <div className="aspect-video relative overflow-hidden">
-                      {p.image ? (
-                        <Image src={imageSrc} alt={p.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-surface-alt via-muted to-surface flex items-center justify-center">
-                          <Code2 className="size-10 text-muted-foreground/30" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4 flex flex-col gap-2 flex-1">
-                      <h3 className="text-base font-semibold group-hover:text-primary transition-colors">{p.title}</h3>
-                      {p.summary && <p className="text-sm text-muted-foreground line-clamp-2">{p.summary}</p>}
-                      {parseTags(p.tags).length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-auto pt-2">
-                          {parseTags(p.tags).slice(0, 3).map((tag) => (
-                            <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </a>
+                <RevealItem key={post.slug} className="h-full">
+                  <ContentCard
+                    href={`/${lang}/blog/${post.slug}`}
+                    title={p.title}
+                    summary={p.summary}
+                    image={p.image}
+                    imageAlt={(dict.blogPage?.imageAlt ?? 'Cover image for {{title}}').replace('{{title}}', p.title)}
+                    tags={parseTags(p.tags)}
+                    date={p.publishedAt}
+                    locale={locale}
+                    meta={`${minutes} ${dict.blogPage?.readingTime ?? 'min read'}`}
+                    fallbackLabel="Article"
+                    cta={dict.home.blog.read}
+                  />
                 </RevealItem>
               );
             })}
           </RevealStagger>
         </section>
+      )}
 
-        {/* ── SERVICES ─────────────────────────────────────────── */}
-        <section className="w-full max-w-6xl mx-auto py-8 md:py-12">
-          <RevealClip direction="left" duration={0.5}>
-            <h2 className="text-2xl sm:text-3xl font-bold">{dict.home.services.title}</h2>
-            <p className="text-muted-foreground mt-1 mb-6">{dict.home.services.subtitle}</p>
-          </RevealClip>
-          <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" stagger={0.1}>
-            {[
-              { title: dict.home.services.items.web.title, desc: dict.home.services.items.web.desc, Icon: Code2, color: 'text-sky-300 border-sky-400/50 bg-sky-500/10' },
-              { title: dict.home.services.items.api.title, desc: dict.home.services.items.api.desc, Icon: Database, color: 'text-emerald-300 border-emerald-400/50 bg-emerald-500/10' },
-              { title: dict.home.services.items.devops.title, desc: dict.home.services.items.devops.desc, Icon: Server, color: 'text-violet-300 border-violet-400/50 bg-violet-500/10' },
-            ].map(({ title, desc, Icon, color }) => (
-              <RevealItem key={title} mode="scale">
-                <div className={`rounded-2xl bg-surface-alt/70 dark:bg-surface-alt/30 backdrop-blur border ${color} p-6 shadow-sm hover:shadow-md transition-shadow`}>
-                  <div className={`inline-flex p-3 rounded-xl border ${color} mb-4`}>
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-base font-semibold mb-2">{title}</h3>
-                  <p className="text-sm text-muted-foreground">{desc}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealStagger>
-        </section>
+      {/* ── Services ─────────────────────────────────────────── */}
+      <section id="services" aria-labelledby="services-title" className="section scroll-mt-16 border-t border-border">
+        <SectionHeader
+          id="services-title"
+          eyebrow={`03 / Services`}
+          title={dict.home.services.title}
+          description={dict.home.services.subtitle}
+        />
+        <RevealStagger className="grid gap-4 sm:gap-5 md:grid-cols-3">
+          {services.map(({ title, desc, Icon }) => (
+            <RevealItem key={title} className="h-full">
+              <div className="card h-full p-5">
+                <span className="mb-5 inline-flex size-10 items-center justify-center rounded-lg border border-border text-muted-foreground">
+                  <Icon className="size-5" aria-hidden />
+                </span>
+                <h3 className="t-h3 mb-2">{title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
+              </div>
+            </RevealItem>
+          ))}
+        </RevealStagger>
+      </section>
 
-        {/* ── CONTACT ──────────────────────────────────────────── */}
-        <section className="w-full max-w-6xl mx-auto py-8 md:py-16">
-          <Reveal className="mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold">{dict.home.contact.title}</h2>
+      {/* ── Contact ──────────────────────────────────────────── */}
+      <section id="contact" aria-labelledby="contact-title" className="section scroll-mt-16 border-t border-border">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+          <Reveal>
+            <p className="eyebrow mb-3">{`04 / Contact`}</p>
+            <h2 id="contact-title" className="t-h2">{dict.home.contact.title}</h2>
             {dict.home.contact.subtitle && (
-              <p className="text-muted-foreground mt-1">{dict.home.contact.subtitle}</p>
+              <p className="t-lead mt-3 max-w-md">{dict.home.contact.subtitle}</p>
             )}
+            <p className="eyebrow mb-3 mt-10">{dict.home.contact.social}</p>
+            <ul className="divide-y divide-border border-y border-border">
+              {contactLinks.map(({ name, href, Icon, hint, copy }) => (
+                <li key={name} className="flex items-center gap-2">
+                  <a
+                    href={href}
+                    {...(href.startsWith('mailto') || href.startsWith('tel') ? {} : { target: '_blank', rel: 'noreferrer noopener' })}
+                    className="group flex min-w-0 flex-1 items-center gap-3 py-3.5 text-sm"
+                  >
+                    <Icon className="size-4 text-muted-foreground" aria-hidden />
+                    <span className="font-medium">{name}</span>
+                    <span className="ml-auto truncate font-mono text-xs text-muted-foreground">{hint}</span>
+                    {!copy && <ArrowUpRight className="size-4 text-muted-foreground transition-colors duration-150 group-hover:text-foreground" aria-hidden />}
+                  </a>
+                  {copy && (
+                    <CopyButton
+                      value={copy}
+                      label={`${isFr ? 'Copier' : 'Copy'} ${name}`}
+                      copyText={isFr ? 'Copier' : 'Copy'}
+                      copiedText={isFr ? 'Copié' : 'Copied'}
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
           </Reveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            {/* Left: form — slide from left */}
-            <RevealX from="left" duration={0.55}>
-              <div className="rounded-2xl border border-border bg-surface-alt/50 backdrop-blur p-6 shadow-sm">
-                <ContactForm dict={dict.home.contact.form} />
-              </div>
-            </RevealX>
+          <Reveal delay={0.05}>
+            <div className="card p-5 sm:p-6">
+              <ContactForm dict={dict.home.contact.form} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-            {/* Right: social links — slide from right */}
-            <RevealX from="right" duration={0.55} delay={0.05}>
-              <div className="flex flex-col gap-4">
-                <p className="text-sm text-muted-foreground font-medium">
-                  {dict.home.contact.social}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    { name: 'Instagram', href: socialLinks.instagram, Icon: Instagram, color: 'border-pink-500/40 hover:border-pink-400/60 hover:bg-pink-500/5' },
-                    { name: 'GitHub', href: socialLinks.github, Icon: Github, color: 'border-border hover:border-primary/40 hover:bg-primary/5' },
-                    { name: dict.home.contact.email, href: socialLinks.email, Icon: Mail, color: 'border-blue-500/40 hover:border-blue-400/60 hover:bg-blue-500/5' },
-                    { name: 'Tel', href: socialLinks.telephone, Icon: Phone, color: 'border-emerald-500/40 hover:border-emerald-400/60 hover:bg-emerald-500/5' },
-                  ].map(({ name, href, Icon, color }) => (
-                    <a
-                      key={name}
-                      href={href}
-                      target={href.startsWith('mailto') || href.startsWith('tel') ? undefined : '_blank'}
-                      rel="noreferrer noopener"
-                      className={`group flex items-center gap-3 rounded-xl bg-surface-alt/60 backdrop-blur border ${color} p-4 transition-all duration-200`}
-                    >
-                      <span className="p-2 rounded-lg border border-border bg-surface-muted">
-                        <Icon className="size-4" />
-                      </span>
-                      <span className="font-medium text-sm">{name}</span>
-                      <ChevronDown className="size-4 ml-auto rotate-[-90deg] text-muted-foreground group-hover:text-foreground transition-colors" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </RevealX>
-          </div>
-        </section>
-
-      </main>
-    </>
+    </div>
+    </div>
   );
 }

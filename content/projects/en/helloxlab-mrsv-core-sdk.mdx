@@ -1,0 +1,34 @@
+---
+title: "MRSV Core SDK — A Rust SDK and Tauri plugin"
+publishedAt: "2026-10-06"
+summary: "A Rust crate that talks to MRSV Core, usable from a plain Rust backend or as a Tauri plugin. It removed duplicated types between the server and the apps."
+tags: ["Rust", "Tauri", "TypeScript", "SDK"]
+group: "HelloXLab"
+---
+
+## Context
+
+Space Builder and the MRSV Core server were each redefining the same types, and a colleague needed to talk to the server from another project. Copying code between repositories would have meant keeping it in sync by hand. So I built an SDK.
+
+## My role
+
+I designed and built the SDK and its release process myself, and I maintain it as the shared piece between the server and the apps. More recently, colleagues have added a few types and fixed minor bugs.
+
+## What I built
+
+- **One crate, two modes**:
+  - a plain Rust backend uses only the HTTP client, the cryptography and the types, with no Tauri dependency;
+  - a Tauri app enables the `tauri` feature and gets the full plugin.
+- **Server connection**: licence activation, trials, Stripe checkout and a background heartbeat.
+- **Shared types**: the important types are defined once and used by the server, the SDK and the apps.
+- **Tauri plugin**: commands, a token cache, a device fingerprint, deep-link handling for the payment return, and ready-to-use JavaScript bindings.
+- **Feedback command**: lets a licensed user send feedback to the server, with explicit, documented error cases.
+- **Release process**: versions are tagged automatically from the release branch, so consumers pin a version and upgrade on purpose. A changelog calls out every breaking change to the public API.
+
+## Stack
+
+Rust, Tauri v2 plugin API, TypeScript (guest bindings), GitHub Actions.
+
+## Status
+
+It is in use in Space Builder and in the MRSV Core server, and currently distributed as a Git dependency. The code is private.

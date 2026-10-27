@@ -1,22 +1,16 @@
-"use client";
-
-import { motion } from "framer-motion";
-
+/** Loading spinner — the only looping animation allowed (see /brand.md → Motion). */
 export function Loader({ size = 24 }: { size?: number }) {
-  const s = size;
-  const stroke = Math.max(2, Math.round(s * 0.1));
+  const stroke = Math.max(2, Math.round(size * 0.1));
   return (
-    <div className="w-full flex items-center justify-center py-8" role="status" aria-label="Loading">
-      <motion.svg
-        width={s}
-        height={s}
+    <div className="flex w-full items-center justify-center py-8" role="status" aria-label="Loading">
+      <svg
+        width={size}
+        height={size}
         viewBox="0 0 50 50"
-        className="text-blue-300 dark:text-blue-300"
-        initial={{ rotate: 0 }}
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 1.2 }}
+        className="animate-spin text-primary"
+        aria-hidden
       >
-        <motion.circle
+        <circle
           cx="25"
           cy="25"
           r="20"
@@ -24,12 +18,9 @@ export function Loader({ size = 24 }: { size?: number }) {
           stroke="currentColor"
           strokeWidth={stroke}
           strokeLinecap="round"
-          strokeDasharray="100 60"
-          strokeDashoffset="0"
-          animate={{ strokeDashoffset: [0, -160] }}
-          transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+          strokeDasharray="90 60"
         />
-      </motion.svg>
+      </svg>
     </div>
   );
 }

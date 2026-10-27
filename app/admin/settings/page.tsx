@@ -29,7 +29,7 @@ function Input({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+        className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
       />
     </div>
   );
@@ -53,7 +53,7 @@ function Textarea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
-        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+        className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
       />
     </div>
   );
@@ -220,7 +220,7 @@ export const availability = {
           />
         </div>
       </div>
-      <div className="border-t border-white/5 pt-6">
+      <div className="border-t border-border/60 pt-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Social links</h3>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -302,17 +302,17 @@ function AvailabilityTab() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+      <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-foreground/5">
         <div>
           <div className="font-medium text-sm">Available for work</div>
           <div className="text-xs text-muted-foreground mt-0.5">Shows a badge on your portfolio</div>
         </div>
         <button
           onClick={() => setAvailable((a) => !a)}
-          className={`relative w-12 h-6 rounded-full transition-colors ${available ? 'bg-green-500' : 'bg-white/20'}`}
+          className={`relative w-12 h-6 rounded-full transition-colors ${available ? 'bg-green-500' : 'bg-foreground/15'}`}
         >
           <span
-            className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${available ? 'translate-x-7' : 'translate-x-1'}`}
+            className={`absolute top-1 w-4 h-4 bg-background rounded-full shadow transition-transform ${available ? 'translate-x-7' : 'translate-x-1'}`}
           />
         </button>
       </div>
@@ -425,7 +425,7 @@ function AboutTab() {
   return (
     <div className="space-y-6">
       {/* Sub-tab selector */}
-      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10 w-fit">
+      <div className="flex gap-1 p-1 rounded-lg bg-foreground/5 border border-border w-fit">
         {([['cv', 'CV & Skills'], ['timeline', 'Experience Timeline']] as [AboutSubTab, string][]).map(([id, label]) => (
           <button key={id} onClick={() => setSubTab(id)}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${subTab === id ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
@@ -444,11 +444,11 @@ function AboutTab() {
             </button>
           </div>
           {timelineEvents.map((ev, i) => (
-            <div key={i} className="rounded-xl bg-white/5 border border-white/10 p-4 space-y-3">
+            <div key={i} className="rounded-xl bg-foreground/5 border border-border p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <select value={ev.type} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, type: e.target.value } : v))}
-                    className={`bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none cursor-pointer ${TYPE_COLORS[ev.type] ?? 'text-foreground'}`}>
+                    className={`bg-foreground/10 border border-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none cursor-pointer ${TYPE_COLORS[ev.type] ?? 'text-foreground'}`}>
                     <option value="work">💼 Work</option>
                     <option value="education">🎓 Education</option>
                     <option value="project">🚀 Project</option>
@@ -462,17 +462,17 @@ function AboutTab() {
                 <button onClick={() => updateTimelineEvents((evts) => evts.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Year label (e.g. 2025 – present)" value={ev.year} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, year: e.target.value } : v))} />
-                <input type="number" className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Start year" value={ev.startYear} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, startYear: Number(e.target.value) } : v))} />
+                <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Year label (e.g. 2025 – present)" value={ev.year} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, year: e.target.value } : v))} />
+                <input type="number" className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Start year" value={ev.startYear} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, startYear: Number(e.target.value) } : v))} />
               </div>
-              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Title" value={ev.title} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, title: e.target.value } : v))} />
+              <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Title" value={ev.title} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, title: e.target.value } : v))} />
               <div className="grid grid-cols-2 gap-2">
-                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Organization" value={ev.org} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, org: e.target.value } : v))} />
-                <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Location" value={ev.location} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, location: e.target.value } : v))} />
+                <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Organization" value={ev.org} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, org: e.target.value } : v))} />
+                <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Location" value={ev.location} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, location: e.target.value } : v))} />
               </div>
-              <textarea className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none" placeholder="Description" rows={2} value={ev.description} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, description: e.target.value } : v))} />
-              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Tags (comma-separated)" value={ev.tags.join(', ')} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, tags: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) } : v))} />
-              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="URL (optional)" value={ev.url} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, url: e.target.value } : v))} />
+              <textarea className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none" placeholder="Description" rows={2} value={ev.description} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, description: e.target.value } : v))} />
+              <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Tags (comma-separated)" value={ev.tags.join(', ')} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, tags: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) } : v))} />
+              <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="URL (optional)" value={ev.url} onChange={(e) => updateTimelineEvents((evts) => evts.map((v, j) => j === i ? { ...v, url: e.target.value } : v))} />
             </div>
           ))}
           <SaveButton onSave={save} status={status} />
@@ -498,7 +498,7 @@ function AboutTab() {
         </div>
         <div className="space-y-4">
           {experiences.map((exp, i) => (
-            <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+            <div key={i} className="p-4 rounded-xl bg-foreground/5 border border-border space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono text-muted-foreground">Experience #{i + 1}</span>
                 <button
@@ -556,19 +556,19 @@ function AboutTab() {
       </div>
 
       {/* Skills */}
-      <div className="border-t border-white/5 pt-6">
+      <div className="border-t border-border/60 pt-6">
         <h3 className="text-sm font-semibold text-foreground mb-3">Skills (by category)</h3>
         <div className="space-y-4">
           {Object.entries(skillCategories).map(([category, skillList]) => (
-            <div key={category} className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div key={category} className="p-4 rounded-xl bg-foreground/5 border border-border">
               <div className="text-xs font-semibold text-primary mb-2 uppercase tracking-wider">
                 {category}
               </div>
               <div className="flex flex-wrap gap-2">
                 {skillList.map((skill, si) => (
-                  <div key={si} className="flex items-center gap-1 bg-white/10 rounded-full px-2 py-0.5">
+                  <div key={si} className="flex items-center gap-1 bg-foreground/10 rounded-full px-2 py-0.5">
                     <input
-                      className="bg-transparent text-xs text-white/80 focus:outline-none w-20"
+                      className="bg-transparent text-xs text-foreground/80 focus:outline-none w-20"
                       value={skill}
                       onChange={(e) =>
                         updateSkillCategories((cats) => ({
@@ -708,11 +708,11 @@ function UsesTab() {
               {items.map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-2 p-3 rounded-lg bg-white/5 border border-white/10"
+                  className="flex items-start gap-2 p-3 rounded-lg bg-foreground/5 border border-border"
                 >
                   <div className="flex-1 grid grid-cols-2 gap-2">
                     <input
-                      className="bg-white/5 border border-white/10 rounded px-2 py-1 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                      className="bg-foreground/5 border border-border rounded px-2 py-1 text-sm text-foreground focus:outline-none focus:border-primary/50"
                       placeholder="Item name"
                       value={item.name || ''}
                       onChange={(e) =>
@@ -722,7 +722,7 @@ function UsesTab() {
                       }
                     />
                     <input
-                      className="bg-white/5 border border-white/10 rounded px-2 py-1 text-sm text-foreground focus:outline-none focus:border-primary/50"
+                      className="bg-foreground/5 border border-border rounded px-2 py-1 text-sm text-foreground focus:outline-none focus:border-primary/50"
                       placeholder="Description"
                       value={item.desc || ''}
                       onChange={(e) =>
@@ -820,7 +820,7 @@ function NowTab() {
   return (
     <div className="space-y-6">
       {/* Lang toggle */}
-      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10 w-fit">
+      <div className="flex gap-1 p-1 rounded-lg bg-foreground/5 border border-border w-fit">
         {(['en', 'fr'] as const).map((l) => (
           <button key={l} onClick={() => setLangEdit(l)}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${langEdit === l ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
@@ -841,17 +841,19 @@ function NowTab() {
       </div>
 
       {/* Status chips */}
-      <div className="border-t border-white/5 pt-5 space-y-3">
+      <div className="border-t border-border/60 pt-5 space-y-3">
         <h3 className="text-sm font-semibold">Status chips</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <Input label="Mode" value={(status2.mode as string) ?? ''} onChange={(v) => updateField(['status', 'mode'], v)} placeholder="Building" />
           <Input label="Location" value={(status2.location as string) ?? ''} onChange={(v) => updateField(['status', 'location'], v)} placeholder="France" />
           <Input label="Timezone" value={(status2.timezone as string) ?? ''} onChange={(v) => updateField(['status', 'timezone'], v)} placeholder="CET / UTC+2" />
+          <Input label="City (live clock)" value={(status2.city as string) ?? ''} onChange={(v) => updateField(['status', 'city'], v)} placeholder="Osaka" />
+          <Input label="Time zone ID (live clock)" value={(status2.timeZone as string) ?? ''} onChange={(v) => updateField(['status', 'timeZone'], v)} placeholder="Asia/Tokyo" />
         </div>
       </div>
 
       {/* Spotlight */}
-      <div className="border-t border-white/5 pt-5 space-y-4">
+      <div className="border-t border-border/60 pt-5 space-y-4">
         <h3 className="text-sm font-semibold">Spotlight — Main project</h3>
         <div className="grid grid-cols-2 gap-3">
           <Input label="Project name" value={(project.name as string) ?? ''} onChange={(v) => updateField(['spotlight', 'project', 'name'], v)} placeholder="my-project" />
@@ -870,7 +872,7 @@ function NowTab() {
       </div>
 
       {/* Listening */}
-      <div className="border-t border-white/5 pt-5 space-y-3">
+      <div className="border-t border-border/60 pt-5 space-y-3">
         <h3 className="text-sm font-semibold">Currently listening</h3>
         <div className="grid grid-cols-2 gap-3">
           <Input label="Track" value={(listening.track as string) ?? ''} onChange={(v) => updateField(['listening', 'track'], v)} placeholder="Eventually" />
@@ -881,7 +883,7 @@ function NowTab() {
       </div>
 
       {/* Open to */}
-      <div className="border-t border-white/5 pt-5 space-y-3">
+      <div className="border-t border-border/60 pt-5 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold">Open to</h3>
           <button onClick={() => updateField(['openTo'], [...openTo, ''])} className="flex items-center gap-1 text-xs text-primary hover:text-primary/80">
@@ -891,7 +893,7 @@ function NowTab() {
         <div className="space-y-2">
           {openTo.map((tag, i) => (
             <div key={i} className="flex items-center gap-2">
-              <input className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
+              <input className="flex-1 bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
                 value={tag} placeholder="e.g. Freelance missions"
                 onChange={(e) => updateField(['openTo'], openTo.map((t, j) => j === i ? e.target.value : t))} />
               <button onClick={() => updateField(['openTo'], openTo.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
@@ -901,7 +903,7 @@ function NowTab() {
       </div>
 
       {/* Recently shipped */}
-      <div className="border-t border-white/5 pt-5 space-y-3">
+      <div className="border-t border-border/60 pt-5 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold">Recently shipped</h3>
           <button onClick={() => updateField(['recentShips'], [...ships, { label: '', date: '' }])} className="flex items-center gap-1 text-xs text-primary hover:text-primary/80">
@@ -911,10 +913,10 @@ function NowTab() {
         <div className="space-y-2">
           {ships.map((ship, i) => (
             <div key={i} className="flex items-center gap-2">
-              <input className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
+              <input className="flex-1 bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
                 value={(ship.label as string) ?? ''} placeholder="What you shipped"
                 onChange={(e) => updateField(['recentShips'], ships.map((s, j) => j === i ? { ...s, label: e.target.value } : s))} />
-              <input className="w-28 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
+              <input className="w-28 bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50"
                 value={(ship.date as string) ?? ''} placeholder="Apr 2026"
                 onChange={(e) => updateField(['recentShips'], ships.map((s, j) => j === i ? { ...s, date: e.target.value } : s))} />
               <button onClick={() => updateField(['recentShips'], ships.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
@@ -977,7 +979,7 @@ function TimelineTab() {
   return (
     <div className="space-y-6">
       {/* Lang toggle */}
-      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10 w-fit">
+      <div className="flex gap-1 p-1 rounded-lg bg-foreground/5 border border-border w-fit">
         {(['en', 'fr'] as const).map((l) => (
           <button key={l} onClick={() => setLangEdit(l)}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${langEdit === l ? 'bg-primary/20 text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
@@ -995,11 +997,11 @@ function TimelineTab() {
 
       <div className="space-y-3">
         {events.map((ev, i) => (
-          <div key={i} className="rounded-xl bg-white/5 border border-white/10 p-4 space-y-3">
+          <div key={i} className="rounded-xl bg-foreground/5 border border-border p-4 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <select value={ev.type} onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, type: e.target.value as EventType } : v))}
-                  className={`bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none cursor-pointer ${TYPE_COLORS[ev.type]}`}>
+                  className={`bg-foreground/10 border border-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none cursor-pointer ${TYPE_COLORS[ev.type]}`}>
                   <option value="work">💼 Work</option>
                   <option value="education">🎓 Education</option>
                   <option value="project">🚀 Project</option>
@@ -1014,25 +1016,25 @@ function TimelineTab() {
               <button onClick={() => updateEvents((evts) => evts.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Year label (e.g. 2025 – present)" value={ev.year}
+              <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Year label (e.g. 2025 – present)" value={ev.year}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, year: e.target.value } : v))} />
-              <input type="number" className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Start year (for sorting)" value={ev.startYear}
+              <input type="number" className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Start year (for sorting)" value={ev.startYear}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, startYear: Number(e.target.value) } : v))} />
             </div>
-            <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Title" value={ev.title}
+            <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Title" value={ev.title}
               onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, title: e.target.value } : v))} />
             <div className="grid grid-cols-2 gap-2">
-              <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Organization" value={ev.org}
+              <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Organization" value={ev.org}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, org: e.target.value } : v))} />
-              <input className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Location" value={ev.location}
+              <input className="bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Location" value={ev.location}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, location: e.target.value } : v))} />
             </div>
-            <textarea className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none" placeholder="Description" rows={2} value={ev.description}
+            <textarea className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none" placeholder="Description" rows={2} value={ev.description}
               onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, description: e.target.value } : v))} />
             <div className="grid grid-cols-1 gap-2">
-              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Tags (comma-separated)" value={ev.tags.join(', ')}
+              <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="Tags (comma-separated)" value={ev.tags.join(', ')}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, tags: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) } : v))} />
-              <input className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="URL (optional)" value={ev.url}
+              <input className="w-full bg-foreground/5 border border-border rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary/50" placeholder="URL (optional)" value={ev.url}
                 onChange={(e) => updateEvents((evts) => evts.map((v, j) => j === i ? { ...v, url: e.target.value } : v))} />
             </div>
           </div>
@@ -1066,7 +1068,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-white/5 border border-white/10 w-fit">
+      <div className="flex gap-1 p-1 rounded-xl bg-foreground/5 border border-border w-fit">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -1074,7 +1076,7 @@ export default function SettingsPage() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               tab === t.id
                 ? 'bg-primary/20 text-primary shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
+                : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
             }`}
           >
             {t.icon}

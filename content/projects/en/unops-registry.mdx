@@ -1,0 +1,45 @@
+---
+title: "UNOPS component registry & starter"
+publishedAt: "2025-12-20"
+summary: "A registry of 19 reusable blocks and a Next.js starter that let teams assemble impact reports and interactive dashboards quickly, in a UN look and feel."
+tags: ["Next.js", "TypeScript", "shadcn/ui", "Zod"]
+group: "UNOPS"
+image: "/projects/unops.png"
+demoUrl: "https://registry-unops.vercel.app"
+repoUrl: "https://github.com/PSC-IMAT/registry-unops"
+ctaLabel: "Open the registry"
+---
+
+## Context
+
+After building one-off interactive reports like Beryl, the next step was to make them reusable. Each new report was following the same pattern: a hero, a situation overview, key findings, figures, maps and a methodology. I turned those patterns into building blocks, so a team can assemble a report instead of starting from scratch.
+
+## My role
+
+I designed and built the registry and the starter.
+
+## What I built
+
+- **A registry of 19 blocks**, installable through the shadcn CLI:
+  - 8 core blocks: hero, situation overview, key findings, impact stats, methodology, recommendations, data sources, footer.
+  - 5 data-storytelling blocks: maps, charts, before/after comparisons, timelines, regional breakdowns.
+  - 2 navigation blocks: sticky table of contents, section tabs.
+  - 4 communication and trust blocks: FAQ, download centre, callout alerts, credits.
+- **Typed content**: every block ships with a Zod schema, TypeScript types and example configurations, so a report is mostly data.
+- **A starter**: `npx create-unops-starter@latest my-project` gives a clean Next.js (App Router) project with a UN-ready theme, a global layout shell and the registry already wired in. It is a base to build on, not a framework.
+- **An example built on it**: the [Khartoum damage assessment report](/en/projects/unops-khartoum).
+
+## Stack
+
+Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui registry, Zod, Vercel.
+
+## Result
+
+As with Beryl, the teams loved these tools and presented them at a conference in Geneva.
+
+## Links
+
+- Registry: [registry-unops.vercel.app](https://registry-unops.vercel.app)
+- Registry code: [github.com/PSC-IMAT/registry-unops](https://github.com/PSC-IMAT/registry-unops)
+- Starter: [github.com/PSC-IMAT/create-unops-starter](https://github.com/PSC-IMAT/create-unops-starter)
+- Example built on it: [Khartoum Damage Assessment](/en/projects/unops-khartoum)

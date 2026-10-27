@@ -1,152 +1,49 @@
 ---
-title: "Giron de Porsel 2026 – Infrastructure & Developments"
+title: "Giron de Porsel 2026 — Website & infrastructure"
 publishedAt: "2025-08-03"
-summary: "Complete setup of the Giron de Porsel 2026 infrastructure: Docker stack, reverse proxy, Nextcloud, WordPress site, database and internal tools."
-tags: ["Docker", "Nginx Proxy", "Linux"]
+summary: "The website and hosting behind the Giron de Porsel 2026, an event that welcomed more than 23,000 people: a WordPress site, a shared Nextcloud for the committee and a self-hosted Docker stack behind Nginx."
+tags: ["Docker", "Nginx", "Linux", "WordPress", "Nextcloud"]
+group: "Personal"
 image: "/projects/giron.png"
-ctaLabel: "Discover"
+demoUrl: "https://porsel2026.ch"
+ctaLabel: "Visit the site"
 ---
 
-#  Giron de Porsel 2026 – Infrastructure & Internal Tools
+## Context
 
-As part of organising the **Giron de Porsel 2026**, I designed and currently maintain the event’s entire digital infrastructure.  
-This infrastructure is hosted on my **Dell PowerEdge R730** server, running Linux, with a **fully isolated Docker stack**.
+The Giron de Porsel 2026 was a large event that brought together more than 23,000 people. The organising committee needed a public website, and a place for its commissions to share documents. I took charge of the whole technical side.
 
-The goal: provide robust, secure and accessible services to the various members of the organising committee.
+## My role
 
----
+I designed, deployed and still maintain the event's entire digital platform: hosting, security, the public website and the shared tools. I also helped committee members get comfortable with those tools.
 
-#  Project 1 – Self-hosted Infrastructure (Dell R730 Server)
+## What I built
 
-###  Goals
-- Centralise all Giron services on a single reliable server  
-- Secure both public and internal access  
-- Provide a stable environment for WordPress, Nextcloud and the database  
+- **Public website**: WordPress with Astra Pro and Elementor Pro, built from the supplied mockup. It presents the commissions, news and practical information (tickets, schedule, activities), with caching and compression for the peak periods.
+- **Shared workspace**: a Nextcloud used by about forty committee members for official documents, commission folders, visuals and accounting exports. Permissions are set per commission, files are versioned, and Collabora Online allows collaborative editing.
+- **Self-hosted infrastructure**: everything runs on my own Dell PowerEdge R730 (Ubuntu Server, Docker Compose), with one Docker network per stack. Databases and internal tools are never exposed, and only ports 80 and 443 are open.
+- **Reverse proxy**: Nginx handles HTTPS (Let's Encrypt), redirections and HSTS.
+- **Backups**: scheduled database dumps and snapshots of the WordPress and Nextcloud volumes.
 
-###  Main configuration
-- **OS: Ubuntu Server**  
-- **Virtualisation: Docker + docker-compose**  
-- **Reverse proxy: Nginx Proxy Manager or Traefik**  
-- **HTTPS certificates: Let’s Encrypt / Certbot**  
-- **Monitoring: logs + container-level monitoring**  
+| Host | Service |
+|---|---|
+| `porsel2026.ch` | WordPress site |
+| `cloud.giron2026.ch` | Nextcloud |
+| `admin.giron2026.ch` | Internal tools |
 
-###  Security & networking
-- Isolation via **Docker networks**
-- Strict firewall rules (only ports 80/443 open)
-- Internal subnet for sensitive services (DB, Nextcloud)
-- Regular snapshot backups + DB exports
+## Stack
 
----
+Docker, Docker Compose, Nginx, Let's Encrypt, WordPress (Astra Pro, Elementor Pro), Nextcloud (Collabora, Redis), MariaDB, Ubuntu Server.
 
-#  Project 2 – Official WordPress Site
+## Result
 
-The Giron 2026 website is built on a modern WordPress stack, hosted inside a dedicated container.
+The event welcomed more than 23,000 people, and about forty committee members worked on the shared Nextcloud. The site went through one incident: the WordPress installation was hacked once. Backups were in place, and I restored the site in time.
 
-###  Stack
-- **WordPress (Docker)**  
-- **Astra Pro theme**  
-- **Page builder: Elementor Pro**  
-- **Plugins: SEO, security, cache, forms**  
+## What I take from it
 
-###  Site features
-- Dynamic home page  
-- Presentation of the commissions  
-- News & posts  
-- Practical info (tickets, schedule, activities)  
-- Layout faithful to the provided mockup  
-- Performance optimised (cache + compression + local CDN-style config)  
+That incident is the moment the backup routine paid off.
 
-###  Simplified CI/CD
-- Deployment via `docker-compose pull && docker-compose up -d`  
-- Automatic backups of WordPress volumes  
+## Links
 
----
-
-# ☁ Project 3 – Nextcloud (Documents & Internal Organisation)
-
-Nextcloud is used to centralise:  
-- official documents,  
-- commission files,  
-- visuals, mockups and assets,  
-- accounting exports,  
-- internal coordination.
-
-###  Enabled features
-- Secure sharing between committee members  
-- Permission management per commission  
-- Automatic versioning  
-- Media storage + previews  
-- Collabora Online for collaborative editing  
-
-###  Nextcloud stack
-- Nextcloud Docker container  
-- Dedicated database (MariaDB / PostgreSQL)  
-- Redis to optimise caching  
-- Behind the reverse proxy + SSL  
-
----
-
-#  Project 4 – Internal Database
-
-###  Usage
-- Storage for WordPress data  
-- Nextcloud metadata  
-- Future internal tools (e.g. registrations, volunteers, sponsorship)  
-
-###  Stack
-- MariaDB (Docker)  
-- Persistent volumes on SSD  
-- Automated backups (cron + compressed dumps)  
-
-###  Strengths
-- Access restricted to the internal Docker network  
-- Full isolation from public-facing services  
-- Fast recovery in case of corruption  
-
----
-
-#  Project 5 – Reverse Proxy & Network
-
-###  Goal
-Provide HTTPS access to all services (site, cloud, internal tools) while securing entry points.
-
-### Configuration
-- Reverse proxy using:  
-  - **Traefik** *or* **Nginx Proxy Manager**  
-- Automatic certificates via Let’s Encrypt  
-- HTTPS redirections + security rules  
-- HSTS, compression, anti-scan, logs  
-
-### Typical DNS entries
-- `giron2026.ch` → WordPress  
-- `cloud.giron2026.ch` → Nextcloud  
-- `admin.giron2026.ch` → internal tools  
-
----
-
-#  Role & Contribution
-
-I am responsible for the entire technical platform of the Giron de Porsel 2026:
-
-###  DevOps / Infrastructure
-- Design and deployment of the Docker stack  
-- Reverse proxy setup  
-- Docker network and persistent volume configuration  
-- SSL and security management  
-- Monitoring, updates, maintenance  
-
-###  Web / Frontend
-- WordPress site integration (Astra Pro + Elementor Pro)  
-- Implementation of pages, animations and modules  
-- Performance optimisation  
-
-### ☁ Internal collaboration
-- Nextcloud installation and maintenance  
-- Access management by commission  
-- Supporting the committee in using the tools  
-
----
-
-#  Links
-
--  Official site: https://porsel2026.ch  
+- Website: [porsel2026.ch](https://porsel2026.ch)
+- The server behind it: [Homelab](/en/projects/homelab)

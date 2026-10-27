@@ -1,0 +1,39 @@
+---
+title: "Space Builder — D'un prototype Electron à une app de bureau en production"
+publishedAt: "2026-10-12"
+summary: "Un éditeur de bureau qui conçoit des configurations de mapping spatial et exporte des fichiers nDisplay pour Unreal Engine. Je l'ai fait passer d'un prototype Electron à une app Tauri prête pour la production, aujourd'hui en bêta."
+tags: ["Tauri", "Rust", "React", "TypeScript", "Three.js"]
+group: "HelloXLab"
+featured: "true"
+---
+
+## Contexte
+
+Space Builder est un éditeur de bureau développé par HelloXLab. On y dessine des pièces, des murs et des fenêtres, on place des ancres de vue, puis on exporte le résultat sous forme de fichiers de configuration pour nDisplay d'Unreal Engine, le système qui affiche une même scène sur plusieurs écrans. Le produit existait sous forme d'app Electron. Ma mission, dès début juillet 2026, était de le rendre prêt pour la production.
+
+## Mon rôle
+
+Mon travail était de transformer l'application en un produit prêt pour la production. J'ai réalisé moi-même la version Tauri, de la base jusqu'au sommet : la technologie, l'interface, le comportement natif, les licences et le pipeline de déploiement. Plus récemment, des collègues ont ajouté quelques types et corrigé de petits bugs.
+
+## Ce que j'ai fait
+
+- **Migration d'Electron vers Tauri v2**, pour de meilleures performances et une application beaucoup plus légère.
+- **Refonte complète de l'UI et de l'UX** : mise en page, panneaux, écran d'accueil, boîtes de dialogue et réglages partagent désormais un seul langage visuel.
+- **Ajout de menus natifs**, pour que l'app se comporte comme une vraie application de bureau sur chaque plateforme.
+- **Intégration des licences** : un assistant de premier lancement active une clé de licence auprès du serveur MRSV Core, grâce au SDK que j'ai écrit (voir [MRSV Core](/fr/projects/helloxlab-mrsv-core) et [MRSV Core SDK](/fr/projects/helloxlab-mrsv-core-sdk)).
+- **Mise en place du pipeline de release** : GitHub Actions compile des versions signées pour macOS (Apple Silicon et Intel), Windows et Linux, et les publie pour la mise à jour automatique intégrée à l'app.
+
+## L'app aujourd'hui
+
+- Export multi-zones : chaque zone produit son propre fichier nDisplay.
+- Un vrai aperçu 3D avec une mire par écran, pour voir une mauvaise orientation avant d'ouvrir Unreal.
+- Une checklist d'accueil qui guide les nouveaux utilisateurs sur tout le parcours, de la pièce à l'export.
+- Des retours envoyés depuis l'app, de la télémétrie d'usage et des mises à jour automatiques.
+
+## Stack
+
+Tauri v2, Rust, React, TypeScript, Vite, Three.js (react-three-fiber), Tailwind CSS avec DaisyUI, i18next. GitHub Actions pour les builds et les releases.
+
+## Statut
+
+L'application est actuellement livrée à des bêta-testeurs. J'utilise aussi régulièrement Unreal Engine pour ouvrir les fichiers nDisplay exportés et les vérifier en situation. C'est un produit commercial privé : le code n'est pas public.

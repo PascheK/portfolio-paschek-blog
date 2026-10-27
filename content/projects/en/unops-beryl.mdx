@@ -1,0 +1,41 @@
+---
+title: "Hurricane Beryl — Interactive scroll storytelling"
+publishedAt: "2025-07-14"
+summary: "A scroll-driven story about Hurricane Beryl, built for UNOPS: scroll-synced video, animated overlays, live ArcGIS content and a downloadable report."
+tags: ["Next.js", "TypeScript", "GSAP", "ArcGIS"]
+group: "UNOPS"
+image: "/projects/beryl.png"
+demoUrl: "https://beryl-impact-mockup.vercel.app"
+repoUrl: "https://github.com/PascheK/beryl-impact-mockup"
+ctaLabel: "View the live demo"
+featured: "true"
+---
+
+## Context
+
+At UNOPS, my goal is to build tools that let teams present the work they have done. Beryl is one of them: a web experience that works like an interactive PowerPoint, where you scroll instead of clicking through slides. It tells the story of Hurricane Beryl in three phases: before, during and after.
+
+## My role
+
+I designed the narrative flow and built the whole front end.
+
+## What I built
+
+- **Three-phase story**: overlays are triggered from a central configuration file, so the narrative can be edited without touching the components.
+- **Video synced to scroll**: a `useScrollVideo` hook ties playback to the scroll position, and a `FullScrollSection` component orchestrates each phase. Videos are preloaded to keep the animation stable.
+- **Smooth motion**: Lenis for smooth scrolling, GSAP ScrollTrigger and Framer Motion for transitions and overlays.
+- **Live data**: ArcGIS StoryMaps and dashboards embedded directly in the story.
+- **Report**: the journey ends with a downloadable PDF report for stakeholders.
+
+## Stack
+
+Next.js (App Router), TypeScript, React 19, Tailwind CSS 4, GSAP ScrollTrigger, Framer Motion, Lenis, ArcGIS StoryMaps and Dashboards.
+
+## Result
+
+The teams loved these tools and presented them at a conference in Geneva.
+
+## Links
+
+- Live demo: [beryl-impact-mockup.vercel.app](https://beryl-impact-mockup.vercel.app)
+- Code: [github.com/PascheK/beryl-impact-mockup](https://github.com/PascheK/beryl-impact-mockup)

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><g id="guides" font-family="Geist Mono, monospace" font-size="16">
+  <rect x="0.5" y="0.5" width="1919" height="1079" fill="none" stroke="#00e5ff" stroke-width="2"/>
+  <rect x="120" y="128" width="1680" height="824" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="12 8"/>
+  <line x1="0" y1="128" x2="1920" y2="128" stroke="#ff3b6b" stroke-width="2"/>
+  <line x1="0" y1="952" x2="1920" y2="952" stroke="#ff3b6b" stroke-width="2"/>
+  <text x="130" y="116" fill="#ff3b6b">21:9 CROP (article header): nothing important above this line</text>
+  <text x="130" y="978" fill="#ff3b6b">21:9 CROP: nothing important below this line</text>
+  <text x="130" y="152" fill="#00e5ff">SAFE ZONE 1680 x 824 (120 px margins)</text>
+</g></svg>

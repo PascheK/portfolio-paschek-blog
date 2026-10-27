@@ -40,8 +40,8 @@ export default async function AdminDashboard() {
 
   const quickActions = [
     { href: '/admin/new',      label: 'New post',      icon: <PenSquare size={16} />, color: 'bg-primary/10 hover:bg-primary/20 text-primary border-primary/20' },
-    { href: '/admin/media',    label: 'Media library', icon: <Image size={16} />,     color: 'bg-white/5 hover:bg-white/10 text-white/70 border-white/10' },
-    { href: '/admin/settings', label: 'Settings',      icon: <Settings size={16} />,  color: 'bg-white/5 hover:bg-white/10 text-white/70 border-white/10' },
+    { href: '/admin/media',    label: 'Media library', icon: <Image size={16} />,     color: 'bg-foreground/5 hover:bg-foreground/10 text-foreground/70 border-border' },
+    { href: '/admin/settings', label: 'Settings',      icon: <Settings size={16} />,  color: 'bg-foreground/5 hover:bg-foreground/10 text-foreground/70 border-border' },
   ];
 
   return (
@@ -102,7 +102,7 @@ export default async function AdminDashboard() {
               <div className="flex items-center gap-2">
                 <span>{section.flag}</span>
                 <span className="font-semibold text-sm">{section.title}</span>
-                <span className="text-xs bg-white/10 text-muted-foreground px-1.5 py-0.5 rounded-full">{section.posts.length}</span>
+                <span className="text-xs bg-foreground/10 text-muted-foreground px-1.5 py-0.5 rounded-full">{section.posts.length}</span>
               </div>
               <Link href="/admin/new" className="text-xs text-primary hover:text-primary/80 transition-colors">+ New</Link>
             </div>
@@ -116,7 +116,7 @@ export default async function AdminDashboard() {
                     <Link
                       key={post.slug}
                       href={`/admin/edit/${section.type}/${section.lang}/${post.slug}`}
-                      className="flex items-center justify-between px-4 py-2.5 hover:bg-white/5 transition-colors group"
+                      className="flex items-center justify-between px-4 py-2.5 hover:bg-foreground/5 transition-colors group"
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <FileText size={13} className="text-muted-foreground shrink-0" />

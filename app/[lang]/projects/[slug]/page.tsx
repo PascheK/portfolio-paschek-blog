@@ -7,8 +7,11 @@ import { metaData } from "@/lib/config";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
-import { extractHeadings } from "@/lib/toc";
-import { TableOfContents } from "@/components/ui/table-of-contents";
+import { ReadingProgress } from "@/components/brand/reading-progress";
+import { extractHeadings, railItemsFromHeadings } from "@/lib/toc";
+import { SectionRail } from "@/components/brand/section-rail";
+import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
+import { CoverPlaceholder } from "@/components/brand/content-card";
 
 
 export async function generateStaticParams() {
@@ -58,34 +61,41 @@ export async function generateMetadata({
 }
 
 
+function parseTags(raw?: string): string[] {
+  if (!raw) return [];
+  const t = raw.trim();
+  if (t.startsWith("[")) {
+    try {
+      const arr = JSON.parse(t);
+      if (Array.isArray(arr)) return arr.map(String);
+    } catch { /* fall through */ }
+  }
+  return t.split(",").map((s) => s.replace(/^\s*["']?|["']?\s*$/g, "").trim()).filter(Boolean);
+}
+
 export default async function ProjectPage({ params }) {
   const { slug, lang } = await params;
-  const dict = await getDictionary(lang ?? "en");
+  const resolvedLang = lang ?? "en";
+  const dict = await getDictionary(resolvedLang);
 
-  let project = getProjectPosts(lang ?? "en").find((post) => post.slug === slug);
+  let project = getProjectPosts(resolvedLang).find((post) => post.slug === slug);
 
   if (!project) notFound();
 
-  const locale = (lang ?? "en") === "fr" ? "fr-FR" : "en-US";
+  const isFr = resolvedLang === "fr";
+  const locale = isFr ? "fr-FR" : "en-US";
   const headings = project.content ? extractHeadings(project.content) : [];
-  const published = project.metadata.publishedAt
-    ? formatDate(project.metadata.publishedAt, false, locale)
-    : undefined;
+  const tags = parseTags(project.metadata.tags);
+  const coverLabel = (project.metadata.group ?? tags[0] ?? "Project").toUpperCase();
+
+  // One primary action: the live link (url / demo). The repository is secondary.
+  const primaryHref = project.metadata.demoUrl || project.metadata.url;
+  const primaryLabel =
+    project.metadata.ctaLabel ||
+    (project.metadata.url ? (isFr ? "Découvrir" : "Discover") : dict?.projectsPage?.viewProject ?? "View project");
 
   return (
-    <section className="max-w-5xl mx-auto px-4 py-8">
-      {project.metadata.image && (
-        <div className="relative w-full h-56 mb-6 overflow-hidden rounded-xl border border-neutral-800">
-          <Image
-            src={project.metadata.image}
-            alt={(dict?.projectsPage?.imageAlt || "Cover image for {{title}}")
-              .replace("{{title}}", project.metadata.title)}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 768px"
-          />
-        </div>
-      )}
+    <div className="container-page pb-8">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -100,7 +110,7 @@ export default async function ProjectPage({ params }) {
             image: project.metadata.image
               ? `${metaData.baseUrl}${project.metadata.image}`
               : `/og?title=${encodeURIComponent(project.metadata.title)}`,
-            url: `${metaData.baseUrl}/${(lang ?? "en")}/projects/${project.slug}`,
+            url: `${metaData.baseUrl}/${resolvedLang}/projects/${project.slug}`,
             author: {
               "@type": "Person",
               name: metaData.name,
@@ -108,69 +118,100 @@ export default async function ProjectPage({ params }) {
           }),
         }}
       />
-      <div className="flex flex-col items-center mb-8">
 
-        <h1 className="text-3xl font-bold mb-2 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-          {project.metadata.title}
-        </h1>
-        {published && (
-          <span className="text-xs text-muted-foreground mb-2">{published}</span>
+      <ReadingProgress />
+      <SectionRail
+        variant="article"
+        items={railItemsFromHeadings(headings)}
+        label={isFr ? "Dans cet article" : "In this article"}
+      />
+      <article>
+        <header className="pt-10 pb-10 md:pt-14">
+          <Link
+            href={`/${resolvedLang}/projects`}
+            className="link-quiet mb-8 inline-flex items-center gap-1.5 rounded-md text-sm"
+          >
+            <ArrowLeft className="size-4" aria-hidden />
+            {dict?.nav?.projects ?? "Projects"}
+          </Link>
+
+          {(project.metadata.group || project.metadata.publishedAt) && (
+            <p className="eyebrow mb-4 flex items-center gap-2">
+              {project.metadata.group && <span className="text-foreground">{project.metadata.group}</span>}
+              {project.metadata.group && project.metadata.publishedAt && <span aria-hidden>·</span>}
+              {project.metadata.publishedAt && (
+                <time dateTime={project.metadata.publishedAt}>
+                  {formatDate(project.metadata.publishedAt, false, locale)}
+                </time>
+              )}
+            </p>
+          )}
+          <h1 className="t-h1 max-w-3xl">{project.metadata.title}</h1>
+          {project.metadata.summary && (
+            <p className="t-lead mt-4 max-w-2xl">{project.metadata.summary}</p>
+          )}
+          {tags.length > 0 && (
+            <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="Tags">
+              {tags.map((t) => (
+                <li key={t} className="tag">{t}</li>
+              ))}
+            </ul>
+          )}
+
+          {(primaryHref || project.metadata.repoUrl) && (
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {primaryHref && (
+                <a
+                  href={primaryHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  {primaryLabel}
+                  <ArrowUpRight aria-hidden />
+                </a>
+              )}
+              {project.metadata.repoUrl && (
+                <a
+                  href={project.metadata.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary"
+                >
+                  <Github aria-hidden />
+                  {isFr ? "Code source" : "Source code"}
+                </a>
+              )}
+            </div>
+          )}
+        </header>
+
+        <figure className="relative mb-12 aspect-[21/9] overflow-hidden rounded-xl border border-border bg-surface-alt">
+          {project.metadata.image ? (
+            <Image
+              src={project.metadata.image}
+              alt={(dict?.projectsPage?.imageAlt || "Cover image for {{title}}")
+                .replace("{{title}}", project.metadata.title)}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+            />
+          ) : (
+            <CoverPlaceholder seed={project.slug} label={coverLabel} />
+          )}
+        </figure>
+
+        {project.content ? (
+          <div className="prose max-w-3xl">
+          <CustomMDX source={project.content} />
+        </div>
+        ) : (
+          <p className="text-muted-foreground">
+            {isFr ? "Aucun contenu détaillé disponible pour ce projet." : "No detailed content available for this project."}
+          </p>
         )}
-        <p className="text-foreground text-center mb-2 max-w-xl">{project.metadata.summary}</p>
-        <div className="mt-3 flex flex-wrap gap-2 justify-center">
-          {project.metadata.demoUrl && (
-            <a
-              href={project.metadata.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded bg-blue-600 text-white hover:bg-pink-500 transition-colors shadow"
-            >
-              {dict?.projectsPage?.viewProject ?? "View project"}
-            </a>
-          )}
-          {project.metadata.repoUrl && (
-            <a
-              href={project.metadata.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow border border-border"
-            >
-              {lang === "fr" ? "Code source" : "Source code"}
-            </a>
-          )}
-          {project.metadata.url && (
-            <a
-              href={project.metadata.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-500 transition-colors shadow"
-            >
-              {project.metadata.ctaLabel || (lang === "fr" ? "Découvrir" : "Discover")}
-            </a>
-          )}
-        </div>
-      </div>
-      {project.content ? (
-        <div className="mt-8 flex gap-8 lg:gap-12 items-start">
-          <TableOfContents
-            headings={headings}
-            title={(lang ?? "en") === "fr" ? "Sommaire" : "On this page"}
-          />
-          <article className="prose prose-invert mx-auto max-w-3xl flex-1">
-            <CustomMDX source={project.content} />
-          </article>
-        </div>
-      ) : (
-        <div className="text-center text-muted-foreground">Aucun contenu détaillé disponible pour ce projet.</div>
-      )}
-      <div className="mt-10 flex justify-center">
-        <Link
-          href={`/${lang ?? "en"}/projects`}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-alt text-foreground hover:bg-primary hover:text-primary-foreground transition-colors shadow-sm"
-        >
-          ← {lang === "fr" ? "Retour aux projets" : "Back to projects"}
-        </Link>
-      </div>
-    </section>
+      </article>
+    </div>
   );
 }

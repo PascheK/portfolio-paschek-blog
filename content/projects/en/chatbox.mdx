@@ -1,0 +1,37 @@
+---
+title: "PascheK-ChatBox — AI desktop app"
+publishedAt: "2025-10-28"
+summary: "A personal AI chat app with local document search (RAG), built with Electron and Next.js. I wanted an assistant that works with the files on my computer, not just in a browser tab."
+tags: ["Electron", "Next.js", "TypeScript", "AI", "RAG"]
+group: "Personal"
+repoUrl: "https://github.com/PascheK/PascheK-ChatBox"
+---
+
+## Context
+
+I use language models every day, for code, for writing and for thinking through problems. The existing chat interfaces were either too generic or gave me little control over the context. I wanted my own: a personal AI workspace that can read my notes, my code and my documents.
+
+## Why a desktop app
+
+I wanted an app that could manage files on the operating system directly, which a web app cannot do. That is why I moved from a web interface to Electron.
+
+## What I built
+
+- **Desktop app** built with Electron and Next.js, with a macOS build through Electron Builder.
+- **Chat with several conversation contexts**, using the AI SDK and OpenAI models.
+- **Automatic analysis of files and projects**, with document reading and embeddings.
+- **Local RAG**: retrieval over my own documents, with Drizzle ORM on Neon or SQLite.
+- **Interface**: responsive, with light animations.
+
+## Stack
+
+Electron, Next.js, TypeScript, AI SDK / OpenAI, Drizzle ORM, Neon / SQLite, Tailwind CSS.
+
+## Status
+
+It is a personal project and I do not use it day to day anymore. It remains a good record of what I wanted to explore: AI integration, document retrieval and desktop packaging.
+
+## Links
+
+- Code: [github.com/PascheK/PascheK-ChatBox](https://github.com/PascheK/PascheK-ChatBox)
+- Write-up: [Building a fullstack RAG chatbot with Next.js](/en/blog/paschek-chatbox)

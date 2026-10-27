@@ -34,3 +34,15 @@ export function extractHeadings(content: string): Heading[] {
 
   return headings.filter((h) => h.depth <= 3);
 }
+
+/** Picks the section-rail items from a post's headings: the top-most level present (h1/h2). */
+export function railItemsFromHeadings(headings: Heading[]) {
+  const levels = headings.filter((h) => h.depth <= 2);
+  if (levels.length === 0) return [];
+  const min = Math.min(...levels.map((h) => h.depth));
+  const seen = new Set<string>();
+  return levels
+    .filter((h) => h.depth === min)
+    .filter((h) => (seen.has(h.slug) ? false : (seen.add(h.slug), true)))
+    .map((h) => ({ id: h.slug, label: h.text.replace(/[`*_]/g, "") }));
+}

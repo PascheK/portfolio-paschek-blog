@@ -1,0 +1,49 @@
+---
+title: "Jeunesse de Porsel — Website & booking system"
+publishedAt: "2024-12-11"
+summary: "The village youth association's public website and reservation system: a Next.js front end and a Spring Boot API, in use and updated every year for 4–5 years."
+tags: ["Next.js", "TypeScript", "Spring Boot", "Java", "MariaDB"]
+group: "Personal"
+image: "/projects/jeunesse.png"
+demoUrl: "https://jeunessedeporsel.ch"
+repoUrl: "https://github.com/PascheK/jeunesseporsel"
+ctaLabel: "Visit the site"
+---
+
+## Context
+
+Jeunesse de Porsel is the village youth association. Every year it organises events open to the whole village, among them a theatre production and a fondue evening. It needed a public website and a reliable way to take reservations. I have been the association's web lead since 2021.
+
+## My role
+
+I design, build and run all of it: the interface, the API, the hosting and the yearly updates. I wrote the first version while I was still at school, and I have updated it every year since.
+
+## What I built
+
+- **Public site**: home page, a theatre section (carousel, cast portraits, practical information), a directory of the committee and members, and a contact form.
+- **Fondue reservations**: a multi-step flow (date, party size, details) validated with Zod and React Hook Form.
+- **Booking API**: events, seat quotas updated atomically, and duplicate detection on name, email and event.
+- **One-time codes**: a six-digit code, valid for five minutes, confirms a booking and lets guests change it later without creating an account.
+- **Transactional emails**: confirmation, modification and an internal notification, built from FreeMarker templates and sent through JavaMail.
+- **Docs and monitoring**: OpenAPI / Swagger documentation and Spring Actuator endpoints.
+
+![Swagger UI of the booking API](/projects/swagger.png)
+
+## Stack
+
+- **Front end**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Radix UI, Embla Carousel, React Hook Form, Zod, Nodemailer.
+- **Back end**: Spring Boot, Java 17, JPA, MariaDB, Spring Mail, FreeMarker, OpenAPI.
+
+## Result
+
+The site has been in use for four to five years and is updated every year for the new edition.
+
+## Why Spring Boot
+
+I built this site while I was at school, right after a school project in Spring Boot. I liked the framework and already knew it, so I reused it. It let me spend my time on the booking rules instead of learning a new stack.
+
+## Links
+
+- Website: [jeunessedeporsel.ch](https://jeunessedeporsel.ch)
+- Front end: [github.com/PascheK/jeunesseporsel](https://github.com/PascheK/jeunesseporsel)
+- Back end: [github.com/PascheK/jeunesseporselbackend](https://github.com/PascheK/jeunesseporselbackend)

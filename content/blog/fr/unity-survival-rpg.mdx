@@ -1,0 +1,175 @@
+---
+title: "Créer un Survival RPG 2D avec Unity : mon premier projet game dev"
+publishedAt: "2026-02-10"
+summary: "Comment j'ai commencé à construire un survival RPG 2D avec Unity : choix de game design, architecture C#, pipeline pixel art, et ce que j'ai appris en tant que dev web qui fait ses premiers pas dans le jeu vidéo."
+image: /blogs/unity-survival-rpg.png
+tags: "unity,gamedev,csharp,2d,rpg,survival,indie"
+---
+
+> Je suis avant tout développeur web. Next.js, TypeScript, Docker, bases de données… Alors pourquoi est-ce que je passe maintenant mes soirées à me battre avec un tilemap Unity et à déboguer un système de faim ? Ce post raconte honnêtement ce détour dans le développement de jeu vidéo.
+
+> **Mise à jour, octobre 2026 :** ce projet est désormais en suspens. Voir la [section 7](#7-le-jeu-est-en-pause).
+
+## 1. Pourquoi faire un jeu ?
+
+Tout est parti d'une question simple : **qu'est-ce que ça fait de construire quelque chose que les gens jouent vraiment ?**
+
+Avec le dev web, la boucle de feedback est claire : un utilisateur remplit un formulaire, voit un dashboard, lit un article. Mais un jeu, c'est différent. Un jeu doit avoir du ressenti. Les règles doivent être amusantes. Chaque seconde de jeu est une micro-expérience que tu as conçue.
+
+Je voulais comprendre ça de l'intérieur. Pas pour devenir développeur de jeux à plein temps, mais parce que je crois que ce type de défi enseigne des choses que les projets web n'enseignent pas :
+
+- penser en **systèmes temps réel** plutôt qu'en requête/réponse,
+- gérer un **état qui évolue à chaque frame**,
+- prendre des décisions sous contrainte de **performance et de ressenti**, pas seulement de correction.
+
+Alors j'ai ouvert Unity, et j'ai commencé.
+
+---
+
+## 2. Pourquoi Unity — et pourquoi 2D ?
+
+J'ai brièvement envisagé Godot (gratuit, plus léger, syntaxe proche du Python). Mais j'avais déjà des bases en C# grâce à des projets précédents, et l'écosystème Unity est massif : tutoriels, packs d'assets, forums, des réponses Stack Overflow pour presque chaque problème imaginable.
+
+Pour un premier projet sérieux, j'ai préféré un **outil bien documenté** plutôt qu'un outil techniquement supérieur mais moins familier.
+
+**Pourquoi le 2D spécifiquement ?**
+
+La 3D multiplie la complexité. Camera rigs, physique 3D, mesh colliders, systèmes de lumière — tout ça avant même d'avoir placé un joueur à l'écran. Avec la 2D :
+
+- le **pipeline visuel est plus simple** (sprites, tilemaps, sprite atlases),
+- la **physique est prévisible** (Rigidbody2D, BoxCollider2D),
+- je peux me concentrer sur la **logique de gameplay** plutôt que de me battre avec la perspective et les normales.
+
+Un survival RPG 2D semblait le bon niveau d'ambition : assez réel pour être intéressant, assez contenu pour être un jour terminé.
+
+---
+
+## 3. Le concept : un survival RPG
+
+Le concept central : tu te réveilles dans un monde inconnu. Tu dois **explorer, collecter des ressources, gérer tes stats de survie et progresser** dans un monde qui devient progressivement plus dangereux.
+
+### 3.1. Mécaniques de survie principales
+
+- **Faim & soif** : des stats qui diminuent avec le temps, forçant le joueur à trouver nourriture et eau,
+- **Santé** : affectée par le combat, les chutes, le manque de nourriture,
+- **Endurance** : limite la course et le combat,
+- **Cycle jour/nuit** : les nuits sont plus dangereuses.
+
+### 3.2. Couche RPG de progression
+
+Par-dessus la survie, un système RPG léger :
+
+- **Compétences** qui s'améliorent par l'usage (crafter plus, devenir meilleur en craft),
+- **Inventaire** avec limite de poids,
+- **Emplacements d'équipement** (arme, armure, outils),
+- **Système de craft** basé sur les matériaux récoltés.
+
+### 3.3. Monde et exploration
+
+- Zones de carte **à influence procédurale** (pas entièrement aléatoires, mais variées),
+- Biomes (forêt, plaine, systèmes de grottes),
+- **Points d'intérêt** : ruines, campements, coffres cachés.
+
+L'idée est que chaque partie se sente légèrement différente sans être un pur roguelike.
+
+---
+
+## 4. Architecture C#
+
+Venant de TypeScript/JavaScript, le C# m'a semblé à la fois familier et étranger. Classes, interfaces, génériques — pas de problème. Mais l'**architecture basée sur les composants de Unity** demande une façon de penser différente.
+
+### 4.1. Le GameManager
+
+Un singleton persistant qui gère :
+
+- l'état du jeu (menu, en jeu, pause, game over),
+- les références aux systèmes clés (inventaire, temps, stats joueur),
+- la logique de sauvegarde/chargement.
+
+Je l'ai intentionnellement gardé léger — un coordinateur, pas un objet-dieu.
+
+### 4.2. Les ScriptableObjects
+
+C'est ma plus grande découverte. Les **ScriptableObjects** permettent de définir des assets de données dans l'éditeur Unity sans les lier à un objet de scène. Je les utilise pour :
+
+- les définitions d'objets (nom, icône, poids, stats),
+- les définitions de recettes (entrées + sortie),
+- les stats des ennemis.
+
+Ça rend le jeu **data-driven** : un designer (ou moi dans six mois) peut ajouter un nouvel item sans toucher au code.
+
+### 4.3. Systèmes clés
+
+| Système | Responsabilité |
+|---|---|
+| `PlayerStats` | Gère faim, soif, santé, endurance, événements au changement |
+| `InventorySystem` | Inventaire en grille, poids, empilage, équipement |
+| `CraftingSystem` | Lit les recettes, vérifie les ingrédients, produit les sorties |
+| `TimeManager` | Cycle jour/nuit, horloge in-game, événements à l'aube/au crépuscule |
+| `CombatSystem` | Hitboxes, résolution des dégâts, états de l'IA ennemie |
+
+Chaque système est un `MonoBehaviour` sur un GameObject dédié, communiquant via des **événements C#** plutôt que des références directes. Ça maintient un couplage faible et facilite les tests.
+
+---
+
+## 5. Le pipeline visuel
+
+Je ne suis pas pixel artiste, mais je voulais un style visuel cohérent. J'ai choisi le **pixel art** pour des raisons pratiques :
+
+- Indulgent sur de petits canvas (16×16, 32×32),
+- Beaucoup d'assets gratuits/abordables dans ce style,
+- Se scale proprement avec la **Pixel Perfect Camera de Unity**.
+
+### 5.1. Les Tilemaps
+
+Le monde est construit avec le **système Tilemap de Unity** : une couche de sol, une couche de décoration, et une couche de collision. J'utilise des **Rule Tiles** pour choisir automatiquement la bonne variante de tuile selon les voisins (l'herbe à côté d'un mur prend automatiquement la bonne tuile de bord).
+
+### 5.2. Animation de sprites
+
+Les personnages utilisent des **sprite sheets** avec le composant `Animator` de Unity. Chaque état (idle, marche, attaque, touché) est un clip d'animation court. Les transitions entre états sont pilotées par un paramètre `bool` ou `trigger` défini depuis le code.
+
+### 5.3. Éclairage
+
+La nuit, j'utilise les **lumières 2D de Unity** (Universal Render Pipeline) avec une lumière ambiante globale qui s'assombrit, plus une petite point light autour de la torche du joueur. Simple, mais efficace.
+
+---
+
+## 6. Ce avec quoi j'ai galéré (et ce que j'ai appris)
+
+### 6.1. Le changement de mentalité
+
+Le dev web est largement **déclaratif et sans état** (par requête). Le game dev est **impératif et continuellement stateful**. Personne ne "demande" la position du joueur — elle existe simplement et change 60 fois par seconde.
+
+Ça a pris du temps à intérioriser. Je revenais sans cesse à des patterns qui ne s'adaptent pas (essayer de rendre l'inventaire "réactif" comme un composant React, par exemple).
+
+### 6.2. La physique Unity vs les attentes
+
+Le `Rigidbody2D` se comporte de façons qui surprennent. Gravité, friction, vélocité — ils interagissent de manière naturelle dans la vie réelle mais bizarre dans le code. J'ai passé plus de temps à ajuster des valeurs de physique que prévu.
+
+### 6.3. La gestion des scènes
+
+Passer d'une scène à une autre (menu principal → monde → donjon) en gardant l'état du joueur vivant nécessite `DontDestroyOnLoad` et une conception soigneuse des objets persistants. Je l'ai cassé plusieurs fois avant de trouver un pattern propre.
+
+### 6.4. Le problème du scope
+
+Tous les développeurs de jeux parlent du scope creep. Je l'ai vécu. "Je vais juste ajouter un système de craft. Et un arbre de compétences. Et des donjons générés aléatoirement. Et…"
+
+J'ai dû **couper des features sans pitié** pour faire avancer le projet. Le système de faim avant les donjons procéduraux. Une sauvegarde fonctionnelle avant des animations peaufinées. C'est inconfortable mais nécessaire.
+
+---
+
+## 7. Le jeu est en pause
+
+Voici ce qui existe aujourd'hui :
+
+- Un monde jouable avec des tilemaps, un joueur et des déplacements de base,
+- Un inventaire de base (ramasser, poser, équiper des armes),
+- Un cycle jour/nuit avec éclairage,
+- Sauvegarde/chargement (une version basique commencée),
+- Plus de biomes et de variété dans le monde.
+
+Le jeu a été mis en suspens. J'ai arrêté d'y travailler, et je préfère le dire plutôt que de continuer à promettre une démo. Il n'est pas supprimé et il reviendra peut-être un jour, mais pour l'instant il est en pause.
+
+---
+
+Ce projet m'a enseigné plus sur la **pensée systémique et la gestion d'état** que presque tout ce que j'ai fait en développement web. Les contraintes d'un jeu temps réel imposent une discipline architecturale qui se transpose bien dans d'autres contextes. La leçon sur le scope de la section 6.4 est aussi celle que j'emporte dans mon prochain jeu, volontairement beaucoup plus petit : il commence avec le [Devlog #0](/fr/blog/devlog-0).

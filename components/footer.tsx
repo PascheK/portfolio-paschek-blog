@@ -4,8 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaRss } from "react-icons/fa6";
 import { TbMailFilled } from "react-icons/tb";
-import { metaData, socialLinks, availability } from "@/lib/config";
+import { socialLinks, availability } from "@/lib/config";
 import { useParams } from "next/navigation";
+import { Logo } from "@/components/brand/logo";
 
 const YEAR = new Date().getFullYear();
 
@@ -23,96 +24,77 @@ export default function Footer({ dict }: { dict?: any }) {
     { href: `/${lang}/projects`, label: f?.links?.projects ?? (isFr ? "Projets" : "Projects") },
     { href: `/${lang}/about`, label: f?.links?.about ?? (isFr ? "À propos" : "About") },
     { href: `/${lang}/uses`, label: f?.links?.uses ?? "Uses" },
-    { href: `/${lang}/now`, label: f?.links?.now  ?? "Now" },
+  ];
+
+  const connect = [
+    { href: socialLinks.github, label: "GitHub", icon: FaGithub, external: true },
+    { href: socialLinks.instagram, label: "Instagram", icon: FaInstagram, external: true },
+    { href: socialLinks.email, label: dict?.home?.contact?.email ?? "E-mail", icon: TbMailFilled, external: false },
+    { href: `/${lang}/feed/rss.xml`, label: f?.rss ?? "RSS", icon: FaRss, external: true },
   ];
 
   return (
-    <footer className="w-full mt-16 lg:mt-24 border-t border-border bg-surface-alt/30 backdrop-blur">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-10 md:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+    <footer className="mt-24 w-full border-t border-border">
+      <div className="container-page py-12 md:py-16">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
 
-          {/* Col 1 – Identity */}
-          <div className="flex flex-col gap-3">
-            <Link
-              href={`/${lang}`}
-              className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-fuchsia-400 to-pink-400 w-fit"
-            >
-              {metaData.name}
-            </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              {f?.tagline ?? "Full-stack developer passionate about crafting fast, accessible and beautiful web experiences."}
+          {/* Identity */}
+          <div className="flex flex-col items-start gap-4">
+            <Logo href={`/${lang}`} size={32} label={`PascheK — ${isFr ? "accueil" : "home"}`} />
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {f?.tagline ?? "Full-stack developer building fast, accessible web products."}
             </p>
             {availability.available && (
-              <span className="inline-flex items-center gap-1.5 w-fit text-xs font-medium px-2.5 py-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <p className="inline-flex items-center gap-2 text-sm text-foreground">
+                <span className="size-1.5 rounded-full bg-success" aria-hidden />
                 {availabilityLabel}
-              </span>
+              </p>
             )}
           </div>
 
-          {/* Col 2 – Quick links */}
-          <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {f?.quickLinks ?? "Quick links"}
-            </p>
-            <ul className="flex flex-col gap-2">
+          {/* Navigate */}
+          <nav aria-label={isFr ? "Pied de page" : "Footer"}>
+            <p className="eyebrow mb-4">{f?.quickLinks ?? "Navigate"}</p>
+            <ul className="flex flex-col gap-2.5">
               {quickLinks.map(({ href, label }) => (
                 <li key={href}>
-                  <Link
-                    href={href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
+                  <Link href={href} className="link-quiet text-sm rounded-sm">
                     {label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Col 3 – Connect */}
-          <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {f?.connect ?? "Connect"}
-            </p>
-            <div className="flex flex-col gap-2">
-              <a
-                href={socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <FaGithub className="size-4" /> GitHub
-              </a>
-              <a
-                href={socialLinks.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <FaInstagram className="size-4" /> Instagram
-              </a>
-              <a
-                href={socialLinks.email}
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <TbMailFilled className="size-4" /> {dict?.home?.contact?.email ?? "E-mail"}
-              </a>
-              <a
-                href={`/${lang}/feed/rss.xml`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <FaRss className="size-4" /> {f?.rss ?? "RSS Feed"}
-              </a>
-            </div>
+          {/* Connect */}
+          <div>
+            <p className="eyebrow mb-4">{f?.connect ?? "Connect"}</p>
+            <ul className="flex flex-col gap-2.5">
+              {connect.map(({ href, label, icon: Icon, external }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="link-quiet inline-flex items-center gap-2 text-sm rounded-sm"
+                  >
+                    <Icon className="size-4" aria-hidden /> {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>© {YEAR} {metaData.name} — {f?.copyright ?? "All rights reserved."}</span>
-          <span>Built with Next.js & Tailwind CSS</span>
+        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 font-mono text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© {YEAR} PascheK — {f?.copyright ?? "All rights reserved."}</p>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('shortcuts:toggle'))}
+            className="hidden items-center gap-2 rounded-md text-left transition-colors duration-150 hover:text-foreground sm:inline-flex"
+          >
+            <kbd className="rounded border border-border-strong px-1.5 py-0.5 text-[10px]">?</kbd>
+            {isFr ? "Raccourcis clavier" : "Keyboard shortcuts"}
+          </button>
         </div>
       </div>
     </footer>

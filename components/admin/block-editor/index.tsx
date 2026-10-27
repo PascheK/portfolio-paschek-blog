@@ -250,11 +250,11 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
         {blocks.map((block, index) => (
           <div
             key={block.id}
-            className="group relative flex items-start pl-9 pr-2 rounded-xl transition-colors hover:bg-white/[0.012]"
+            className="group relative flex items-start pl-9 pr-2 rounded-xl transition-colors hover:bg-foreground/[0.012]"
           >
             {/* Add-block handle */}
             <button
-              className="absolute left-0.5 top-1.5 w-7 h-7 flex items-center justify-center rounded-lg text-white/20 hover:text-white/60 hover:bg-white/[0.07] transition-all opacity-0 group-hover:opacity-100 text-base leading-none"
+              className="absolute left-0.5 top-1.5 w-7 h-7 flex items-center justify-center rounded-lg text-foreground/45 hover:text-foreground/75 hover:bg-foreground/[0.07] transition-all opacity-0 group-hover:opacity-100 text-base leading-none"
               onMouseDown={(e) => { e.preventDefault(); insertBlock(block.id); }}
               tabIndex={-1}
               title="Add block below"
@@ -287,14 +287,14 @@ export function BlockEditor({ initialMdx = '', onChange }: Props) {
 
       {/* Add block at end */}
       <button
-        className="mt-4 ml-9 flex items-center gap-2 text-[12px] text-white/15 hover:text-white/35 transition-colors group py-2"
+        className="mt-4 ml-9 flex items-center gap-2 text-[12px] text-foreground/42 hover:text-foreground/55 transition-colors group py-2"
         onMouseDown={(e) => {
           e.preventDefault();
           const lastId = blocksRef.current[blocksRef.current.length - 1]?.id;
           if (lastId) insertBlock(lastId);
         }}
       >
-        <div className="w-4 h-4 rounded border border-dashed border-white/12 group-hover:border-white/25 flex items-center justify-center text-[10px] transition-colors">
+        <div className="w-4 h-4 rounded border border-dashed border-foreground/12 group-hover:border-foreground/25 flex items-center justify-center text-[10px] transition-colors">
           +
         </div>
         <span>Add block</span>

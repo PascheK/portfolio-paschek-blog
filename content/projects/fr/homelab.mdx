@@ -1,0 +1,44 @@
+---
+title: "Homelab — Mon serveur auto-hébergé"
+publishedAt: "2025-10-15"
+summary: "Un Dell PowerEdge R730 sous Ubuntu et Docker depuis environ trois ans : Nextcloud, WordPress, bases de données et l'infrastructure derrière plusieurs de mes autres projets."
+tags: ["Docker", "Linux", "Nginx", "Auto-hébergement"]
+group: "Personnel"
+image: "/blogs/homelab.png"
+featured: "true"
+---
+
+## Contexte
+
+Je voulais comprendre comment les applications tournent vraiment : réseau, volumes, logs, mises à jour. Je voulais aussi héberger de vrais services sans dépendre d'un fournisseur cloud. J'ai donc acheté un serveur et je me suis lancé. C'était il y a environ trois ans. Aujourd'hui, il fait tourner de nombreux services que j'utilise moi-même, tous les jours. C'est le projet dont je suis le plus fier.
+
+## Ce qu'il fait tourner
+
+- **Un reverse proxy** qui sert chaque site en HTTPS, pour atteindre mes services avec des URL propres plutôt que des IP et des ports.
+- **Nextcloud** (avec MariaDB et Redis) pour les fichiers, les documents et les sauvegardes.
+- **Des sites WordPress**, dont celui du [Giron de Porsel 2026](/fr/projects/gironporsel).
+- **Des bases de données** (MariaDB et PostgreSQL), dédiées à des projets précis.
+- **Des outils internes et des conteneurs utilitaires** pour les tests, les scripts et les tâches.
+
+## Comment il est organisé
+
+- **Un seul hôte, des stacks Docker claires**, regroupées par fonction : `reverse-proxy`, `cloud`, `web`, `db`.
+- **Un réseau Docker par stack**, plus un réseau proxy partagé.
+- **Une surface publique réduite** : seuls les ports 80 et 443 sont ouverts, les bases de données et les outils d'administration ne sont jamais exposés, et les services internes sont accessibles via un VPN ou le réseau local.
+- **De bonnes habitudes de maintenance** : mises à jour régulières du système et des images, secrets gardés hors des fichiers compose.
+
+## Sauvegardes
+
+Je les structure progressivement : dumps SQL réguliers, snapshots des volumes critiques (Nextcloud, WordPress) et synchronisation vers un autre lieu de stockage. L'objectif est de pouvoir reconstruire une stack à partir de la documentation et des sauvegardes sans y passer des jours.
+
+## Stack
+
+Dell PowerEdge R730, Ubuntu Server, Docker et Docker Compose, Nginx, Let's Encrypt, Nextcloud, WordPress, MariaDB, PostgreSQL.
+
+## Ce que ça m'apporte
+
+L'exploiter moi-même me fait penser en opérateur et pas seulement en développeur : DNS, proxys, certificats, ports, pannes. Sur ma liste pour la suite : la supervision, plus d'infrastructure as code et des tests de restauration automatisés.
+
+## Liens
+
+- Article : [Mon homelab Dell R730](/fr/blog/homelab)
