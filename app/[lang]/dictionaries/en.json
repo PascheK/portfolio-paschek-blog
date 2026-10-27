@@ -524,8 +524,12 @@
             "desc": "Main development machine — fast and silent."
           },
           {
-            "name": "LG 27\" 4K Monitor",
-            "desc": "External display for better ergonomics."
+            "name": "Canon EOS R7",
+            "desc": "My main camera for photography and video."
+          },
+          {
+            "name": "DJI mic mini 2",
+            "desc": "My mics for taking sounds."
           }
         ]
       },
@@ -551,6 +555,10 @@
           {
             "name": "Portainer",
             "desc": "Simplified container management."
+          },
+          {
+            "name": "Adobe Creative Cloud",
+            "desc": "For all content creation, video editing, illustration, image editing"
           }
         ]
       },
@@ -560,6 +568,10 @@
           {
             "name": "Tauri + React",
             "desc": "Desktop apps with a Rust core and a React interface."
+          },
+          {
+            "name": "Github",
+            "desc": "To keep a track with my projects."
           }
         ]
       }
