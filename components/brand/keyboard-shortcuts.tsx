@@ -9,7 +9,7 @@ import { useTheme } from '@/components/ui/theme-provider';
  * Keyboard layer: `g` then a letter navigates, `t` flips the theme, `?` lists
  * everything. Ignored while typing. Footer button fires `shortcuts:toggle`.
  */
-export function KeyboardShortcuts({ lang }: { lang: 'en' | 'fr' }) {
+export function KeyboardShortcuts({ lang, hasVideos = false }: { lang: 'en' | 'fr'; hasVideos?: boolean }) {
   const router = useRouter();
   const { toggleTheme } = useTheme();
   const [open, setOpen] = useState(false);
@@ -21,6 +21,7 @@ export function KeyboardShortcuts({ lang }: { lang: 'en' | 'fr' }) {
     h: { href: `/${lang}`, label: isFr ? 'Accueil' : 'Home' },
     b: { href: `/${lang}/blog`, label: 'Blog' },
     p: { href: `/${lang}/projects`, label: isFr ? 'Projets' : 'Projects' },
+    ...(hasVideos ? { v: { href: `/${lang}/videos`, label: isFr ? 'Vidéos' : 'Videos' } } : {}),
     a: { href: `/${lang}/about`, label: isFr ? 'À propos' : 'About' },
     u: { href: `/${lang}/uses`, label: 'Uses' },
     c: { href: `/${lang}#contact`, label: 'Contact' },
@@ -58,7 +59,7 @@ export function KeyboardShortcuts({ lang }: { lang: 'en' | 'fr' }) {
       window.removeEventListener('keydown', onKey);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang, router, toggleTheme]);
+  }, [lang, hasVideos, router, toggleTheme]);
 
   useEffect(() => { if (open) closeRef.current?.focus(); }, [open]);
 

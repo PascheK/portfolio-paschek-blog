@@ -2,7 +2,7 @@
 import React from 'react';
 import { Globe } from 'lucide-react';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select';
 
 const LanguageSelect = ({ dict }: { dict?: any }) => {
 
@@ -26,11 +26,10 @@ const LanguageSelect = ({ dict }: { dict?: any }) => {
   return (
     <Select value={currentLang} onValueChange={onSwitch}>
       <SelectTrigger
-        className="h-9 w-auto gap-1.5 rounded-lg border-transparent bg-transparent px-2.5 text-sm text-muted-foreground hover:bg-surface-muted hover:text-foreground"
+        className="size-9 justify-center gap-0 rounded-lg border-transparent bg-transparent p-0 text-muted-foreground hover:bg-surface-muted hover:text-foreground [&>svg:last-child]:hidden"
         aria-label={dict?.a11y?.language ?? 'Language'}
       >
         <Globe className="size-4" aria-hidden />
-        <SelectValue />
       </SelectTrigger>
       <SelectContent className="rounded-lg border-border-strong bg-popover text-foreground">
         <SelectItem value="fr" className="rounded-md px-3 py-2">{dict?.lang?.fr ?? 'Français'}</SelectItem>

@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/footer";
 import { metaData, socialLinks } from "@/lib/config";
+import { hasVideos } from "@/lib/youtube";
 import { getDictionary } from "@/lib/dictionaries";
 import { getBlogPosts, getProjectPosts } from "@/lib/posts";
 import { Suspense } from "react";
@@ -98,10 +99,12 @@ export default async function LangLayout({
     subtitle: p.metadata.summary,
     keywords: parseTags(p.metadata.tags),
   }));
+  const videosOn = hasVideos();
   const navItems = [
     { id: 'nav-home',     title: lang === 'fr' ? 'Accueil' : 'Home',     href: `/${lang}` },
     { id: 'nav-blog',     title: dict.nav.blog,                            href: `/${lang}/blog` },
     { id: 'nav-projects', title: dict.nav.projects,                        href: `/${lang}/projects` },
+    ...(videosOn ? [{ id: 'nav-videos', title: dict.nav.videos ?? (lang === 'fr' ? 'Vidéos' : 'Videos'), href: `/${lang}/videos` }] : []),
     { id: 'nav-about',   title: dict.nav.about,                            href: `/${lang}/about` },
     { id: 'nav-uses',      title: dict.nav.uses      ?? 'Uses',      href: `/${lang}/uses` },
     { id: 'nav-photos',   title: dict.nav.photos ?? 'Photos', href: `/${lang}/photos` },
@@ -125,14 +128,15 @@ export default async function LangLayout({
           paletteLabels={dict.palette}
           cvHref="/documents/kp_cv.pdf"
           contactHref={socialLinks.email}
+          hasVideos={videosOn}
         />
       </Suspense>
       <Suspense fallback={<Loader size={24} />}>
         <PageTransition>{children}</PageTransition>
       </Suspense>
-      <Footer dict={dict} />
+      <Footer dict={dict} hasVideos={videosOn} />
       <BackToTop />
-      <KeyboardShortcuts lang={lang} />
+      <KeyboardShortcuts lang={lang} hasVideos={videosOn} />
       <CardSpotlight />
       <Analytics />
       <SpeedInsights />
