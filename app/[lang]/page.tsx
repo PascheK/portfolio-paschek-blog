@@ -11,6 +11,9 @@ import { StatGrid } from "@/components/brand/stat-grid";
 import { CopyButton } from "@/components/brand/copy-button";
 import { SectionRail } from "@/components/brand/section-rail";
 import { ReadingProgress } from "@/components/brand/reading-progress";
+import { VideoSlider, VideoSlide } from "@/components/brand/video-slider";
+import { VideoCard } from "@/components/brand/video-card";
+import { getVideos } from "@/lib/youtube";
 
 function parseTags(raw?: string | string[]): string[] {
   if (!raw) return [];
@@ -31,6 +34,9 @@ const byDateDesc = (a: { metadata: { publishedAt?: string } }, b: { metadata: { 
   return db - da;
 };
 
+// Refreshed automatically (the YouTube data itself is cached 30 min in lib/youtube.ts).
+export const revalidate = 1800;
+
 export default async function Page({
   params,
 }: {
@@ -46,6 +52,7 @@ export default async function Page({
   // Featured case studies first (newest first), then the rest by date.
   const featuredProjects = [...projects.filter(isFeatured), ...projects.filter((p) => !isFeatured(p))].slice(0, 3);
   const latestPosts = getBlogPosts(lang).sort(byDateDesc).slice(0, 3);
+  const latestVideos = (await getVideos(lang)).slice(0, 6);
 
   const skillGroups = [
     { label: 'Frontend', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
@@ -83,6 +90,7 @@ export default async function Page({
         items={[
           { id: 'intro', label: isFr ? 'Intro' : 'Intro' },
           { id: 'projects', label: isFr ? 'Projets' : 'Projects' },
+          ...(latestVideos.length > 0 ? [{ id: 'videos', label: isFr ? 'Vidéos' : 'Videos' }] : []),
           ...(latestPosts.length > 0 ? [{ id: 'blog', label: 'Articles' }] : []),
           { id: 'services', label: 'Services' },
           { id: 'contact', label: 'Contact' },
@@ -148,12 +156,38 @@ export default async function Page({
         </RevealStagger>
       </section>
 
+      {/* ── Latest videos (hidden until the channel has some) ─── */}
+      {latestVideos.length > 0 && (
+        <section id="videos" aria-labelledby="videos-title" className="section scroll-mt-16 pt-0 md:pt-0">
+          <SectionHeader
+            id="videos-title"
+            eyebrow={`02 / ${isFr ? 'Vidéos' : 'Videos'}`}
+            title={isFr ? 'Mes vidéos' : 'My videos'}
+            href={`/${lang}/videos`}
+            linkLabel={isFr ? 'Toutes les vidéos' : 'All videos'}
+          />
+          <VideoSlider regionLabel={isFr ? 'Carrousel de vidéos' : 'Video carousel'}>
+            {latestVideos.map((v) => (
+              <VideoSlide key={v.id}>
+                <VideoCard
+                  video={v}
+                  locale={locale}
+                  playLabel={isFr ? 'Lire la vidéo' : 'Play video'}
+                  viewsLabel={isFr ? 'vues' : 'views'}
+                  watchLabel={isFr ? 'Regarder sur YouTube' : 'Watch on YouTube'}
+                />
+              </VideoSlide>
+            ))}
+          </VideoSlider>
+        </section>
+      )}
+
       {/* ── Latest articles ──────────────────────────────────── */}
       {latestPosts.length > 0 && (
         <section id="blog" aria-labelledby="blog-title" className="section scroll-mt-16 pt-0 md:pt-0">
           <SectionHeader
             id="blog-title"
-            eyebrow={`02 / Articles`}
+            eyebrow={`03 / Articles`}
             title={dict.home.sections.blog}
             href={`/${lang}/blog`}
             linkLabel={dict.home.sections.blog_all}
@@ -188,7 +222,7 @@ export default async function Page({
       <section id="services" aria-labelledby="services-title" className="section scroll-mt-16 border-t border-border">
         <SectionHeader
           id="services-title"
-          eyebrow={`03 / Services`}
+          eyebrow={`04 / Services`}
           title={dict.home.services.title}
           description={dict.home.services.subtitle}
         />

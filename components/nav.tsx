@@ -17,12 +17,13 @@ interface NavbarProps {
   paletteLabels?: any;
   cvHref?: string;
   contactHref?: string;
+  hasVideos?: boolean;
 }
 
 const iconButton =
   "inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors duration-150 hover:text-foreground hover:bg-surface-muted";
 
-function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabels, cvHref, contactHref }: NavbarProps) {
+function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabels, cvHref, contactHref, hasVideos }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);
@@ -36,10 +37,10 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
   const navLinks = [
     { href: `/${lang}/blog`,     label: dict.nav.blog },
     { href: `/${lang}/projects`, label: dict.nav.projects },
+    ...(hasVideos ? [{ href: `/${lang}/videos`, label: dict.nav.videos ?? (lang === "fr" ? "Vidéos" : "Videos") }] : []),
     { href: `/${lang}/about`,    label: dict.nav.about },
     { href: `/${lang}/uses`,     label: dict.nav.uses ?? "Uses" },
   ];
-  const contactLabel = "Contact";
 
   // Mobile menu: Escape closes, body scroll locked while open
   React.useEffect(() => {
@@ -77,7 +78,7 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "relative rounded-md px-3 py-2 text-sm transition-colors duration-150",
+                    "relative whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors duration-150",
                     active
                       ? "font-medium text-foreground after:absolute after:inset-x-3 after:-bottom-[13px] after:h-0.5 after:rounded-full after:bg-primary"
                       : "text-muted-foreground hover:text-foreground",
@@ -99,7 +100,7 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
                 cvHref={cvHref ?? ""}
                 contactHref={contactHref ?? ""}
                 inlineTrigger
-                triggerClassName="hidden lg:inline-flex items-center gap-2 h-9 px-3 mr-1 rounded-lg border border-border text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground hover:border-border-strong"
+                triggerClassName="hidden xl:inline-flex items-center gap-2 h-9 px-3 mr-1 rounded-lg border border-border text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground hover:border-border-strong"
               />
             )}
 
@@ -115,13 +116,6 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
                 ? (theme === "dark" ? <Sun className="size-4" aria-hidden /> : <Moon className="size-4" aria-hidden />)
                 : <span className="size-4" />}
             </button>
-
-            <Link
-              href={`/${lang}#contact`}
-              className="btn btn-secondary btn-sm ml-2 hidden md:inline-flex"
-            >
-              {contactLabel}
-            </Link>
 
             <button
               type="button"
@@ -163,11 +157,6 @@ function Navbar({ dict, lang, paletteNavItems, paletteContentItems, paletteLabel
                 </li>
               );
             })}
-            <li className="pt-3 pb-2">
-              <Link href={`/${lang}#contact`} className="btn btn-primary w-full">
-                {contactLabel}
-              </Link>
-            </li>
           </ul>
         </nav>
       )}

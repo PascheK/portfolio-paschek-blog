@@ -10,7 +10,7 @@ import { Logo } from "@/components/brand/logo";
 
 const YEAR = new Date().getFullYear();
 
-export default function Footer({ dict }: { dict?: any }) {
+export default function Footer({ dict, hasVideos }: { dict?: any; hasVideos?: boolean }) {
   const params = useParams();
   const lang = (params?.lang as string) ?? "en";
   const isFr = lang === "fr";
@@ -22,6 +22,7 @@ export default function Footer({ dict }: { dict?: any }) {
     { href: `/${lang}`, label: f?.links?.home ?? (isFr ? "Accueil" : "Home") },
     { href: `/${lang}/blog`, label: f?.links?.blog ?? "Blog" },
     { href: `/${lang}/projects`, label: f?.links?.projects ?? (isFr ? "Projets" : "Projects") },
+    ...(hasVideos ? [{ href: `/${lang}/videos`, label: dict?.nav?.videos ?? (isFr ? "Vidéos" : "Videos") }] : []),
     { href: `/${lang}/about`, label: f?.links?.about ?? (isFr ? "À propos" : "About") },
     { href: `/${lang}/uses`, label: f?.links?.uses ?? "Uses" },
   ];
