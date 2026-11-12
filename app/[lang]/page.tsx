@@ -13,7 +13,10 @@ import { SectionRail } from "@/components/brand/section-rail";
 import { ReadingProgress } from "@/components/brand/reading-progress";
 import { VideoSlider, VideoSlide } from "@/components/brand/video-slider";
 import { VideoCard } from "@/components/brand/video-card";
-import { getVideos } from "@/lib/youtube";
+import { getVideos, channelUrl, hasVideos } from "@/lib/youtube";
+import { JsonLd } from "@/components/json-ld";
+import { abs, pageMeta, siteCopy, type Lang } from "@/lib/seo";
+import type { Metadata } from "next";
 
 function parseTags(raw?: string | string[]): string[] {
   if (!raw) return [];
@@ -36,6 +39,17 @@ const byDateDesc = (a: { metadata: { publishedAt?: string } }, b: { metadata: { 
 
 // Refreshed automatically (the YouTube data itself is cached 30 min in lib/youtube.ts).
 export const revalidate = 1800;
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return pageMeta({
+    lang,
+    title: siteCopy[lang].title,
+    description: siteCopy[lang].description,
+    absoluteTitle: true,
+    imageEyebrow: "Portfolio",
+  });
+}
 
 export default async function Page({
   params,
@@ -80,8 +94,39 @@ export default async function Page({
     { name: isFr ? 'Téléphone' : 'Phone', href: socialLinks.telephone, Icon: Phone, hint: socialLinks.telephone.replace('tel:', ''), copy: socialLinks.telephone.replace('tel:', '') },
   ];
 
+  const personId = abs('/#person');
+  const structuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      '@id': personId,
+      name: metaData.name,
+      alternateName: 'PascheK',
+      url: abs(`/${lang}`),
+      image: abs('/profile.png'),
+      jobTitle: siteCopy[lang].role,
+      description: siteCopy[lang].description,
+      knowsAbout: ['Web development', 'Rust', 'Tauri', 'Next.js', 'TypeScript', 'Self-hosted infrastructure', 'Game development'],
+      sameAs: [
+        'https://github.com/PascheK',
+        socialLinks.instagram,
+        ...(hasVideos() ? [channelUrl()] : []),
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': abs('/#website'),
+      url: abs(`/${lang}`),
+      name: 'PascheK',
+      inLanguage: lang,
+      publisher: { '@id': personId },
+    },
+  ];
+
   return (
     <div className="relative isolate overflow-x-clip">
+      <JsonLd data={structuredData} />
       <div className="hero-glow" aria-hidden />
     <div className="container-page">
       <ReadingProgress />

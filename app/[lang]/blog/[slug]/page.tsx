@@ -4,6 +4,8 @@ import { CustomMDX } from "@/components/mdx";
 import Image from "next/image";
 import { getBlogPosts } from "@/lib/posts";
 import { metaData } from "@/lib/config";
+import { JsonLd } from "@/components/json-ld";
+import { abs, absImage, ogImageUrl, pageMeta, LOCALES, type Lang } from "@/lib/seo";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
@@ -35,37 +37,26 @@ export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
   const { slug, lang } = await params;
-  let post = getBlogPosts(lang ?? "en").find((post) => post.slug === slug);
+  const l: Lang = lang === "fr" ? "fr" : "en";
+  const post = getBlogPosts(l).find((p) => p.slug === slug);
   if (!post) {
     return;
   }
 
-  let {
+  const { title, publishedAt, summary, image, tags } = post.metadata;
+  return pageMeta({
+    lang: l,
+    path: "/blog/" + post.slug,
     title,
-    publishedAt: publishedTime,
-    summary: description,
+    description: summary ?? title,
+    type: "article",
     image,
-  } = post.metadata;
-  let ogImage = image
-    ? image
-    : `${metaData.baseUrl}/og?title=${encodeURIComponent(title)}`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime,
-      url: `${metaData.baseUrl}/${(lang ?? "en")}/blog/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
-    },
-  };
+    imageEyebrow: "Blog",
+    publishedTime: publishedAt,
+    tags: parseTags(tags),
+    // hreflang only for the languages in which this page really exists
+    languages: LOCALES.filter((x) => getBlogPosts(x).some((p) => p.slug === slug)),
+  });
 }
 
 export default async function Blog({ params }) {
@@ -102,27 +93,35 @@ export default async function Blog({ params }) {
 
   return (
     <div className="container-page pb-8">
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd
+        data={[
+          {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
             image: post.metadata.image
-              ? `${metaData.baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${metaData.baseUrl}/${resolvedLang}/blog/${post.slug}`,
-            author: {
-              "@type": "Person",
-              name: metaData.name,
-            },
-          }),
-        }}
+              ? absImage(post.metadata.image)
+              : ogImageUrl(resolvedLang, post.metadata.title, "Blog"),
+            datePublished: post.metadata.publishedAt,
+            dateModified: post.metadata.publishedAt,
+            url: abs(`/${resolvedLang}/blog/${post.slug}`),
+            mainEntityOfPage: { "@type": "WebPage", "@id": abs(`/${resolvedLang}/blog/${post.slug}`) },
+            inLanguage: resolvedLang,
+            keywords: parseTags(post.metadata.tags).join(", "),
+            author: { "@type": "Person", "@id": abs("/#person"), name: metaData.name, url: abs(`/${resolvedLang}`) },
+            publisher: { "@id": abs("/#person") },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "PascheK", item: abs(`/${resolvedLang}`) },
+              { "@type": "ListItem", position: 2, name: "Blog", item: abs(`/${resolvedLang}/blog`) },
+              { "@type": "ListItem", position: 3, name: post.metadata.title, item: abs(`/${resolvedLang}/blog/${post.slug}`) },
+            ],
+          },
+        ]}
       />
 
       <ReadingProgress />

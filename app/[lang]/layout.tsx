@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/footer";
 import { metaData, socialLinks } from "@/lib/config";
 import { hasVideos } from "@/lib/youtube";
+import { abs, siteUrl, siteCopy, OG_LOCALE, type Lang } from "@/lib/seo";
 import { getDictionary } from "@/lib/dictionaries";
 import { getBlogPosts, getProjectPosts } from "@/lib/posts";
 import { Suspense } from "react";
@@ -36,23 +37,21 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
-  const { lang } = await params;
+  const { lang: raw } = await params;
+  const lang: Lang = raw === 'fr' ? 'fr' : 'en';
+  const copy = siteCopy[lang];
   return {
-    metadataBase: new URL(metaData.baseUrl),
+    metadataBase: new URL(siteUrl),
     title: {
-      default: metaData.title,
-      template: `%s | ${metaData.title}`,
+      default: copy.title,
+      template: `%s | PascheK`,
     },
-    description: metaData.description,
-    openGraph: {
-      images: metaData.ogImage,
-      title: metaData.title,
-      description: metaData.description,
-      url: metaData.baseUrl,
-      siteName: metaData.name,
-      locale: lang === 'fr' ? 'fr_FR' : 'en_US',
-      type: "website",
-    },
+    description: copy.description,
+    applicationName: 'PascheK',
+    authors: [{ name: metaData.name, url: abs(`/${lang}`) }],
+    creator: metaData.name,
+    // Per-page canonical / hreflang / Open Graph / Twitter come from pageMeta() in each page.
+    openGraph: { siteName: 'PascheK', locale: OG_LOCALE[lang], type: 'website' },
     robots: {
       index: true,
       follow: true,

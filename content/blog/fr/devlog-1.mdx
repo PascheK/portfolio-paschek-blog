@@ -1,0 +1,85 @@
+---
+title: "Devlog #1 — D'un cube à un hamster 3D dans Blender"
+publishedAt: "2026-11-12"
+summary: "Comment j'ai modélisé Bouboulle dans Blender : un premier essai raté, des recherches de références, puis un hamster chibi avec un sac et un foulard."
+tags: "gamedev,blender,devlog,3d,unreal"
+image: /blogs/devlog-1.jpg
+---
+
+> Le [Devlog #0](/fr/blog/devlog-0) expliquait pourquoi je fais ce jeu. Celui-ci montre le premier vrai résultat : le modèle 3D de mon hamster, avec le premier essai que je n'ai pas aimé et la version qui m'a enfin plu. La vidéo est juste en dessous.
+
+<YouTube videoId="SuLJVsoGw54" />
+
+Tu préfères lire ? Voici la même histoire, à l'écrit :
+
+## 1. Où j'en étais
+
+Dans le Devlog #0, je disais vouloir faire un petit jeu 3D dont le héros est mon hamster, Bouboulle. Il manquait une chose évidente : le hamster. Cet épisode raconte comment je l'ai modélisé, et surtout comment je me suis trompé avant d'y arriver.
+
+## 2. Premier essai : la méthode simple
+
+J'ai commencé par une technique simple dans **Blender** : je dessine la forme générale du hamster, je l'**extrude**, puis j'applique un **miroir** pour que le tout soit symétrique. Ensuite, j'ajoute des détails tout autour.
+
+<Video src="/blogs/devlog-1/first-try-blender.mp4" label="Premier essai dans Blender : la forme du hamster, puis l'extrusion" width="960" height="540" />
+<Caption>Premier essai dans Blender : la forme du hamster, puis l'extrusion.</Caption>
+
+Mais quand je l'ai regardé dans **Unreal Engine 5**, le résultat ne me plaisait pas : le modèle me paraissait **trop petit** et **pas très bien fait**. Plutôt que de continuer dessus, j'ai décidé de recommencer.
+
+<Video src="/blogs/devlog-1/first-try-unreal.mp4" label="Le premier modèle dans Unreal Engine 5" width="960" height="540" />
+<Caption>Le premier modèle dans Unreal Engine 5.</Caption>
+
+## 3. Recommencer avec des références
+
+Cette fois, avant de rouvrir Blender, j'ai cherché des **références**. C'est là que je suis tombé sur des **chibis**, ces personnages à grosse tête et petit corps. Le style m'a plu, alors j'ai refait mon hamster en chibi.
+
+<Video src="/blogs/devlog-1/references-search.mp4" label="À la recherche de références" width="960" height="540" />
+<Caption>À la recherche de références.</Caption>
+
+<Video src="/blogs/devlog-1/references-board.mp4" label="Les références rassemblées" width="960" height="540" />
+<Caption>Les références rassemblées.</Caption>
+
+Le résultat était bien meilleur.
+
+<Video src="/blogs/devlog-1/chibi-blender.mp4" label="Le deuxième essai dans Blender, en chibi" width="960" height="540" />
+<Caption>Le deuxième essai dans Blender, en chibi.</Caption>
+
+## 4. Un hamster tout nu
+
+Un détail me dérangeait quand même : mon hamster était **complètement nu**.
+
+<Video src="/blogs/devlog-1/naked-hamster.mp4" label="Le hamster chibi, pour l'instant sans vêtements" width="694" height="496" />
+<Caption>Le hamster chibi, pour l'instant sans vêtements.</Caption>
+
+J'ai donc refait des recherches, cette fois pour savoir comment l'habiller, et je lui ai ajouté un **sac** et un **foulard**. Je l'ai réessayé, et cette fois j'ai vraiment aimé.
+
+<Video src="/blogs/devlog-1/bag-blender.mp4" label="Modélisation du sac dans Blender" width="960" height="540" />
+<Caption>Modélisation du sac dans Blender.</Caption>
+
+<Video src="/blogs/devlog-1/dressed-unreal.mp4" label="Le hamster habillé, dans Unreal Engine 5" width="960" height="518" />
+<Caption>Le hamster habillé, dans Unreal Engine 5.</Caption>
+
+<Video src="/blogs/devlog-1/animation-unreal.mp4" label="Ajout des animations dans Unreal Engine 5" width="960" height="540" />
+<Caption>Ajout des animations dans Unreal Engine 5.</Caption>
+
+## 5. Ce que j'en retiens
+
+- Mon premier modèle, je ne l'ai pas aimé, et ce n'est pas grave. J'en garde une règle : quand je veux créer quelque chose, je **commence par chercher des références**.
+- Le modèle est loin d'être parfait. Mais je peux enfin **construire quelque chose**, et pour un jeu qui n'existait que sous forme d'idée, c'est un vrai changement.
+
+## 6. La suite
+
+Pour le prochain devlog, je veux ajouter la **boucle de gameplay** de base :
+
+- parler à un PNJ,
+- recevoir une quête,
+- accomplir la quête,
+- retourner voir le PNJ.
+
+<Video src="/blogs/devlog-1/gameplay-loop.mp4" label="Un premier croquis de la boucle de gameplay" width="960" height="568" />
+<Caption>Un premier croquis de la boucle de gameplay.</Caption>
+
+---
+
+Le hamster existe maintenant, et ce n'est pas rien. La prochaine étape est de le faire vivre dans une vraie boucle de jeu. Les vidéos sont sur [la chaîne](/fr/videos).
+
+Une dernière chose, dite aussi dans la vidéo : j'ai ouvert mon [**Patreon**](https://www.patreon.com/cw/PascheK7), et les articles de ce site y seront publiés également.

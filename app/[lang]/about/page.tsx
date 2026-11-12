@@ -6,13 +6,20 @@ import { TimelineClient, type TimelineEvent } from "@/app/[lang]/timeline/timeli
 import { StatGrid } from "@/components/brand/stat-grid";
 import { Download, Mail, MapPin, ExternalLink, Github } from "lucide-react";
 import type { Metadata } from "next";
+import { pageMeta, type Lang } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Full-stack developer.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const isFr = lang === "fr";
+  return pageMeta({
+    lang,
+    path: "/about",
+    title: isFr ? "À propos de Killian Pasche" : "About Killian Pasche",
+    description: isFr ? "Killian Pasche, développeur full-stack basé à Osaka : parcours, expérience, compétences et chronologie." : "Killian Pasche, full-stack developer based in Osaka: background, experience, skills and timeline.",
+  });
+}
 
 export default async function AboutPage({
   params,

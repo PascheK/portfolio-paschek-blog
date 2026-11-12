@@ -32,6 +32,25 @@ function RoundedImage(props) {
   return <Image alt={props.alt} className="rounded-xl border border-border" {...props} />;
 }
 
+/** Short silent looping clip (a GIF replacement: ~10x lighter). width/height reserve the space, label is read by screen readers. */
+function Video({ src, width, height, label }) {
+  return (
+    <video
+      src={src}
+      width={width}
+      height={height}
+      aria-label={label}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      className="h-auto w-full rounded-xl border border-border"
+      style={{ aspectRatio: `${width} / ${height}` }}
+    />
+  );
+}
+
 function Code({ children, ...props }) {
   let codeHTML = highlight(children);
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
@@ -96,6 +115,7 @@ let components = {
   h5: createHeading(5),
   h6: createHeading(6),
   Image: RoundedImage,
+  Video,
   ImageGrid,
   a: CustomLink,
   Caption: CaptionComponent,

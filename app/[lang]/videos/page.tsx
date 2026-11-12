@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, isoDuration, type Lang } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 import { ArrowUpRight, Youtube } from "lucide-react";
 import { getVideos, channelUrl, hasVideos, type Video } from "@/lib/youtube";
 import { PageHeader } from "@/components/brand/page-header";
@@ -8,10 +10,18 @@ import { videoMeta } from "@/components/brand/video-card";
 // Refreshed automatically (the data itself is cached 30 min in lib/youtube.ts).
 export const revalidate = 1800;
 
-export const metadata: Metadata = {
-  title: "Videos",
-  description: "Devlogs and videos.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const isFr = lang === "fr";
+  const meta = pageMeta({
+    lang,
+    path: "/videos",
+    title: isFr ? "Vidéos et devlogs" : "Videos & devlogs",
+    description: isFr ? "Devlogs et vidéos de la chaîne PascheK : développement de jeu, Blender et création en public." : "Devlogs and videos from the PascheK channel: game development, Blender and building in public.",
+  });
+  // An empty page (channel not set up / unreachable) must not be indexed.
+  return (await getVideos(lang)).length ? meta : { ...meta, robots: { index: false, follow: true } };
+}
 
 export default async function VideosPage({ params }: { params: Promise<{ lang: "en" | "fr" }> }) {
   const { lang } = await params;
@@ -22,7 +32,7 @@ export default async function VideosPage({ params }: { params: Promise<{ lang: "
   const configured = hasVideos();
 
   const t = {
-    title: isFr ? "Vidéos" : "Videos",
+    title: isFr ? "Vidéos et devlogs" : "Videos & devlogs",
     desc: isFr ? "Mes devlogs et mes vidéos, mis à jour automatiquement depuis YouTube." : "My devlogs and videos, updated automatically from YouTube.",
     subscribe: isFr ? "S'abonner sur YouTube" : "Subscribe on YouTube",
     latest: isFr ? "Dernière vidéo" : "Latest video",
@@ -38,8 +48,25 @@ export default async function VideosPage({ params }: { params: Promise<{ lang: "
 
   const [latest, ...rest] = videos;
 
+  // VideoObject needs an exact uploadDate, which only the API source provides.
+  const videoLd = videos
+    .filter((v) => v.publishedAt)
+    .map((v) => ({
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: v.title,
+      description: v.description || v.title,
+      thumbnailUrl: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+      uploadDate: v.publishedAt,
+      duration: isoDuration(v.durationText),
+      embedUrl: `https://www.youtube.com/embed/${v.id}`,
+      contentUrl: `https://www.youtube.com/watch?v=${v.id}`,
+      inLanguage: lang,
+    }));
+
   return (
     <div className="container-page pb-8">
+      {videoLd.length > 0 && <JsonLd data={videoLd} />}
       <PageHeader
         eyebrow={videos.length ? `${videos.length} ${isFr ? (videos.length > 1 ? "vidéos" : "vidéo") : videos.length > 1 ? "videos" : "video"}` : "YouTube"}
         title={t.title}
