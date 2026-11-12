@@ -1,5 +1,5 @@
 export const metaData = {
-  baseUrl: "https://paschek-portfolio.vercel.app/",
+  baseUrl: "https://www.paschek.ch/",
   title: "Paschek-portfolio",
   name: "Pasche Killian",
   ogImage: "/projects/portfolio.png",
