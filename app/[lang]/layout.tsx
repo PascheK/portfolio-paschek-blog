@@ -32,6 +32,10 @@ export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'fr' }];
 }
 
+// Only en / fr are valid. Without this, any one-segment URL the middleware lets through (anything with a
+// file extension: /sitemap.txt, /ads.txt, /foo.php…) is read as a language and crashes with a 500 instead of a 404.
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {
