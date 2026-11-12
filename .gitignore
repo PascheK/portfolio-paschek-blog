@@ -37,4 +37,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.claude
+.claude/*
+!.claude/skills/
+
+# Generated Patreon copies of articles (see .claude/skills/write-article)
+/patreon/

@@ -2,13 +2,20 @@ import { getDictionary } from "@/lib/dictionaries";
 import { Reveal } from "@/components/ui/reveal";
 import { PageHeader } from "@/components/brand/page-header";
 import type { Metadata } from "next";
+import { pageMeta, type Lang } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: "Uses",
-  description: "Tools, apps and hardware I use daily.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const isFr = lang === "fr";
+  return pageMeta({
+    lang,
+    path: "/uses",
+    title: isFr ? "Équipement : mes outils et mon setup" : "Uses: my tools & setup",
+    description: isFr ? "Les outils, applications et le matériel que j'utilise chaque jour pour développer." : "The tools, apps and hardware I use every day to build software.",
+  });
+}
 
 export default async function UsesPage({ params }: { params: Promise<{ lang: "en" | "fr" }> }) {
   const { lang } = await params;

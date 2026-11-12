@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
+import { pageMeta, type Lang } from "@/lib/seo";
 import { getProjectPosts } from "@/lib/posts";
 import { getDictionary } from "@/lib/dictionaries";
 import ProjectsGrid from "@/components/projects-grid";
 import { PageHeader } from "@/components/brand/page-header";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: "Selected projects: web apps, infrastructure and tools.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const isFr = lang === "fr";
+  return pageMeta({
+    lang,
+    path: "/projects",
+    title: isFr ? "Projets et études de cas" : "Projects & case studies",
+    description: isFr ? "Études de cas : applications web et de bureau, infrastructure et outils, de HelloXLab, UNOPS et Div-In aux projets personnels." : "Case studies: web and desktop apps, infrastructure and tools, from HelloXLab, UNOPS and Div-In to personal projects.",
+  });
+}
 
 export default async function Projects({ params }: { params: Promise<{ lang: 'en' | 'fr' }> }) {
   const { lang } = await params;

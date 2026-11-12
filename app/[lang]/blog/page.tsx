@@ -1,13 +1,20 @@
 import { getBlogPosts } from "@/lib/posts";
 import { getDictionary } from "@/lib/dictionaries";
 import type { Metadata } from "next";
+import { pageMeta, type Lang } from "@/lib/seo";
 import { BlogSearch } from "@/components/blog-search";
 import { PageHeader } from "@/components/brand/page-header";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Articles et billets",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const isFr = lang === "fr";
+  return pageMeta({
+    lang,
+    path: "/blog",
+    title: isFr ? "Blog : articles et devlogs" : "Blog: articles & devlogs",
+    description: isFr ? "Articles et devlogs sur le développement web, Rust & Tauri, l'auto-hébergement, Blender et le jeu vidéo." : "Articles and devlogs on web development, Rust & Tauri, self-hosting, Blender and game development.",
+  });
+}
 
 export default async function BlogPosts({ params }: { params: Promise<{ lang: 'en' | 'fr' }> }) {
   const { lang } = await params;

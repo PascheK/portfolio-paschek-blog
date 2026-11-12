@@ -1,0 +1,85 @@
+---
+title: "Devlog #1 — From a cube to a 3D hamster in Blender"
+publishedAt: "2026-11-12"
+summary: "How I modelled Bouboulle in Blender: a first attempt I didn't like, a round of reference research, then a chibi hamster with a bag and a scarf."
+tags: "gamedev,blender,devlog,3d,unreal"
+image: /blogs/devlog-1.jpg
+---
+
+> [Devlog #0](/en/blog/devlog-0) explained why I'm making this game. This one shows the first real result: the 3D model of my hamster, with the first attempt I didn't like and the version I finally did. The video is right below.
+
+<YouTube videoId="SuLJVsoGw54" />
+
+Prefer reading? Same story, in writing:
+
+## 1. Where I left off
+
+In Devlog #0, I said I wanted to make a small 3D game starring my hamster, Bouboulle. One obvious thing was missing: the hamster. This episode is about how I modelled it, and mostly about how I got it wrong before getting it right.
+
+## 2. First attempt: the simple method
+
+I started with a simple technique in **Blender**: I block out the general shape of the hamster, **extrude** it, then apply a **mirror** so everything is symmetrical. After that, I add details all around.
+
+<Video src="/blogs/devlog-1/first-try-blender.mp4" label="First attempt in Blender: the shape of the hamster, then the extrusion" width="960" height="540" />
+<Caption>First attempt in Blender: the shape of the hamster, then the extrusion.</Caption>
+
+But when I looked at it in **Unreal Engine 5**, I didn't like the result: the model felt **too small** and **not very well made**. Rather than keep working on it, I decided to start over.
+
+<Video src="/blogs/devlog-1/first-try-unreal.mp4" label="The first model in Unreal Engine 5" width="960" height="540" />
+<Caption>The first model in Unreal Engine 5.</Caption>
+
+## 3. Starting over, with references
+
+This time, before reopening Blender, I looked for **references**. That's where I came across **chibis**, those characters with a big head and a small body. I liked the style, so I rebuilt my hamster as a chibi.
+
+<Video src="/blogs/devlog-1/references-search.mp4" label="Looking for references" width="960" height="540" />
+<Caption>Looking for references.</Caption>
+
+<Video src="/blogs/devlog-1/references-board.mp4" label="The references, gathered in one place" width="960" height="540" />
+<Caption>The references, gathered in one place.</Caption>
+
+The result was much better.
+
+<Video src="/blogs/devlog-1/chibi-blender.mp4" label="Second attempt in Blender, as a chibi" width="960" height="540" />
+<Caption>Second attempt in Blender, as a chibi.</Caption>
+
+## 4. A naked hamster
+
+One thing still bothered me: my hamster was **completely naked**.
+
+<Video src="/blogs/devlog-1/naked-hamster.mp4" label="The chibi hamster, still without clothes" width="694" height="496" />
+<Caption>The chibi hamster, still without clothes.</Caption>
+
+So I did more research, this time on how to dress it, and gave it a **bag** and a **scarf**. I tried it again, and this time I really liked it.
+
+<Video src="/blogs/devlog-1/bag-blender.mp4" label="Modelling the bag in Blender" width="960" height="540" />
+<Caption>Modelling the bag in Blender.</Caption>
+
+<Video src="/blogs/devlog-1/dressed-unreal.mp4" label="The dressed hamster, in Unreal Engine 5" width="960" height="518" />
+<Caption>The dressed hamster, in Unreal Engine 5.</Caption>
+
+<Video src="/blogs/devlog-1/animation-unreal.mp4" label="Adding animations in Unreal Engine 5" width="960" height="540" />
+<Caption>Adding animations in Unreal Engine 5.</Caption>
+
+## 5. What I take from it
+
+- I didn't like my first model, and that's fine. It left me with a rule: when I want to create something, I **start by looking for references**.
+- The model is far from perfect. But I can finally **build something**, and for a game that only existed as an idea, that's a real change.
+
+## 6. What's next
+
+For the next devlog, I want to add the basic **gameplay loop**:
+
+- talk to an NPC,
+- get a quest,
+- complete the quest,
+- go back to the NPC.
+
+<Video src="/blogs/devlog-1/gameplay-loop.mp4" label="A first sketch of the gameplay loop" width="960" height="568" />
+<Caption>A first sketch of the gameplay loop.</Caption>
+
+---
+
+The hamster exists now, and that's not nothing. The next step is to bring it to life in a real game loop. The videos are on [the channel](/en/videos).
+
+One last thing, also mentioned in the video: I've opened my [**Patreon**](https://www.patreon.com/cw/PascheK7), and the articles on this site will be published there too.

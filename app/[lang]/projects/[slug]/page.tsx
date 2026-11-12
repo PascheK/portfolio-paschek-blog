@@ -4,6 +4,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { getProjectPosts } from "@/lib/posts";
 import { metaData } from "@/lib/config";
+import { JsonLd } from "@/components/json-ld";
+import { abs, absImage, ogImageUrl, pageMeta, LOCALES, type Lang } from "@/lib/seo";
 import { getDictionary } from "@/lib/dictionaries";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
@@ -27,37 +29,26 @@ export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
   const { slug, lang } = await params;
-  let post = getProjectPosts(lang ?? "en").find((post) => post.slug === slug);
+  const l: Lang = lang === "fr" ? "fr" : "en";
+  const post = getProjectPosts(l).find((p) => p.slug === slug);
   if (!post) {
     return;
   }
 
-  let {
+  const { title, publishedAt, summary, image, tags } = post.metadata;
+  return pageMeta({
+    lang: l,
+    path: "/projects/" + post.slug,
     title,
-    publishedAt: publishedTime,
-    summary: description,
+    description: summary ?? title,
+    type: "article",
     image,
-  } = post.metadata;
-  let ogImage = image
-    ? image
-    : `${metaData.baseUrl}/og?title=${encodeURIComponent(title)}`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime,
-      url: `${metaData.baseUrl}/${(lang ?? "en")}/projects/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
-    },
-  };
+    imageEyebrow: "Project",
+    publishedTime: publishedAt,
+    tags: parseTags(tags),
+    // hreflang only for the languages in which this page really exists
+    languages: LOCALES.filter((x) => getProjectPosts(x).some((p) => p.slug === slug)),
+  });
 }
 
 
@@ -96,27 +87,35 @@ export default async function ProjectPage({ params }) {
 
   return (
     <div className="container-page pb-8">
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd
+        data={[
+          {
             "@context": "https://schema.org",
-            "@type": "BlogPosting",
+            "@type": "CreativeWork",
             headline: project.metadata.title,
-            datePublished: project.metadata.publishedAt,
-            dateModified: project.metadata.publishedAt,
             description: project.metadata.summary,
             image: project.metadata.image
-              ? `${metaData.baseUrl}${project.metadata.image}`
-              : `/og?title=${encodeURIComponent(project.metadata.title)}`,
-            url: `${metaData.baseUrl}/${resolvedLang}/projects/${project.slug}`,
-            author: {
-              "@type": "Person",
-              name: metaData.name,
-            },
-          }),
-        }}
+              ? absImage(project.metadata.image)
+              : ogImageUrl(resolvedLang, project.metadata.title, "Project"),
+            datePublished: project.metadata.publishedAt,
+            dateModified: project.metadata.publishedAt,
+            url: abs(`/${resolvedLang}/projects/${project.slug}`),
+            mainEntityOfPage: { "@type": "WebPage", "@id": abs(`/${resolvedLang}/projects/${project.slug}`) },
+            inLanguage: resolvedLang,
+            keywords: parseTags(project.metadata.tags).join(", "),
+            author: { "@type": "Person", "@id": abs("/#person"), name: metaData.name, url: abs(`/${resolvedLang}`) },
+            publisher: { "@id": abs("/#person") },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "PascheK", item: abs(`/${resolvedLang}`) },
+              { "@type": "ListItem", position: 2, name: resolvedLang === "fr" ? "Projets" : "Projects", item: abs(`/${resolvedLang}/projects`) },
+              { "@type": "ListItem", position: 3, name: project.metadata.title, item: abs(`/${resolvedLang}/projects/${project.slug}`) },
+            ],
+          },
+        ]}
       />
 
       <ReadingProgress />
